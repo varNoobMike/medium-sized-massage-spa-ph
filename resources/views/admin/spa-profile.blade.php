@@ -1,0 +1,78 @@
+@extends('layouts.admin.app')
+
+@section('title', 'Spa Profile')
+
+@section('breadcrumb')
+    @foreach ( $breadcrumbs as $crumb)
+        @if ($crumb['url'])
+            <li class="breadcrumb-item">
+                <a href="{{ $crumb['url'] }}" class="text-dark">{{ $crumb['title'] }}</a>
+            </li>
+        @else
+            <li class="breadcrumb-item">
+                {{ $crumb['title'] }}
+            </li>
+        @endif
+    @endforeach
+@endsection
+
+@section('page-heading', 'Spa Profile')
+@section('page-heading-small', 'Lorem ipsum dolor set amet.')
+
+
+@section('content')
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Owner</th>
+                    <th>Address</th>
+                    <th>Established</th>
+                    <th>Total Beds</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ( $spaProfile['spa'] as $profile)
+                    <tr>
+                        <td>{{ $profile['name'] }}</td>
+                        <td>{{ $spaProfile['name'] }}</td>
+                        <td>{{ $profile['address'] }}</td>
+                        <td>{{ $profile['date_founded'] }}</td>
+                        <td>{{ $profile['total_beds'] }}</td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-secondary rounded-3 px-3" data-bs-toggle="dropdown">
+                                    <i class="bi bi-three-dots"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3">
+                                    <li>
+                                        <a href="" class="dropdown-item">
+                                            <i class="bi bi-eye me-2"></i>View
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="" class="dropdown-item">
+                                            <i class="bi bi-pencil me-2"></i>Edit
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider"/>
+                                    </li>
+                                    <li>
+                                        <a href="" class="dropdown-item text-danger">
+                                            <i class="bi bi-trash me-2"></i>Delete
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                @empty
+                    
+                @endforelse
+            </tbody>
+        </table>
+@endsection
+
