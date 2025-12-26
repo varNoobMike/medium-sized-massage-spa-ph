@@ -33,13 +33,13 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse ( $spaProfile['spa'] as $profile)
+                @forelse ( $spaProfile as $profile)
                     <tr>
-                        <td>{{ $profile['name'] }}</td>
-                        <td>{{ $spaProfile['name'] }}</td>
-                        <td>{{ $profile['address'] }}</td>
-                        <td>{{ $profile['date_founded'] }}</td>
-                        <td>{{ $profile['total_beds'] }}</td>
+                        <td>{{ $profile->name }}</td>
+                        <td>{{ $profile->adminUser->name }}</td>
+                        <td>{{ $profile->address }}</td>
+                        <td>{{ $profile->date_founded }}</td>
+                        <td>{{ $profile->total_beds }}</td>
                         <td>
                             <div class="dropdown">
                                 <button class="btn btn-sm btn-secondary rounded-3 px-3" data-bs-toggle="dropdown">

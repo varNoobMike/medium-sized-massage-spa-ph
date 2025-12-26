@@ -43,7 +43,7 @@ class AdminWeeklyScheduleController extends Controller
     {
         return SpaWeeklySchedule::with(['creator', 'spa'])->latest()->get();
     }
-
+    
     
 
 

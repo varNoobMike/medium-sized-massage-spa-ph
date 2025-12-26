@@ -48,9 +48,6 @@ class User extends Authenticatable
         ];
     }
 
-    public function spa(){
-        return $this->hasMany(Spa::class);
-    }
 
     public function spaWeeklySchedules(){
         return $this->hasMany(SpaWeeklySchedule::class);
