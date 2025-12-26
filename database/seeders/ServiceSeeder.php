@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Service;
 use Illuminate\Database\Seeder;
+use App\Models\Service;
 
 class ServiceSeeder extends Seeder
 {
@@ -22,7 +22,7 @@ class ServiceSeeder extends Seeder
         ];
 
         foreach ($services as $service) {
-            Service::firstOrCreate(
+            Service::updateOrCreate(
                 ['name' => $service['name']],
                 $service
             );

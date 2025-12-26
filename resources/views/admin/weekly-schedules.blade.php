@@ -28,7 +28,6 @@
                         <th>Day of Week</th>
                         <th>Open Time</th>
                         <th>Close Time</th>
-                        <th>Created By</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -38,7 +37,6 @@
                             <td>{{ $schedule['day_of_week'] }}</td>
                             <td>{{ $schedule['open_time'] }}</td>
                             <td>{{ $schedule['close_time'] }}</td>
-                            <td>{{ $schedule['creator']['name'] == 'Admin123' ? '(You)' : $schedule['creator']['name'] }}</td>
                             
                             <td>
                                 <div class="dropdown">

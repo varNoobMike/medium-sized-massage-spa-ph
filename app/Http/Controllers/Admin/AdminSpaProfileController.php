@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Spa;
 
-
 class AdminSpaProfileController extends Controller
 {
     public function __invoke()
@@ -22,7 +21,7 @@ class AdminSpaProfileController extends Controller
 
     public function read()
     {
-        return Spa::whereHas('adminUser')->with('adminUser:id,name')->get();
+        return Spa::all();
     }
-    
+
 }

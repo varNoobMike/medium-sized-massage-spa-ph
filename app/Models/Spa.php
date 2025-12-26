@@ -13,15 +13,15 @@ class Spa extends Model
      */
     protected $fillable = [
         'name',
+        'is_main_branch',
         'address',
         'date_founded',
         'total_beds',
-        'user_id',
     ];
 
 
 
-    public function spaWeeklySchedule()
+    public function spaWeeklySchedules()
     {
         return $this->hasMany(SpaWeeklySchedule::class);
     }

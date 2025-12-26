@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\SpaWeeklySchedule;
 use Illuminate\Database\Seeder;
+use App\Models\SpaWeeklySchedule;
 
 class SpaWeeklyScheduleSeeder extends Seeder
 {
@@ -24,7 +24,7 @@ class SpaWeeklyScheduleSeeder extends Seeder
         ];
 
         foreach ($schedules as $schedule) {
-            SpaWeeklySchedule::create($schedule);
+            SpaWeeklySchedule::updateOrCreate($schedule);
         }
     }
 }

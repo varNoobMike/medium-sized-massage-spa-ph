@@ -25,7 +25,6 @@
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Owner</th>
                     <th>Address</th>
                     <th>Established</th>
                     <th>Total Beds</th>
@@ -36,7 +35,6 @@
                 @forelse ( $spaProfile as $profile)
                     <tr>
                         <td>{{ $profile->name }}</td>
-                        <td>{{ $profile->adminUser->name }}</td>
                         <td>{{ $profile->address }}</td>
                         <td>{{ $profile->date_founded }}</td>
                         <td>{{ $profile->total_beds }}</td>
