@@ -19,9 +19,13 @@ class Spa extends Model
         'user_id',
     ];
 
-    public function user()
-    {
+    public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public function adminUser()
+    {
+        return $this->belongsTo(User::class, 'user_id')->where('role', 'Admin'); // ensure only Admin could own the spa
     }
 
     public function spaWeeklySchedule()
