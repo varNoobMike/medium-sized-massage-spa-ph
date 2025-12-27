@@ -7,7 +7,7 @@ use App\Models\Spa;
 
 class AdminSpaProfileController extends Controller
 {
-    public function __invoke()
+    public function index()
     {
         $spaProfile = Spa::all();
 

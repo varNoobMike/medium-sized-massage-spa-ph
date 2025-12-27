@@ -17,6 +17,7 @@ class Spa extends Model
         'address',
         'date_founded',
         'total_beds',
+        'created_by'
     ];
 
 

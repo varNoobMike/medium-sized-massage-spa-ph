@@ -35,12 +35,11 @@ class AdminWeeklyScheduleController extends Controller
 
         // dd($validated);
 
-         // Use a transaction to ensure data integrity
+        // Use a transaction to ensure data integrity
 
         try {
             DB::transaction(function () use ($validated) {
 
-                // Expire the current version for this spa + day
                 SpaWeeklySchedule::where('spa_id', $validated['spa_id'])
                     ->where('day_of_week', $validated['day_of_week'])
                     ->where('is_current', true)
@@ -69,6 +68,10 @@ class AdminWeeklyScheduleController extends Controller
 
     public function read()
     {
-        return SpaWeeklySchedule::with(['creator', 'spa'])->where('is_current', true)->get();
+        return SpaWeeklySchedule::with(['creator', 'spa'])
+            ->where('is_current', true)
+            ->orderByRaw("
+                FIELD(day_of_week, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')
+        ")->get();
     }
 }

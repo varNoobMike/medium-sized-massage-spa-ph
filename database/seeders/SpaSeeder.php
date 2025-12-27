@@ -13,6 +13,7 @@ class SpaSeeder extends Seeder
      */
     public function run(): void
     {
+        $adminID = $this->getAdmin()->id;
 
         Spa::updateOrCreate(
             ['name' => 'Rose Massage Services'],
@@ -21,6 +22,7 @@ class SpaSeeder extends Seeder
                 'address' => 'Tubod, San Juan, Siquijor, Philippines',
                 'date_founded' => '2022-10-12',
                 'total_beds' => 10,
+                'created_by' => $adminID
             ]
 
         );
@@ -31,10 +33,14 @@ class SpaSeeder extends Seeder
                 'address' => 'Tigbawan, Lazi, Siquijor, Philippines',
                 'date_founded' => '2025-07-20',
                 'total_beds' => 5,
+                'created_by' => $adminID
             ]
 
         );
     }
 
-   
+    private function getAdmin()
+    {
+        return User::where('role', 'Admin')->firstOrFail();
+    }
 }
