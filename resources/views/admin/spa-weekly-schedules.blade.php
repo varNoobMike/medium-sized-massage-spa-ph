@@ -1,6 +1,6 @@
 @extends('layouts.admin.app')
 
-@section('title', 'Weekly Schedules')
+@section('title', 'Spa Weekly Schedules')
 
 @section('breadcrumb')
     @foreach ( $breadcrumbs as $crumb)
@@ -16,7 +16,7 @@
     @endforeach
 @endsection
 
-@section('page-heading', 'Weekly Schedules')
+@section('page-heading', 'Spa Weekly Schedules')
 @section('page-heading-small', 'Lorem ipsum dolor set amet.')
 
 
@@ -24,6 +24,7 @@
 
     <div 
         x-data="{
+            loading: false,
             form: {
                 spa_id: null,
                 day_of_week: '',
@@ -51,7 +52,7 @@
         @endif
 
         
-
+        {{-- Weekly Schedules Table --}} 
         <div class="table-responsive">
             <table class="table table-hover">
                     <thead>
@@ -114,6 +115,7 @@
             </table>
         </div>
         
+        {{-- Store New Schedule Modal (Note: disguised as Edit Modal) --}}
         <div id="spa-weekly-schedule-edit-modal" class="modal fade" tabindex="-1" aria-hidden="true"
             @hidden.bs.modal="
             form.id = null;
@@ -127,7 +129,14 @@
                         <h5 class="modal-title fw-semibold">Edit Schedule</h5>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('admin.weekly-schedules.store') }}" method="POST">
+
+                        {{-- Form --}}
+                        <form action="{{ route('admin.spa-weekly-schedules.store') }}" method="POST"
+                            @submit.prevent="
+                            if (loading) return;
+                            loading = true;
+                            $el.submit();
+                        ">
                             @csrf
 
                             <input type="hidden" name="spa_id" x-model="form.spa_id">
@@ -147,7 +156,14 @@
                                 <input type="time" class="form-control" name="close_time" x-model="form.close_time">
                             </div>
 
-                            <button type="submit" class="btn btn-primary w-100">Save</button>
+                            <button type="submit" class="btn btn-primary w-100" :disabled="loading">
+                                <span x-show="!loading">Save</span>
+
+                                <span x-show="loading" class="spinner spinner-border spinner-border-sm ms-2"
+                                    role="status"
+                                    aria-hidden="true">
+                                </span>
+                            </button>
 
                         </form>
                     </div>
@@ -159,6 +175,8 @@
     </div>
 
 @endsection
+
+
 
 
 

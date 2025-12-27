@@ -80,7 +80,7 @@
         </div>
     </div>
 
-    @include('partials.foot-script')
+    @include('partials.foot-script-shared')
 
 </body>
 

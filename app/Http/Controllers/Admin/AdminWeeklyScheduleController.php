@@ -14,10 +14,10 @@ class AdminWeeklyScheduleController extends Controller
     {
         $weeklySchedules = $this->read();
 
-        return view('admin.weekly-schedules', [
+        return view('admin.spa-weekly-schedules', [
             'breadcrumbs' => [
                 ['title' => 'Admin', 'url' => route('admin.dashboard.index')],
-                ['title' => 'Weekly Schedules', 'url' => null],
+                ['title' => 'Spa Weekly Schedules', 'url' => null],
             ],
         ], compact('weeklySchedules'));
     }
@@ -61,11 +61,12 @@ class AdminWeeklyScheduleController extends Controller
                 ->with('error', 'Something went wrong while saving the schedule.');
         }
 
-        return redirect()->route('admin.weekly-schedules.index')
+        return redirect()->route('admin.spa-weekly-schedules.index')
             ->with('success', 'Weekly schedule updated successfully.');
 
     }
 
+    // for testing only, may replace public to private later
     public function read()
     {
         return SpaWeeklySchedule::with(['creator', 'spa'])
@@ -74,4 +75,6 @@ class AdminWeeklyScheduleController extends Controller
                 FIELD(day_of_week, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')
         ")->get();
     }
+
+
 }

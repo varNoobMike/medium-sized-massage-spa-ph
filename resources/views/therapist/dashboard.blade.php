@@ -1,6 +1,6 @@
-@extends('layouts.admin.app')
+@extends('layouts.therapist.app')
 
-@section('title', 'Admin Dashboard')
+@section('title', 'Therapist Dashboard')
 
 @section('breadcrumb')
     @foreach ( $breadcrumbs as $crumb)
@@ -16,11 +16,11 @@
     @endforeach
 @endsection
 
-@section('page-heading', 'Dashboard')
+@section('page-heading', 'Therapist')
 @section('page-heading-small', 'Lorem ipsum dolor set amet.')
 
 
 @section('content')
-            
+
 @endsection
 

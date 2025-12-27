@@ -21,23 +21,22 @@ class GuestLoginController extends Controller
             'password' => 'required',
         ]);
 
-        if (Auth::attempt($credentials)) {
+        if (! Auth::attempt($credentials)) {
 
-            $request->session()->regenerate();
+            return back()
+                ->with('auth_error', 'Invalid email or password.')
+                ->onlyInput('email');
 
-            $role = Auth::user()->role;
-            $route = 'admin.dashboard.index';
-
-            if ($role === 'Client') {
-                $route = 'client.home.index';
-            }
-
-            return redirect()->intended(route($route));
         }
 
-        return back()
-            ->with('auth_error', 'Invalid email or password.')
-            ->onlyInput('email');
+        $request->session()->regenerate();
+        
+        return match (Auth::user()->role) {
+            'Admin'  => redirect()->route('admin.dashboard.index'),
+            'Therapist'  => redirect()->route('therapist.dashboard.index'),
+            'Client' => redirect()->route('client.home.index'),
+            default  => redirect('/'),
+        };
 
     }
 }

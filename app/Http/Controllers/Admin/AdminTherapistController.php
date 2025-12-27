@@ -3,26 +3,25 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Spa;
+use App\Models\User;
 
-class AdminSpaProfileController extends Controller
+class AdminTherapistController extends Controller
 {
     public function index()
     {
-        $spaProfile =$this->read();
+        $therapists = $this->read();
 
-        return view('admin.spa-profile', [
+        return view('admin.therapists', [
             'breadcrumbs' => [
                 ['title' => 'Admin', 'url' => route('admin.dashboard.index')],
-                ['title' => 'Spa Profile', 'url' => null],
+                ['title' => 'Therapists', 'url' => null],
             ],
-        ], compact('spaProfile'));
+        ], compact('therapists'));
     }
 
     // for testing only, may replace public to private later
     public function read()
     {
-        return Spa::all();
+        return User::where('role', 'Therapist')->orderBy('email')->get();
     }
-
 }

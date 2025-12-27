@@ -22,7 +22,7 @@
                         <div class="fw-semibold">{{ auth()->user()->name }}</div>
 
                         <span class="badge bg-secondary mt-1">
-                            {{ auth()->user()->role->name ?? 'Admin' }}
+                            {{ auth()->user()->role->name ?? 'Therapist' }}
                         </span>
                     </div>
 
@@ -31,7 +31,7 @@
                     <ul class="nav flex-column">
 
                         <li class="nav-item">
-                            <a href="{{ route('admin.dashboard.index') }}" class="nav-link {{ request()->routeIs('admin.dashboard.index') ? 'text-bg-secondary rounded-3' : 'text-dark' }}">
+                            <a href="{{ route('therapist.dashboard.index') }}" class="nav-link {{ request()->routeIs('therapist.dashboard.index') ? 'text-bg-secondary rounded-3' : 'text-dark' }}">
                                 <i class="bi bi-speedometer2 me-2"></i>
                                 Dashboard
                             </a>
@@ -44,47 +44,7 @@
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="{{ route('admin.clients.index') }}" class="nav-link {{ request()->routeIs('admin.clients.index') ? 'text-bg-secondary rounded-3' : 'text-dark' }}">
-                                <i class="bi bi-people me-2"></i>
-                                Clients
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="{{ route('admin.spa-profile.index') }}" class="nav-link {{ request()->routeIs('admin.spa-profile.index') ? 'text-bg-secondary rounded-3' : 'text-dark' }}">
-                                <i class="bi bi-house-heart me-2"></i>
-                                Spa Profile
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="" class="nav-link text-dark">
-                                <i class="bi bi-person-badge me-2"></i>
-                                Staffs
-                            </a>
-                        </li>
-
-                        <li class="nav-item dropdown {{ request()->routeIs('admin.spa-weekly-schedules.index') ? 'bg-secondary rounded-3' : '' }}">
-                            <button class="nav-link {{ request()->routeIs('admin.spa-weekly-schedules.index') ? 'text-white' : 'text-dark' }}" data-bs-toggle="dropdown">
-                                <i class="bi bi-calendar-event me-2"></i>
-                                Spa Schedules
-                            </button>
-                            <ul class="dropdown-menu rounded-3 shadow-sm">
-                                <li>
-                                    <a href="{{ route('admin.spa-weekly-schedules.index') }}" class="dropdown-item {{ request()->routeIs('admin.spa-weekly-schedules.index') ? 'text-bg-secondary' : 'text-dark' }}">
-                                        <i class="bi bi-calendar-week me-2"></i>
-                                        Weekly Schedules
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="" class="dropdown-item">
-                                        <i class="bi bi-calendar-minus me-2"></i>
-                                        Datetime Unavailable
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                        
 
                         <li class="nav-item">
                             <a href="" class="nav-link text-dark">
@@ -93,26 +53,7 @@
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="{{ route('admin.therapists.index') }}" class="nav-link {{ request()->routeIs('admin.therapists.index') ? 'text-bg-secondary rounded-3' : 'text-dark' }}">
-                                <i class="bi bi-heart-pulse me-2"></i>
-                                Therapists
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="" class="nav-link text-dark">
-                                <i class="bi bi-credit-card me-2"></i>
-                                Payments
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="" class="nav-link text-dark">
-                                <i class="bi bi-journal-text me-2"></i>
-                                System Logs
-                            </a>
-                        </li>
-
+                        
                         <li class="nav-item">
                             <a href="" class="nav-link text-dark">
                                 <i class="bi bi-gear me-2"></i>

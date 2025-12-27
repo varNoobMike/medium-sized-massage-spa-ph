@@ -23,6 +23,7 @@ class RedirectIfAuthenticatedByRole
 
         return match (Auth::user()->role) {
             'Admin'  => redirect()->route('admin.dashboard.index'),
+            'Therapist'  => redirect()->route('therapist.dashboard.index'),
             'Client' => redirect()->route('client.home.index'),
             default  => redirect('/'),
         };
