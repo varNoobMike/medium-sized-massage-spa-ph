@@ -20,7 +20,7 @@
                     <ul class="nav flex-column">
 
                         <li class="nav-item">
-                            <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'text-bg-secondary rounded-3' : 'text-dark' }}">
+                            <a href="{{ route('admin.dashboard.index') }}" class="nav-link {{ request()->routeIs('admin.dashboard.index') ? 'text-bg-secondary rounded-3' : 'text-dark' }}">
                                 <i class="bi bi-speedometer2 me-2"></i>
                                 Dashboard
                             </a>
@@ -41,7 +41,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('admin.spa-profile') }}" class="nav-link {{ request()->routeIs('admin.spa-profile') ? 'text-bg-secondary rounded-3' : 'text-dark' }}">
+                            <a href="{{ route('admin.spa-profile.index') }}" class="nav-link {{ request()->routeIs('admin.spa-profile.index') ? 'text-bg-secondary rounded-3' : 'text-dark' }}">
                                 <i class="bi bi-house-heart me-2"></i>
                                 Spa Profile
                             </a>
@@ -54,14 +54,14 @@
                             </a>
                         </li>
 
-                        <li class="nav-item dropdown {{ request()->routeIs('admin.weekly-schedules') ? 'bg-secondary rounded-3' : '' }}">
-                            <button class="nav-link {{ request()->routeIs('admin.weekly-schedules') ? 'text-white' : 'text-dark' }}" data-bs-toggle="dropdown">
+                        <li class="nav-item dropdown {{ request()->routeIs('admin.weekly-schedules.index') ? 'bg-secondary rounded-3' : '' }}">
+                            <button class="nav-link {{ request()->routeIs('admin.weekly-schedules.index') ? 'text-white' : 'text-dark' }}" data-bs-toggle="dropdown">
                                 <i class="bi bi-calendar-event me-2"></i>
                                 Schedules
                             </button>
                             <ul class="dropdown-menu rounded-3 shadow-sm">
                                 <li>
-                                    <a href="{{ route('admin.weekly-schedules') }}" class="dropdown-item {{ request()->routeIs('admin.weekly-schedules') ? 'text-bg-secondary' : 'text-dark' }}">
+                                    <a href="{{ route('admin.weekly-schedules.index') }}" class="dropdown-item {{ request()->routeIs('admin.weekly-schedules.index') ? 'text-bg-secondary' : 'text-dark' }}">
                                         <i class="bi bi-calendar-week me-2"></i>
                                         Weekly Schedules
                                     </a>
@@ -174,7 +174,7 @@
                                         <li><hr class="dropdown-divider"></li>
 
                                         <li>
-                                            <form method="POST" action="{{ route('logout') }}">
+                                            <form method="POST" action="{{ route('logout.index') }}">
                                                 @csrf
                                                 <button class="dropdown-item text-danger" onclick="return confirm('Confirm Logout?');"> 
                                                     <i class="bi bi-box-arrow-right me-2"></i>Logout

@@ -9,16 +9,17 @@ class AdminSpaProfileController extends Controller
 {
     public function __invoke()
     {
-        $spaProfile = $this->read();
+        $spaProfile = Spa::all();
 
         return view('admin.spa-profile', [
             'breadcrumbs' => [
-                ['title' => 'Admin', 'url' => route('admin.dashboard')],
+                ['title' => 'Admin', 'url' => route('admin.dashboard.index')],
                 ['title' => 'Spa Profile', 'url' => null],
             ],
         ], compact('spaProfile'));
     }
 
+    // for testing only, remove later
     public function read()
     {
         return Spa::all();

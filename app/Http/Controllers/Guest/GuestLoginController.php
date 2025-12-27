@@ -26,10 +26,10 @@ class GuestLoginController extends Controller
             $request->session()->regenerate();
 
             $role = Auth::user()->role;
-            $route = 'admin.dashboard';
+            $route = 'admin.dashboard.index';
 
             if ($role === 'Client') {
-                $route = 'client.home';
+                $route = 'client.home.index';
             }
 
             return redirect()->intended(route($route));

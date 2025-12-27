@@ -10,7 +10,7 @@ class AdminDashboardController extends Controller
     {
         return view('admin.dashboard', [
             'breadcrumbs' => [
-                ['title' => 'Admin', 'url' => route('admin.dashboard')],
+                ['title' => 'Admin', 'url' => route('admin.dashboard.index')],
                 ['title' => 'Dashboard', 'url' => null],
             ],
         ]);

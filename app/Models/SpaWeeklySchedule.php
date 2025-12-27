@@ -16,6 +16,7 @@ class SpaWeeklySchedule extends Model
         'day_of_week',
         'open_time',
         'close_time',
+        'is_current',
         'is_closed',
         'created_by'
     ];
