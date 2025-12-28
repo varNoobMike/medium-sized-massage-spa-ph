@@ -3,6 +3,7 @@
 
 <head>
     @include('partials.head-meta')
+    <link rel="stylesheet" href="{{ asset('assets/css/style-guest-client.css') }}">
 </head>
 
 
@@ -10,6 +11,7 @@
 
 <body>
 
+    {{-- Navbar --}}
     <nav id="top-navbar" class="navbar navbar-expand-lg navbar-primary bg-primary shadow-sm py-3">
         <div class="container">
             <a class="navbar-brand text-white" href="{{ url('/') }}">Rose Massage</a>
@@ -73,11 +75,9 @@
         </div>
     </nav>
 
-
-    <div id="content" class="bg-light min-vh-100">
-        <div class="container p-3">
-            @yield('content')
-        </div>
+    {{-- Content --}}
+    <div id="main" class="min-vh-100">
+        @yield('content')
     </div>
 
     @include('partials.foot-script-shared')

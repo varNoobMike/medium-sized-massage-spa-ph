@@ -25,8 +25,10 @@
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Address</th>
-                    <th>Established</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Logo</th>
+                    <th>Location</th>
                     <th>Total Beds</th>
                     <th>Action</th>
                 </tr>
@@ -35,8 +37,10 @@
                 @forelse ( $spaProfile as $profile)
                     <tr>
                         <td>{{ $profile->name }}</td>
-                        <td>{{ $profile->address }}</td>
-                        <td>{{ $profile->date_founded }}</td>
+                        <td>{{ $profile->company->email }}</td>
+                        <td>{{ $profile->company->phone }}</td>
+                        <td>{{ $profile->company->logo ?? 'No Image' }}</td>
+                        <td>{{ $profile->location }}</td>
                         <td>{{ $profile->total_beds }}</td>
                         <td>
                             <div class="dropdown">

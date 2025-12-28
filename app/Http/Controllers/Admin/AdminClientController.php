@@ -9,7 +9,7 @@ class AdminClientController extends Controller
 {
     public function index()
     {
-        $clients = $this->read();
+        $clients = $this->getClients();
 
         return view('admin.clients', [
             'breadcrumbs' => [
@@ -19,10 +19,12 @@ class AdminClientController extends Controller
         ], compact('clients'));
     }
 
-    // for testing only, may replace public to private later
-    public function read()
+
+    // change to private later
+    public function getClients()
     {
         return User::where('role', 'Client')->orderBy('email')->get();
     }
+
 
 }

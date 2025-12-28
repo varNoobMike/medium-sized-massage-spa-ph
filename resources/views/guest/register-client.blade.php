@@ -1,6 +1,6 @@
 @extends('layouts.guest.app')
 
-@section('title', 'Login - Rose Massage Services')
+@section('title', 'Register as User - Rose Massage Services')
 
 
 @section('breadcrumb')
@@ -18,6 +18,7 @@
 @endsection
 
 
+
 @section('content')
     <div class="row justify-content-center align-items-center">
 
@@ -28,21 +29,17 @@
 
                     <div class="card-body p-4">
 
-                        <h1 class="text-center mb-4">Login</h1>
+                        <h1 class="text-center mb-4">Register</h1>
 
                         {{-- Form --}}
-                        <form action="{{ route('login.store') }}" method="POST">
+                        <form action="{{ route('guest.register.client.store') }}" method="POST">
 
                             @csrf
 
                             {{-- Alerts --}}
-                            @if(session('auth_error'))
+                            @if (session('register_error'))
                                 <div class="alert alert-danger rounded-3 mb-4">
-                                    {{ session('auth_error') }}
-                                </div>
-                            @elseif(session('register_success'))
-                                <div class="alert alert-success rounded-3 mb-4">
-                                    {{ session('register_success') }}
+                                    {{ session('register_error') }}
                                 </div>
                             @endif
 
@@ -51,6 +48,17 @@
                                 <label for="" class="form-label">Email</label>
                                 <input type="text" class="form-control rounded-3  @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}">
                                 @error('email')
+                                <div class="invalid-feedback mt-2">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
+
+                            {{-- Username --}}
+                            <div class="mb-4">
+                                <label for="" class="form-label">Username</label>
+                                <input type="text" class="form-control rounded-3  @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}">
+                                @error('name')
                                 <div class="invalid-feedback mt-2">
                                     {{ $message }}
                                 </div>
@@ -68,8 +76,19 @@
                                 @enderror
                             </div>
 
+                            {{-- Confirm Password --}}
+                            <div class="mb-4">
+                                <label for="" class="form-label">Confirm Password</label>
+                                <input type="password" class="form-control rounded-3 @error('password') is-invalid @enderror" name="password_confirmation">
+                                @error('password_confirmation')
+                                <div class="invalid-feedback mt-2">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
+
                             {{-- Submit Button --}}
-                            <button type="submit" class="btn btn-primary rounded-3 w-100">Login</button>
+                            <button type="submit" class="btn btn-primary rounded-3 w-100">Register</button>
 
                         </form>
 

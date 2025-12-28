@@ -1,6 +1,6 @@
-@extends('layouts.admin.app')
+@extends('layouts.therapist.app')
 
-@section('title', 'Spa Weekly Schedules')
+@section('title', 'My Weekly Schedules')
 
 @section('breadcrumb')
     @foreach ( $breadcrumbs as $crumb)
@@ -16,7 +16,7 @@
     @endforeach
 @endsection
 
-@section('page-heading', 'Spa Weekly Schedules')
+@section('page-heading', 'My Weekly Schedules')
 @section('page-heading-small', 'Lorem ipsum dolor set amet.')
 
 

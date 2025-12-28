@@ -3,8 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Services\SpaContext;
+use Exception;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class UserSeeder extends Seeder
 {
@@ -13,76 +16,77 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // Admin
-        User::updateOrCreate(
-            ['email' => 'admin@example.com'], // prevent duplicates
+        $users = [
+            // Admin
             [
+                'email' => 'admin@example.com',
                 'name' => 'Admin123',
-                'password' => Hash::make('admin-123'),
+                'password' => 'admin-123', // auto hashed via User model cast
                 'role' => 'Admin',
-            ]
-        );
-
-        // Therapist A
-        User::updateOrCreate(
-            ['email' => 'therapist_a@example.com'], // prevent duplicates
+            ],
+            // Therapist A
             [
+                'email' => 'therapist_a@example.com',
                 'name' => 'Therapist A',
-                'password' => Hash::make('therapist-a-123'),
+                'password' => 'therapist-a-123',
                 'role' => 'Therapist',
-            ]
-        );
-
-        // Therapist B
-        User::updateOrCreate(
-            ['email' => 'therapist_b@example.com'], // prevent duplicates
+            ],
+            // Therapist B
             [
+                'email' => 'therapist_b@example.com',
                 'name' => 'Therapist B',
-                'password' => Hash::make('therapist-b-123'),
+                'password' => 'therapist-b-123',
                 'role' => 'Therapist',
-            ]
-        );
-
-        // Therapist C
-        User::updateOrCreate(
-            ['email' => 'therapist_c@example.com'], // prevent duplicates
+            ],
+            // Therapist C
             [
+                'email' => 'therapist_c@example.com',
                 'name' => 'Therapist C',
-                'password' => Hash::make('therapist-c-123'),
+                'password' => 'therapist-c-123',
                 'role' => 'Therapist',
-            ]
-        );
-
-        // Client A
-        User::updateOrCreate(
-            ['email' => 'client_a@example.com'], // prevent duplicates
+            ],
+            // Client A
             [
+                'email' => 'client_a@example.com',
                 'name' => 'Client A',
-                'password' => Hash::make('client-a-123'),
+                'password' => 'client-a-123',
                 'role' => 'Client',
-            ]
-        );
-
-        // Client B
-        User::updateOrCreate(
-            ['email' => 'client_b@example.com'], // prevent duplicates
+            ],
+            // Client B
             [
+                'email' => 'client_b@example.com',
                 'name' => 'Client B',
-                'password' => Hash::make('client-b-123'),
+                'password' => 'client-b-123',
                 'role' => 'Client',
-            ]
-        );
-
-
-        // Client C
-        User::updateOrCreate(
-            ['email' => 'client_c@example.com'], // prevent duplicates
+            ],
+            // Client C
             [
+                'email' => 'client_c@example.com',
                 'name' => 'Client C',
-                'password' => Hash::make('client-c-123'),
+                'password' => 'client-c-123',
                 'role' => 'Client',
-            ]
-        );
+            ],
+        ];
 
+        $spaID = SpaContext::getMainBranchID(); // Main Branch Spa ID
+
+        try {
+            DB::transaction(function () use ($users, $spaID) {
+                foreach ($users as $data) {
+                    $user = User::updateOrCreate(
+                        ['email' => $data['email']],
+                        $data
+                    );
+
+                    // Attach to spa pivot table without detaching existing
+                    $user->spas()->syncWithoutDetaching([$spaID]);
+                }
+            });
+
+            $this->command->info("Users seeded successfully and linked to Spa ID: {$spaID}.");
+        } catch (Exception $e) {
+            Log::error('Failed to seed users: '.$e->getMessage());
+            $this->command->error('Failed to seed users. Check logs for details.');
+        }
     }
 }

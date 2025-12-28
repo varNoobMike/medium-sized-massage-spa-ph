@@ -3,8 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\Spa;
-use App\Models\User;
+use App\Services\CompanyContext;
+use Exception;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class SpaSeeder extends Seeder
 {
@@ -13,34 +16,36 @@ class SpaSeeder extends Seeder
      */
     public function run(): void
     {
-        $adminID = $this->getAdmin()->id;
+        $companyID = CompanyContext::getCompanyID(); // Company ID
 
-        Spa::updateOrCreate(
-            ['name' => 'Rose Massage Services'],
+        $branches = [
             [
+                'name' => 'Rose Massage Services',
                 'is_main_branch' => true,
-                'address' => 'Tubod, San Juan, Siquijor, Philippines',
-                'date_founded' => '2022-10-12',
+                'location' => 'Tubod, San Juan, Siquijor, Philippines',
                 'total_beds' => 10,
-                'created_by' => $adminID
-            ]
-
-        );
-
-        Spa::updateOrCreate(
-            ['name' => 'Rose Massage Services - Lazi Branch'],
+            ],
             [
-                'address' => 'Tigbawan, Lazi, Siquijor, Philippines',
-                'date_founded' => '2025-07-20',
+                'name' => 'Rose Massage Services - Lazi Branch',
+                'location' => 'Tigbawan, Lazi, Siquijor, Philippines',
                 'total_beds' => 5,
-                'created_by' => $adminID
-            ]
+            ],
+        ];
 
-        );
-    }
+        try {
+            DB::transaction(function () use ($branches, $companyID) {
+                foreach ($branches as $branch) {
+                    Spa::updateOrCreate(
+                        ['name' => $branch['name']],
+                        array_merge($branch, ['company_id' => $companyID])
+                    );
+                }
+            });
 
-    private function getAdmin()
-    {
-        return User::where('role', 'Admin')->firstOrFail();
+            $this->command->info('Spa branches seeded successfully.');
+        } catch (Exception $e) {
+            Log::error('Failed to seed spa branches: '.$e->getMessage());
+            $this->command->error('Failed to seed spa branches. Check logs for details.');
+        }
     }
 }

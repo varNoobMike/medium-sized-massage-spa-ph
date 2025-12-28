@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SpaWeeklySchedule extends Model
+class StaffWeeklySchedule extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,19 +12,16 @@ class SpaWeeklySchedule extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'spa_id',
+        'user_id',
         'day_of_week',
-        'open_time',
-        'close_time',
-        'is_closed',
+        'start_time',
+        'end_time',
+        'is_unavailable',
         'is_current',
     ];
 
-    public function spa()
-    {
-        return $this->belongsTo(Spa::class);
+    public function staff(){
+        return $this->belongsTo(User::class, 'user_id');
     }
-
-   
 
 }

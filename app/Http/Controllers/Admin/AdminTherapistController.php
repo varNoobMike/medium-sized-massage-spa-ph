@@ -9,7 +9,7 @@ class AdminTherapistController extends Controller
 {
     public function index()
     {
-        $therapists = $this->read();
+        $therapists = $this->getTherapists();
 
         return view('admin.therapists', [
             'breadcrumbs' => [
@@ -19,9 +19,10 @@ class AdminTherapistController extends Controller
         ], compact('therapists'));
     }
 
-    // for testing only, may replace public to private later
-    public function read()
+    // change to private later
+    public function getTherapists()
     {
         return User::where('role', 'Therapist')->orderBy('email')->get();
     }
+
 }

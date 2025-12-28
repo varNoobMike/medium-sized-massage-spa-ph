@@ -13,8 +13,10 @@
     <div class="container-fluid p-4">
         <div class="row">
 
+            {{-- Left Side --}}
             <div id="left-side-layout" class="col-lg-2">
 
+                {{-- Left Sidebar --}}
                 <aside id="left-sidebar" class="bg-light p-3 shadow-sm rounded-3">
 
                     {{-- User info --}}
@@ -28,6 +30,7 @@
 
                     <hr>
 
+                    {{-- Side Nav Links --}}
                     <ul class="nav flex-column">
 
                         <li class="nav-item">
@@ -126,8 +129,10 @@
 
             </div>
 
+            {{-- Right Side --}}
             <div id="right-side-layout" class="col-lg-10">
 
+                {{-- Top Right Navbar --}}
                 <nav id="top-right-navbar" class="navbar navbar-expand-lg navbar-white bg-white shadow-sm px-4 py-3 rounded-3">
                     <div class="container">
                         <a class="navbar-brand" href="{{ url('/') }}">Rose Massage</a>
@@ -205,19 +210,23 @@
 
                 </nav>
 
-                <div class="container bg-white p-4 shadow-sm mt-4 min-vh-100 rounded-3">
+                {{-- Below Top Right Navbar / Main --}}
+                <div id="main" class="container bg-white p-4 shadow-sm mt-4 min-vh-100 rounded-3">
 
+                    {{-- Breadcrumb --}}
                     <nav id="breadcrumb" aria-label="breadcrumb" class="mb-4">
                         <ol class="breadcrumb">
                             @yield('breadcrumb')
                         </ol>
                     </nav>
 
+                    {{-- Page Heading --}}
                     <div id="page-heading">
                         <h4 class="fw-semibold mb-0">@yield('page-heading')</h4>
                         <p class="text-muted small mb-0">@yield('page-heading-small')</p>
                     </div>
 
+                    {{-- Content --}}
                     <div id="content" class="mt-4">
                         @yield('content')
                     </div>

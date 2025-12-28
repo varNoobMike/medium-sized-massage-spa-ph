@@ -22,7 +22,7 @@ class User extends Authenticatable
         'email',
         'role',
         'password',
-        
+
     ];
 
     /**
@@ -48,8 +48,15 @@ class User extends Authenticatable
         ];
     }
 
+    public function staffWeeklySchedules()
+    {
+        return $this->hasMany(StaffWeeklySchedule::class, 'user_id');
+    }
 
-    public function spaWeeklySchedules(){
-        return $this->hasMany(SpaWeeklySchedule::class);
+    public function spas()
+    {
+        return $this->belongsToMany(Spa::class, 'spa_staff', 'user_id', 'spa_id')
+            ->withPivot('is_current')
+            ->withTimestamps();
     }
 }
