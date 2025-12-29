@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use App\Services\SpaContext;
+use App\Services\SpaContextService;
 use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -68,7 +68,7 @@ class UserSeeder extends Seeder
             ],
         ];
 
-        $spaID = SpaContext::getMainBranchID(); // Main Branch Spa ID
+        $spaID = SpaContextService::getMainBranchID(); // Main Branch Spa ID
 
         try {
             DB::transaction(function () use ($users, $spaID) {

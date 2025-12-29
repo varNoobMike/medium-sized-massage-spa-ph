@@ -1,35 +1,29 @@
 <?php
-// Shared
-use App\Http\Controllers\AuthShared\AuthSharedLogoutController;
 
-// Admin
+// Shared
 use App\Http\Controllers\Admin\AdminClientController;
+// Admin
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminSpaProfileController;
+use App\Http\Controllers\Admin\AdminSpaWeeklyScheduleController;
 use App\Http\Controllers\Admin\AdminTherapistController;
-use App\Http\Controllers\Admin\AdminWeeklyScheduleController;
-
+use App\Http\Controllers\AuthShared\AuthSharedLogoutController;
 // Guest
+use App\Http\Controllers\Client\ClientHomeController;
 use App\Http\Controllers\Guest\GuestHomeController;
 use App\Http\Controllers\Guest\GuestLoginController;
-use App\Http\Controllers\Guest\GuestRegisterClientController;
-
-
 // Client
-use App\Http\Controllers\Client\ClientHomeController;
-
-
+use App\Http\Controllers\Guest\GuestRegisterClientController;
 // Therapist
 use App\Http\Controllers\Therapist\TherapistDashboardController;
 use App\Http\Controllers\Therapist\TherapistWeeklyScheduleController;
-
 use Illuminate\Support\Facades\Route;
 
 /******************************************************************************************** */
 
-// Testings
+// Testings via URL
 Route::get('spa-profile', [AdminSpaProfileController::class, 'getSpaProfile']);
-Route::get('spa-weekly-schedules', [AdminWeeklyScheduleController::class, 'getSpaWeeklySchedules']);
+Route::get('spa-weekly-schedules', [AdminSpaWeeklyScheduleController::class, 'getSpaWeeklySchedules']);
 Route::get('my-weekly-schedules', [TherapistWeeklyScheduleController::class, 'getTherapistWeeklySchedules']);
 Route::get('clients', [AdminClientController::class, 'getClients']);
 Route::get('therapists', [AdminTherapistController::class, 'getTherapists']);
@@ -75,24 +69,27 @@ Route::middleware(['auth', 'role:Admin'])
     ->group(function () {
 
         // Dashboard
-        Route::get('dashboard', AdminDashboardController::class)->name('dashboard.index');
+        Route::get('dashboard', AdminDashboardController::class)
+            ->name('dashboard.index');
 
         // Clients
-        Route::get('clients', [AdminClientController::class, 'index'])->name('clients.index');
+        Route::get('clients', [AdminClientController::class, 'index'])
+            ->name('clients.index');
 
         // Spa Profile
-        Route::get('spa-profile', [AdminSpaProfileController::class, 'index'])->name('spa-profile.index');
+        Route::get('spa-profile', [AdminSpaProfileController::class, 'index'])
+            ->name('spa-profile.index');
 
         // Therapists
-        Route::get('therapists', [AdminTherapistController::class, 'index'])->name('therapists.index');
+        Route::get('therapists', [AdminTherapistController::class, 'index'])
+            ->name('therapists.index');
 
-        // Spa Weekly Schedules
-        Route::get('spa-weekly-schedules', [AdminWeeklyScheduleController::class, 'index'])->name('spa-weekly-schedules.index');
-
-        // create Spa Weekly Schedules
-        Route::post('spa-weekly-schedules', [AdminWeeklyScheduleController::class, 'store'])->name('spa-weekly-schedules.store');
+        // Spa Weekly Schedules (index, update) only
+        Route::resource('spa-weekly-schedules', AdminSpaWeeklyScheduleController::class)
+            ->only(['index', 'update']);
 
     });
+
 /******************************************************************************************** */
 
 // Therapist (note: url disguised as 'massage-therapist' instead of 'therapist' for better UX)
@@ -104,11 +101,9 @@ Route::middleware(['auth', 'role:Therapist'])
         // Dashboard
         Route::get('dashboard', TherapistDashboardController::class)->name('dashboard.index');
 
-        // My Weekly Schedules
-        Route::get('my-weekly-schedules', [TherapistWeeklyScheduleController::class, 'index'])->name('weekly-schedules.index');
-
-        // create My Weekly Schedules
-        // Route::post('my-weekly-schedules', [TherapistWeeklyScheduleController::class, 'store'])->name('weekly-schedules.store');
+        // Weekly Schedules (index, update) only
+        Route::resource('weekly-schedules', TherapistWeeklyScheduleController::class)
+            ->only(['index', 'update']);
 
     });
 /******************************************************************************************** */

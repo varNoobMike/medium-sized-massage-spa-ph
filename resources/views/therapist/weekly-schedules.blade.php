@@ -1,3 +1,4 @@
+
 @extends('layouts.therapist.app')
 
 @section('title', 'My Weekly Schedules')
@@ -26,10 +27,10 @@
         x-data="{
             loading: false,
             form: {
-                spa_id: null,
+                user_id: null,
                 day_of_week: '',
-                open_time: '',
-                close_time: ''
+                start_time: '',
+                end_time: ''
             }
         }"
         >
@@ -64,11 +65,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ( $weeklySchedules as $schedule)
+                        @forelse ( $therapistWeeklySchedules as $schedule)
                             <tr>
-                                <td>{{ $schedule['day_of_week'] }}</td>
-                                <td>{{ \Carbon\Carbon::parse($schedule->open_time)->format('g:i A') }}</td>
-                                <td>{{ \Carbon\Carbon::parse($schedule->close_time)->format('g:i A') }}</td>
+                                <td>{{ $schedule->day_of_week }}</td>
+                                <td>{{ \Carbon\Carbon::parse($schedule->start_time)->format('g:i A') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($schedule->end_time)->format('g:i A') }}</td>
                                 
                                 <td>
                                     <div class="dropdown">
@@ -84,12 +85,12 @@
                                             <li>
                                                 <button class="dropdown-item" 
                                                     data-bs-toggle="modal" 
-                                                    data-bs-target="#spa-weekly-schedule-edit-modal"
+                                                    data-bs-target="#therapist-weekly-schedule-edit-modal"
                                                     @click="
-                                                        form.spa_id = {{ $schedule['spa_id'] }};
-                                                        form.day_of_week = @js($schedule['day_of_week']);
-                                                        form.open_time = @js(\Carbon\Carbon::parse($schedule->open_time)->format('H:i'));
-                                                        form.close_time = @js(\Carbon\Carbon::parse($schedule->close_time)->format('H:i'));"
+                                                        form.user_id = {{ $schedule->user_id }};
+                                                        form.day_of_week = @js($schedule->day_of_week);
+                                                        form.start_time = @js(\Carbon\Carbon::parse($schedule->start_time)->format('H:i'));
+                                                        form.end_time = @js(\Carbon\Carbon::parse($schedule->end_time)->format('H:i'));"
                                                 >
                                                     <i class="bi bi-pencil me-2"></i>
                                                     Edit
@@ -115,13 +116,13 @@
             </table>
         </div>
         
-        {{-- Store New Schedule Modal (Note: disguised as Edit Modal) --}}
-        <div id="spa-weekly-schedule-edit-modal" class="modal fade" tabindex="-1" aria-hidden="true"
+        {{-- Edit Modal) --}}
+        <div id="therapist-weekly-schedule-edit-modal" class="modal fade" tabindex="-1" aria-hidden="true"
             @hidden.bs.modal="
-            form.spa_id = null;
+            form.user_id = null;
             form.day_of_week = '';
-            form.open_time = '';
-            form.close_time = '';">
+            form.start_time = '';
+            form.end_time = '';">
 
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -131,15 +132,16 @@
                     <div class="modal-body">
 
                         {{-- Form --}}
-                        <form action="{{ route('admin.spa-weekly-schedules.store') }}" method="POST"
+                        <form action="{{ route('therapist.weekly-schedules.update', $schedule->user_id) }}" method="POST"
                             @submit.prevent="
                             if (loading) return;
                             loading = true;
                             $el.submit();
                         ">
                             @csrf
+                            @method('PUT')
 
-                            <input type="hidden" name="spa_id" x-model="form.spa_id">
+                            <input type="hidden" name="user_id" x-model="form.user_id">
 
                             <div class="mb-4">
                                 <label for="" class="form-label">Day of Week</label>
@@ -148,12 +150,12 @@
 
                             <div class="mb-4">
                                 <label for="" class="form-label">Open Time</label>
-                                <input type="time" class="form-control" name="open_time" x-model="form.open_time">
+                                <input type="time" class="form-control" name="start_time" x-model="form.start_time">
                             </div>
 
                             <div class="mb-4">
                                 <label for="" class="form-label">Close Time</label>
-                                <input type="time" class="form-control" name="close_time" x-model="form.close_time">
+                                <input type="time" class="form-control" name="end_time" x-model="form.end_time">
                             </div>
 
                             <button type="submit" class="btn btn-primary w-100" :disabled="loading">

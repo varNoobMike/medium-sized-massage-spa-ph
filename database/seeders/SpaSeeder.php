@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Spa;
-use App\Services\CompanyContext;
+use App\Services\CompanyContextService;
 use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -16,7 +16,7 @@ class SpaSeeder extends Seeder
      */
     public function run(): void
     {
-        $companyID = CompanyContext::getCompanyID(); // Company ID
+        $companyID = CompanyContextService::getCompanyID(); // Company ID
 
         $branches = [
             [

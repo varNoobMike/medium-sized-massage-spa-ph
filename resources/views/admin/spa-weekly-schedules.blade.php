@@ -66,7 +66,7 @@
                     <tbody>
                         @forelse ( $weeklySchedules as $schedule)
                             <tr>
-                                <td>{{ $schedule['day_of_week'] }}</td>
+                                <td>{{ $schedule->day_of_week }}</td>
                                 <td>{{ \Carbon\Carbon::parse($schedule->open_time)->format('g:i A') }}</td>
                                 <td>{{ \Carbon\Carbon::parse($schedule->close_time)->format('g:i A') }}</td>
                                 
@@ -86,8 +86,8 @@
                                                     data-bs-toggle="modal" 
                                                     data-bs-target="#spa-weekly-schedule-edit-modal"
                                                     @click="
-                                                        form.spa_id = {{ $schedule['spa_id'] }};
-                                                        form.day_of_week = @js($schedule['day_of_week']);
+                                                        form.spa_id = {{ $schedule->spa_id }};
+                                                        form.day_of_week = @js($schedule->day_of_week);
                                                         form.open_time = @js(\Carbon\Carbon::parse($schedule->open_time)->format('H:i'));
                                                         form.close_time = @js(\Carbon\Carbon::parse($schedule->close_time)->format('H:i'));"
                                                 >
@@ -115,7 +115,7 @@
             </table>
         </div>
         
-        {{-- Store New Schedule Modal (Note: disguised as Edit Modal) --}}
+        {{-- Edit Modal) --}}
         <div id="spa-weekly-schedule-edit-modal" class="modal fade" tabindex="-1" aria-hidden="true"
             @hidden.bs.modal="
             form.spa_id = null;
@@ -131,13 +131,14 @@
                     <div class="modal-body">
 
                         {{-- Form --}}
-                        <form action="{{ route('admin.spa-weekly-schedules.store') }}" method="POST"
+                        <form action="{{ route('admin.spa-weekly-schedules.update', $schedule->spa_id) }}" method="POST"
                             @submit.prevent="
                             if (loading) return;
                             loading = true;
                             $el.submit();
                         ">
                             @csrf
+                            @method('PUT')
 
                             <input type="hidden" name="spa_id" x-model="form.spa_id">
 

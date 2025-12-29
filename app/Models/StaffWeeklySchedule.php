@@ -17,7 +17,6 @@ class StaffWeeklySchedule extends Model
         'start_time',
         'end_time',
         'is_unavailable',
-        'is_current',
     ];
 
     public function staff(){

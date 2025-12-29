@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Spa;
 use App\Models\SpaWeeklySchedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class AdminWeeklyScheduleController extends Controller
+class AdminSpaWeeklyScheduleController extends Controller
 {
     public function index()
     {
@@ -21,12 +22,13 @@ class AdminWeeklyScheduleController extends Controller
         ], compact('weeklySchedules'));
     }
 
-    public function store(Request $request)
+    public function update(Request $request, $id)
     {
+
+        $spa = Spa::findOrFail($id);
 
         // Validate the incoming request data
         $validated = $request->validate([
-            'spa_id' => 'required|exists:spas,id',
             'day_of_week' => 'required|string',
             'open_time' => 'required|date_format:H:i',
             'close_time' => 'required|date_format:H:i|after:open_time',
@@ -34,19 +36,20 @@ class AdminWeeklyScheduleController extends Controller
 
         try {
             // Use a transaction to ensure data integrity
-            DB::transaction(function () use ($validated) {
+            DB::transaction(function () use ($validated, $spa) {
 
-                // Mark existing current schedule for the spa and day as not current
-                SpaWeeklySchedule::where('spa_id', $validated['spa_id'])
+                // Update the existing schedule
+                SpaWeeklySchedule::where('spa_id', $spa->id)
                     ->where('day_of_week', $validated['day_of_week'])
-                    ->where('is_current', true)
-                    ->update(['is_current' => false]);
-
-                // Create new current schedule
-                SpaWeeklySchedule::create([
-                    ...$validated,
-                ]);
+                    ->update([
+                        'open_time' => $validated['open_time'],
+                        'close_time' => $validated['close_time'],
+                    ]);
             });
+
+            // Redirect back with success message (Note: redirect to index route itself)
+            return redirect()->route('admin.spa-weekly-schedules.index')
+                ->with('success', 'Weekly schedule updated successfully.');
 
         } catch (\Throwable $e) {
 
@@ -58,19 +61,19 @@ class AdminWeeklyScheduleController extends Controller
                 ->with('error', 'Something went wrong while saving the schedule.');
         }
 
-        // Redirect back with success message (Note: redirect to index route itself)
-        return redirect()->route('admin.spa-weekly-schedules.index')
-            ->with('success', 'Weekly schedule updated successfully.');
-
     }
 
     // change to private later
     public function getSpaWeeklySchedules()
     {
-        return SpaWeeklySchedule::with(['creator', 'spa'])
-            ->where('is_current', true)
+        return SpaWeeklySchedule::with('spa:id,name,is_main_branch')
+            ->whereHas('spa', function ($q) {
+                $q->where('is_main_branch', true);
+            })
             ->orderByRaw("
-                FIELD(day_of_week, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')
-        ")->get();
+                FIELD(day_of_week, 'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday')
+            ")
+            ->get();
+
     }
 }

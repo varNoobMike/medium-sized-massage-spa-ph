@@ -17,7 +17,6 @@ class SpaWeeklySchedule extends Model
         'open_time',
         'close_time',
         'is_closed',
-        'is_current',
     ];
 
     public function spa()

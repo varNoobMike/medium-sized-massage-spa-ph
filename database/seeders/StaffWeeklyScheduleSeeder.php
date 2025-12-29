@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\StaffWeeklySchedule;
-use App\Services\UserContext;
+use App\Services\UserContextService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -15,9 +15,9 @@ class StaffWeeklyScheduleSeeder extends Seeder
      */
     public function run(): void
     {
-        $therapistA = UserContext::getFirstTherapistID();
-        $therapistB = UserContext::getSecondTherapistID();
-        $therapistC = UserContext::getThirdTherapistID();
+        $therapistA = UserContextService::getFirstTherapistID();
+        $therapistB = UserContextService::getSecondTherapistID();
+        $therapistC = UserContextService::getThirdTherapistID();
 
         $schedules = [
             // Therapist A

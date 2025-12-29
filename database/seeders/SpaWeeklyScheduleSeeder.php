@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\SpaWeeklySchedule;
-use App\Services\SpaContext;
+use App\Services\SpaContextService;
 use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -16,7 +16,7 @@ class SpaWeeklyScheduleSeeder extends Seeder
      */
     public function run(): void
     {
-        $spaID = SpaContext::getMainBranchID(); // Main Branch Spa ID
+        $spaID = SpaContextService::getMainBranchID(); // Main Branch Spa ID
 
         $schedules = [
             ['day_of_week' => 'Monday', 'open_time' => '08:00', 'close_time' => '17:00'],

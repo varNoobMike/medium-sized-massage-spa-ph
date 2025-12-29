@@ -9,7 +9,7 @@ class AdminSpaProfileController extends Controller
 {
     public function index()
     {
-        $spaProfile =$this->getSpaProfile();
+        $spaProfile = $this->getSpaProfile();
 
         return view('admin.spa-profile', [
             'breadcrumbs' => [
@@ -24,7 +24,4 @@ class AdminSpaProfileController extends Controller
     {
         return Spa::with('company')->where('is_main_branch', true)->get();
     }
-
-   
-
 }

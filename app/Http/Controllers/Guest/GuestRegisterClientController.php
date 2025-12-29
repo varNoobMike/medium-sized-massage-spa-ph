@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Services\SpaContext;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -30,21 +29,23 @@ class GuestRegisterClientController extends Controller
             'password' => 'required|min:8|max:100|confirmed',
         ]);
 
-        $spaID = SpaContext::getMainBranchID(); // Main Branch Spa ID
-
         try {
             // Use a transaction to ensure data integrity
-            DB::transaction(function () use ($validated, $spaID) {
-                $user = User::create([
+            DB::transaction(function () use ($validated) {
+
+                User::create([
                     'email' => $validated['email'],
                     'name' => $validated['name'],
                     'password' => $validated['password'], // auto hashed via User model cast
                     'role' => 'Client',
                 ]);
 
-                $user->spas()->syncWithoutDetaching([$spaID]); // insert row at pivot table
-
             });
+
+            // Redirect to login with success message
+            return redirect()
+                ->route('login')
+                ->with('register_success', 'Registration successful. You can now log in.');
 
         } catch (\Throwable $e) {
 
@@ -56,12 +57,5 @@ class GuestRegisterClientController extends Controller
                 ->with('register_error', 'Registration failed. Please try again.');
         }
 
-        // Redirect to login with success message
-        return redirect()
-            ->route('login')
-            ->with('register_success', 'Registration successful. You can now log in.');
-
     }
-
-    
 }
