@@ -29,7 +29,7 @@ Route::get('clients', [AdminClientController::class, 'getClients']);
 Route::get('therapists', [AdminTherapistController::class, 'getTherapists']);
 
 Route::get('/admin-id', function () {
-    echo \App\Services\UserContext::getAdminID();
+    echo \App\Services\UserContextService::getAdminID();
 });
 /******************************************************************************************** */
 
