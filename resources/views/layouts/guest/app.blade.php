@@ -39,8 +39,8 @@
                             <button class="nav-link text-white dropdown-toggle" type="button" data-bs-toggle="dropdown">Register</button>
                             <ul class="dropdown-menu shadow border-0 rounded-3">
                                 <h5 class="dropdown-header">Register as</h5>
-                                <li><a class="dropdown-item" href="{{ route('guest.register.client.index') }}">User</a></li>
-                                <li><a class="dropdown-item" href="#">Therapist</a></li>
+                                <li><a class="dropdown-item" href="{{ route('guest.register.client.create') }}">User</a></li>
+                                <li><a class="dropdown-item" href="{{ route('guest.register.therapist.create') }}">Therapist</a></li>
                             </ul>
                         </div>
                     </li>
@@ -62,7 +62,10 @@
 
 
     {{-- Below Navbar / Main (Note: Layout is applied only if route is Login, Register) --}}
-    @if(request()->routeIs('login') || request()->routeIs('guest.register.client.index'))
+    @if(request()->routeIs('login') || 
+        request()->routeIs('guest.register.client.create') || 
+        request()->routeIs('guest.register.therapist.create'))
+
         <div id="main" class="bg-light min-vh-100">
 
             <div class="container p-3">

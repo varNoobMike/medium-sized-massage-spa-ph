@@ -12,11 +12,13 @@ use App\Http\Controllers\AuthShared\AuthSharedLogoutController;
 use App\Http\Controllers\Client\ClientHomeController;
 use App\Http\Controllers\Guest\GuestHomeController;
 use App\Http\Controllers\Guest\GuestLoginController;
+use App\Http\Controllers\Guest\GuestRegisterTherapistController;
 // Client
 use App\Http\Controllers\Guest\GuestRegisterClientController;
 // Therapist
 use App\Http\Controllers\Therapist\TherapistDashboardController;
 use App\Http\Controllers\Therapist\TherapistWeeklyScheduleController;
+// Route facade
 use Illuminate\Support\Facades\Route;
 
 /******************************************************************************************** */
@@ -41,17 +43,27 @@ Route::middleware('redir_authenticated_by_role')->group(function () {
     Route::get('/', GuestHomeController::class)
         ->name('guest.home');
 
-    // shared Login
+    // Login Routes
     Route::get('login', [GuestLoginController::class, 'index'])
         ->name('login');  // Note: default route name 'login' for auth middleware redirection
     Route::post('login', [GuestLoginController::class, 'store'])
         ->name('login.store');
 
-    // Client Register
-    Route::get('register/user', [GuestRegisterClientController::class, 'index'])
-        ->name('guest.register.client.index');
-    Route::post('register/user', [GuestRegisterClientController::class, 'store'])
-        ->name('guest.register.client.store');
+    // Registration Routes
+    Route::prefix('register')->name('guest.register.')->group(function () {
+
+        // Client (User) Registration
+        // Note: resource routes are not used because the URL uses "user" instead of "client".
+        Route::get('user', [GuestRegisterClientController::class, 'create'])
+            ->name('client.create');
+        Route::post('user', [GuestRegisterClientController::class, 'store'])
+            ->name('client.store');
+
+        // Therapist Registration
+        Route::resource('therapist', GuestRegisterTherapistController::class)
+            ->only(['create', 'store']);
+
+    });
 
 });
 /******************************************************************************************** */
