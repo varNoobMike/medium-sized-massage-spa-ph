@@ -32,7 +32,6 @@ class Spa extends Model
     public function staffs()
     {
         return $this->belongsToMany(User::class, 'spa_staff', 'spa_id', 'user_id')
-            ->withPivot('is_current')
             ->withTimestamps();
     }
 }

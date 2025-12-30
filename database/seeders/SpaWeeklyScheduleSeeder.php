@@ -4,10 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\SpaWeeklySchedule;
 use App\Services\SpaContextService;
-use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class SpaWeeklyScheduleSeeder extends Seeder
 {
@@ -16,9 +14,33 @@ class SpaWeeklyScheduleSeeder extends Seeder
      */
     public function run(): void
     {
-        $spaID = SpaContextService::getMainBranchID(); // Main Branch Spa ID
 
-        $schedules = [
+        $scheduleSeedData = $this->seedData();
+        $spaID = SpaContextService::getMainBranchID(); // Spa main branch ID
+
+        DB::transaction(function () use ($spaID, $scheduleSeedData) {
+            foreach ($scheduleSeedData as $schedule) {
+
+                SpaWeeklySchedule::updateOrCreate(
+                    [
+                        'spa_id' => $spaID,
+                        'day_of_week' => $schedule['day_of_week'],
+                    ],
+                    [
+                        'open_time' => $schedule['open_time'],
+                        'close_time' => $schedule['close_time'],
+                    ]
+                );
+
+            }
+        });
+
+    }
+
+    // Weekly Schedules
+    private function seedData()
+    {
+        return [
             ['day_of_week' => 'Monday', 'open_time' => '08:00', 'close_time' => '17:00'],
             ['day_of_week' => 'Tuesday', 'open_time' => '08:00', 'close_time' => '17:00'],
             ['day_of_week' => 'Wednesday', 'open_time' => '08:00', 'close_time' => '17:00'],
@@ -28,26 +50,5 @@ class SpaWeeklyScheduleSeeder extends Seeder
             ['day_of_week' => 'Sunday', 'open_time' => '10:00', 'close_time' => '15:00'],
         ];
 
-        try {
-            DB::transaction(function () use ($spaID, $schedules) {
-                foreach ($schedules as $schedule) {
-                    SpaWeeklySchedule::updateOrCreate(
-                        [
-                            'spa_id' => $spaID,
-                            'day_of_week' => $schedule['day_of_week'],
-                        ],
-                        [
-                            'open_time' => $schedule['open_time'],
-                            'close_time' => $schedule['close_time'],
-                        ]
-                    );
-                }
-            });
-
-            $this->command->info("Spa weekly schedules seeded successfully for Spa ID: {$spaID}.");
-        } catch (Exception $e) {
-            Log::error('Failed to seed spa weekly schedules: '.$e->getMessage());
-            $this->command->error('Failed to seed spa weekly schedules. Check logs for details.');
-        }
     }
 }

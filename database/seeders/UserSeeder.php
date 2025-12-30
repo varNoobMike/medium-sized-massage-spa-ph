@@ -4,10 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Services\SpaContextService;
-use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class UserSeeder extends Seeder
 {
@@ -16,7 +14,34 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = [
+
+        $userSeedData = $this->seedData();
+        $spaID = SpaContextService::getMainBranchID(); // Spa main branch ID
+
+        DB::transaction(function () use ($userSeedData, $spaID) {
+
+            foreach ($userSeedData as $seed) {
+
+                $user = User::updateOrCreate(
+                    ['email' => $seed['email']],
+                    $seed
+                );
+
+                // Only for Staff
+                if ($user->role != 'Client') {
+                    // Attach to spa pivot table
+                    $user->spas()->sync([$spaID]);
+                }
+
+            }
+        });
+
+    }
+
+    // Users
+    private function seedData(): array
+    {
+        return [
             // Admin
             [
                 'email' => 'admin@example.com',
@@ -68,25 +93,5 @@ class UserSeeder extends Seeder
             ],
         ];
 
-        $spaID = SpaContextService::getMainBranchID(); // Main Branch Spa ID
-
-        try {
-            DB::transaction(function () use ($users, $spaID) {
-                foreach ($users as $data) {
-                    $user = User::updateOrCreate(
-                        ['email' => $data['email']],
-                        $data
-                    );
-
-                    // Attach to spa pivot table without detaching existing
-                    $user->spas()->syncWithoutDetaching([$spaID]);
-                }
-            });
-
-            $this->command->info("Users seeded successfully and linked to Spa ID: {$spaID}.");
-        } catch (Exception $e) {
-            Log::error('Failed to seed users: '.$e->getMessage());
-            $this->command->error('Failed to seed users. Check logs for details.');
-        }
     }
 }

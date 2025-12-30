@@ -56,7 +56,6 @@ class User extends Authenticatable
     public function spas()
     {
         return $this->belongsToMany(Spa::class, 'spa_staff', 'user_id', 'spa_id')
-            ->withPivot('is_current')
             ->withTimestamps();
     }
 }
