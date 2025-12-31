@@ -23,7 +23,7 @@ class TherapistWeeklyScheduleController extends Controller
         ], compact('therapistWeeklySchedules'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, string $id)
     {
 
         $therapist = User::findOrFail($id);

@@ -2,9 +2,10 @@
 
 @section('title', 'Login - Rose Massage Services')
 
-
 @section('breadcrumb')
+
     @foreach ( $breadcrumbs as $crumb)
+
         @if ($crumb['url'])
             <li class="breadcrumb-item">
                 <a href="{{ $crumb['url'] }}" class="text-dark">{{ $crumb['title'] }}</a>
@@ -14,11 +15,13 @@
                 {{ $crumb['title'] }}
             </li>
         @endif
+
     @endforeach
+
 @endsection
 
-
 @section('content')
+
     <div class="row justify-content-center align-items-center">
 
             <div class="col-md-5">
@@ -31,7 +34,7 @@
                         <h1 class="text-center mb-4">Login</h1>
 
                         {{-- Form --}}
-                        <form action="{{ route('login.store') }}" method="POST">
+                        <form action="{{ route('login') }}" method="POST">
 
                             @csrf
 
@@ -74,9 +77,12 @@
                         </form>
 
                     </div>
-                </div>
-            </div>
 
+                </div>
+
+            </div>
+            
     </div>
+
 @endsection
 

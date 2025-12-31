@@ -1,20 +1,13 @@
 <?php
 
 // Shared
-use App\Http\Controllers\Admin\AdminClientController;
 // Admin
-use App\Http\Controllers\Admin\AdminDashboardController;
-use App\Http\Controllers\Admin\AdminSpaProfileController;
 use App\Http\Controllers\Admin\AdminSpaWeeklyScheduleController;
-use App\Http\Controllers\Admin\AdminTherapistController;
-use App\Http\Controllers\AuthShared\AuthSharedLogoutController;
 // Guest
-use App\Http\Controllers\Client\ClientHomeController;
 use App\Http\Controllers\Guest\GuestHomeController;
-use App\Http\Controllers\Guest\GuestLoginController;
-use App\Http\Controllers\Guest\GuestRegisterTherapistController;
-// Client
 use App\Http\Controllers\Guest\GuestRegisterClientController;
+// Client
+use App\Http\Controllers\Guest\GuestRegisterTherapistController;
 // Therapist
 use App\Http\Controllers\Therapist\TherapistDashboardController;
 use App\Http\Controllers\Therapist\TherapistWeeklyScheduleController;
@@ -23,55 +16,53 @@ use Illuminate\Support\Facades\Route;
 
 /******************************************************************************************** */
 
-// Testings via URL
-Route::get('spa-profile', [AdminSpaProfileController::class, 'getSpaProfile']);
-Route::get('spa-weekly-schedules', [AdminSpaWeeklyScheduleController::class, 'getSpaWeeklySchedules']);
-Route::get('my-weekly-schedules', [TherapistWeeklyScheduleController::class, 'getTherapistWeeklySchedules']);
-Route::get('clients', [AdminClientController::class, 'getClients']);
-Route::get('therapists', [AdminTherapistController::class, 'getTherapists']);
 
-Route::get('/admin-id', function () {
-    echo \App\Services\UserContextService::getAdminID();
-});
 /******************************************************************************************** */
 
-/* Guest Routes (note: use custom middleware 'redir_authenticated_by_role' to redirect based on role
-instead of using default 'guest' middleware) */
+// Guest Routes 
 Route::middleware('redir_authenticated_by_role')->group(function () {
 
     // Home
     Route::get('/', GuestHomeController::class)
         ->name('guest.home');
 
-    // Login Routes
-    Route::get('login', [GuestLoginController::class, 'index'])
-        ->name('login');  // Note: default route name 'login' for auth middleware redirection
-    Route::post('login', [GuestLoginController::class, 'store'])
-        ->name('login.store');
-
     // Registration Routes
     Route::prefix('register')->name('guest.register.')->group(function () {
 
         // Client (User) Registration
-        // Note: resource routes are not used because the URL uses "user" instead of "client".
         Route::get('user', [GuestRegisterClientController::class, 'create'])
             ->name('client.create');
         Route::post('user', [GuestRegisterClientController::class, 'store'])
             ->name('client.store');
 
         // Therapist Registration
-        Route::resource('therapist', GuestRegisterTherapistController::class)
-            ->only(['create', 'store']);
+        Route::get('massage-therapist', [GuestRegisterTherapistController::class, 'create'])
+            ->name('therapist.create');
+        Route::post('massage-therapist', [GuestRegisterTherapistController::class, 'store'])
+            ->name('therapist.store');
 
     });
 
 });
+
+/******************************************************************************************** */
+// Authentication Routes at Guest State
+Route::middleware('redir_authenticated_by_role')->group(function () {
+    // Login
+    Route::get('login', [\App\Http\Controllers\Auth\LoginController::class, 'showForm'])
+        ->name('login');
+    Route::post('login', [\App\Http\Controllers\Auth\LoginController::class, 'submitForm'])
+        ->name('login');
+});
+
+// Authentication Routes at Auth State
+Route::middleware('auth')->group(function () {
+    // Logout
+    Route::post('/logout', [\App\Http\Controllers\Auth\LoginController::class, 'logout'])
+        ->name('logout');
+});
 /******************************************************************************************** */
 
-// authenticated user shared Logout
-Route::post('/logout', AuthSharedLogoutController::class)
-    ->middleware('auth')
-    ->name('logout.index');
 /******************************************************************************************** */
 
 // Admin
@@ -81,23 +72,23 @@ Route::middleware(['auth', 'role:Admin'])
     ->group(function () {
 
         // Dashboard
-        Route::get('dashboard', AdminDashboardController::class)
+        Route::get('dashboard', \App\Http\Controllers\Admin\DashboardController::class)
             ->name('dashboard.index');
 
         // Clients
-        Route::get('clients', [AdminClientController::class, 'index'])
+        Route::get('clients', [\App\Http\Controllers\Admin\ClientController::class, 'index'])
             ->name('clients.index');
 
         // Spa Profile
-        Route::get('spa-profile', [AdminSpaProfileController::class, 'index'])
+        Route::get('spa-profile', [\App\Http\Controllers\Admin\SpaProfileController::class, 'index'])
             ->name('spa-profile.index');
 
         // Therapists
-        Route::get('therapists', [AdminTherapistController::class, 'index'])
+        Route::get('therapists', [\App\Http\Controllers\Admin\TherapistController::class, 'index'])
             ->name('therapists.index');
 
         // Spa Weekly Schedules (index, update) only
-        Route::resource('spa-weekly-schedules', AdminSpaWeeklyScheduleController::class)
+        Route::resource('spa-weekly-schedules', \App\Http\Controllers\Admin\SpaWeeklyScheduleController::class)
             ->only(['index', 'update']);
 
     });
@@ -127,7 +118,7 @@ Route::middleware(['auth', 'role:Client'])
     ->group(function () {
 
         // Home
-        Route::get('/home', ClientHomeController::class)->name('home.index');
+        Route::get('home', \App\Http\Controllers\Client\HomeController::class)->name('home.index');
 
     });
 /******************************************************************************************** */

@@ -190,7 +190,7 @@
                                         <li><hr class="dropdown-divider"></li>
 
                                         <li>
-                                            <form method="POST" action="{{ route('logout.index') }}">
+                                            <form method="POST" action="{{ route('logout') }}">
                                                 @csrf
                                                 <button class="dropdown-item text-danger" onclick="return confirm('Confirm Logout?');"> 
                                                     <i class="bi bi-box-arrow-right me-2"></i>Logout

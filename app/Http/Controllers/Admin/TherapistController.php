@@ -3,13 +3,20 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Services\TherapistService;
 
-class AdminTherapistController extends Controller
+class TherapistController extends Controller
 {
+    protected $therapistService;
+
+    public function __construct(TherapistService $therapistService)
+    {
+        $this->therapistService = $therapistService;
+    }
+
     public function index()
     {
-        $therapists = $this->getTherapists();
+        $therapists = $this->therapistService->getAll();
 
         return view('admin.therapists', [
             'breadcrumbs' => [
@@ -18,11 +25,4 @@ class AdminTherapistController extends Controller
             ],
         ], compact('therapists'));
     }
-
-    // change to private later
-    public function getTherapists()
-    {
-        return User::where('role', 'Therapist')->orderBy('email')->get();
-    }
-
 }

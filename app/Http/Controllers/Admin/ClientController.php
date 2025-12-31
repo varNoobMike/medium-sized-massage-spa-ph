@@ -3,28 +3,27 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Services\ClientService;
 
-class AdminClientController extends Controller
+class ClientController extends Controller
 {
+    protected $clientService;
+
+    public function __construct(ClientService $clientService)
+    {
+        $this->clientService = $clientService;
+    }
+
     public function index()
     {
-        $clients = $this->getClients();
 
-        return view('admin.clients', [
+        $clients = $this->clientService->getAllServices();
+
+        return view('admin.client.index', [
             'breadcrumbs' => [
                 ['title' => 'Admin', 'url' => route('admin.dashboard.index')],
                 ['title' => 'Clients', 'url' => null],
             ],
         ], compact('clients'));
     }
-
-
-    // change to private later
-    public function getClients()
-    {
-        return User::where('role', 'Client')->orderBy('email')->get();
-    }
-
-
 }

@@ -1,28 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Services;
 
-use App\Http\Controllers\Controller;
 use App\Models\Spa;
 use App\Models\SpaWeeklySchedule;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class AdminSpaWeeklyScheduleController extends Controller
+class SpaWeeklyScheduleService
 {
-    public function index()
-    {
-        $weeklySchedules = $this->getSpaWeeklySchedules();
-
-        return view('admin.spa-weekly-schedules', [
-            'breadcrumbs' => [
-                ['title' => 'Admin', 'url' => route('admin.dashboard.index')],
-                ['title' => 'Spa Weekly Schedules', 'url' => null],
-            ],
-        ], compact('weeklySchedules'));
-    }
-
-    public function update(Request $request, $id)
+    public function upateWeeklySchedule(Request $request, string $id)
     {
 
         $spa = Spa::findOrFail($id);
@@ -63,8 +49,7 @@ class AdminSpaWeeklyScheduleController extends Controller
 
     }
 
-    // change to private later
-    public function getSpaWeeklySchedules()
+    public function getWeeklySchedules()
     {
         return SpaWeeklySchedule::with('spa:id,name,is_main_branch')
             ->whereHas('spa', function ($q) {

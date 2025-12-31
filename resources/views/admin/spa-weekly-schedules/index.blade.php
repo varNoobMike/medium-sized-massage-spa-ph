@@ -95,14 +95,7 @@
                                                     Edit
                                                 </button>
                                             </li>
-                                            <li>
-                                                <hr class="dropdown-divider"/>
-                                            </li>
-                                            <li>
-                                                <button class="dropdown-item text-danger">
-                                                    <i class="bi bi-trash me-2"></i>Delete
-                                                </button>
-                                            </li>
+                                           
                                         </ul>
                                     </div>
                                 </td>

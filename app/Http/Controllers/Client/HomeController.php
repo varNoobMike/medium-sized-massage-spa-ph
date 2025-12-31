@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
-class ClientHomeController extends Controller
+class HomeController extends Controller
 {
     public function __invoke()
     {
-       return view('client.home');
+        return view('client.home.index');
     }
 }
