@@ -1,4 +1,4 @@
-@extends('layouts.guest.app')
+@extends('layouts.auth.app')
 
 @section('title', 'Register as Therapist - Rose Massage Services')
 
@@ -32,16 +32,9 @@
                         <h1 class="text-center mb-4">Register</h1>
 
                         {{-- Form --}}
-                        <form action="{{ route('guest.register.therapist.store') }}" method="POST">
+                        <form action="{{ route('register.therapist.submit') }}" method="POST">
 
                             @csrf
-
-                            {{-- Alerts --}}
-                            @if (session('register_error'))
-                                <div class="alert alert-danger rounded-3 mb-4">
-                                    {{ session('register_error') }}
-                                </div>
-                            @endif
 
                             {{-- Email --}}
                             <div class="mb-4">

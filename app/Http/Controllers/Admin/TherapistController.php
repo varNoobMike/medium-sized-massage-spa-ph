@@ -18,7 +18,7 @@ class TherapistController extends Controller
     {
         $therapists = $this->therapistService->getAll();
 
-        return view('admin.therapists', [
+        return view('admin.therapist.index', [
             'breadcrumbs' => [
                 ['title' => 'Admin', 'url' => route('admin.dashboard.index')],
                 ['title' => 'Therapists', 'url' => null],

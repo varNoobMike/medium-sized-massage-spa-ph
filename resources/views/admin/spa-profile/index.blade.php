@@ -40,9 +40,15 @@
 
             <tbody>
 
-                @forelse ( $spaProfile as $profile)
+              
+                @if($spaProfile)
+
+                    @php
+                        $profile = $spaProfile;
+                    @endphp
+                    
                     <tr>
-                        <td>{{ $profile->name }}</td>
+                        <td>{{ $profile->company->name }}</td>
                         <td>{{ $profile->company->email }}</td>
                         <td>{{ $profile->company->phone }}</td>
                         <td>{{ $profile->company->logo ?? 'No Image' }}</td>
@@ -81,10 +87,9 @@
                         </td>
 
                     </tr>
+                
                     
-                @empty
-                    
-                @endforelse
+                @endif
 
             </tbody>
 

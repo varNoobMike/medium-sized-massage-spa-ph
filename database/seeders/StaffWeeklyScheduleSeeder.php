@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\StaffWeeklySchedule;
-use App\Services\UserContextService;
+use App\Services\TestService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -14,7 +14,7 @@ class StaffWeeklyScheduleSeeder extends Seeder
      */
     public function run(): void
     {
-        $scheduleSeedData = $this->seedData();
+        $scheduleSeedData = $this->getSeedData();
 
         DB::transaction(function () use ($scheduleSeedData) {
             foreach ($scheduleSeedData as $schedule) {
@@ -36,11 +36,11 @@ class StaffWeeklyScheduleSeeder extends Seeder
     }
 
     // Weekly Schedules
-    private function seedData(): array
+    private function getSeedData(): array
     {
-        $therapistA = UserContextService::getFirstTherapistID();
-        $therapistB = UserContextService::getSecondTherapistID();
-        $therapistC = UserContextService::getThirdTherapistID();
+        $therapistA = TestService::getFirstTherapist()->id;
+        $therapistB = TestService::getSecondTherapist()->id;
+        $therapistC = TestService::getThirdTherapist()->id;
 
         return [
             // Therapist A

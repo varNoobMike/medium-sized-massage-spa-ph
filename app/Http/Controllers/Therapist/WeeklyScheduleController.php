@@ -9,13 +9,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class TherapistWeeklyScheduleController extends Controller
+
+// to be refactored and fixed....
+class WeeklyScheduleController extends Controller
 {
     public function index()
     {
         $therapistWeeklySchedules = $this->getTherapistWeeklySchedules();
 
-        return view('therapist.weekly-schedules', [
+        return view('therapist.weekly-schedule.index', [
             'breadcrumbs' => [
                 ['title' => 'Admin', 'url' => route('therapist.dashboard.index')],
                 ['title' => 'My Weekly Schedules', 'url' => null],

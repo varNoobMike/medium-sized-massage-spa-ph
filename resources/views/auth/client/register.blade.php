@@ -1,9 +1,9 @@
-@extends('layouts.guest.app')
+@extends('layouts.auth.app')
 
 @section('title', 'Register as User - Rose Massage Services')
 
-
 @section('breadcrumb')
+
     @foreach ( $breadcrumbs as $crumb)
         @if ($crumb['url'])
             <li class="breadcrumb-item">
@@ -15,11 +15,11 @@
             </li>
         @endif
     @endforeach
+
 @endsection
 
-
-
 @section('content')
+
     <div class="row justify-content-center align-items-center">
 
             <div class="col-md-5">
@@ -32,16 +32,9 @@
                         <h1 class="text-center mb-4">Register</h1>
 
                         {{-- Form --}}
-                        <form action="{{ route('guest.register.client.store') }}" method="POST">
+                        <form action="{{ route('register.client.submit') }}" method="POST">
 
                             @csrf
-
-                            {{-- Alerts --}}
-                            @if (session('register_error'))
-                                <div class="alert alert-danger rounded-3 mb-4">
-                                    {{ session('register_error') }}
-                                </div>
-                            @endif
 
                             {{-- Email --}}
                             <div class="mb-4">
@@ -93,9 +86,12 @@
                         </form>
 
                     </div>
+
                 </div>
+
             </div>
 
     </div>
+
 @endsection
 

@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style-guest-auth-client.css') }}">
 </head>
 
+
 <body>
 
     {{-- Navbar --}}
@@ -39,7 +40,7 @@
                             <ul class="dropdown-menu shadow border-0 rounded-3">
                                 <h5 class="dropdown-header">Register as</h5>
                                 <li><a class="dropdown-item" href="{{ route('register.client') }}">User</a></li>
-                                <li><a class="dropdown-item" href="#">Therapist</a></li>
+                                <li><a class="dropdown-item" href="{{ route('register.therapist') }}">Therapist</a></li>
                             </ul>
                         </div>
                     </li>
@@ -51,12 +52,33 @@
         </div>
     </nav>
 
-    {{-- Below Navbar / Main --}}
-    <div id="main" class="min-vh-100">
-        @yield('content')
+
+
+
+    {{-- Below Navbar / Main  --}}
+    <div id="main" class="bg-light min-vh-100">
+
+        <div class="container p-3">
+
+            {{-- Breadcrumb --}}
+            <nav id="breadcrumb" aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb">
+                    @yield('breadcrumb')
+                </ol>
+            </nav> 
+
+            {{-- Content --}}
+            <div id="content" class="mt-4">
+                @yield('content')
+            </div>
+
+        </div>
+
     </div>
 
+    
     @include('partials.foot-script-shared')
+
 
 </body>
 

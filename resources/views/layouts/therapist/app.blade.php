@@ -47,14 +47,14 @@
                             </a>
                         </li>
 
-                        <li class="nav-item dropdown {{ request()->routeIs('therapist.weekly-schedules.index') ? 'bg-secondary rounded-3' : '' }}">
-                            <button class="nav-link {{ request()->routeIs('therapist.weekly-schedules.index') ? 'text-white' : 'text-dark' }}" data-bs-toggle="dropdown">
+                        <li class="nav-item dropdown {{ request()->routeIs('therapist.weekly-schedule.index') ? 'bg-secondary rounded-3' : '' }}">
+                            <button class="nav-link {{ request()->routeIs('therapist.weekly-schedule.index') ? 'text-white' : 'text-dark' }}" data-bs-toggle="dropdown">
                                 <i class="bi bi-calendar-event me-2"></i>
                                 My Schedules
                             </button>
                             <ul class="dropdown-menu rounded-3 shadow-sm">
                                 <li>
-                                    <a href="{{ route('therapist.weekly-schedules.index') }}" class="dropdown-item {{ request()->routeIs('admin.spa-weekly-schedules.index') ? 'text-bg-secondary' : 'text-dark' }}">
+                                    <a href="{{ route('therapist.weekly-schedule.index') }}" class="dropdown-item {{ request()->routeIs('admin.spa-weekly-schedule.index') ? 'text-bg-secondary' : 'text-dark' }}">
                                         <i class="bi bi-calendar-week me-2"></i>
                                         Weekly Schedules
                                     </a>
@@ -151,7 +151,7 @@
                                         <li><hr class="dropdown-divider"></li>
 
                                         <li>
-                                            <form method="POST" action="{{ route('logout.index') }}">
+                                            <form method="POST" action="{{ route('logout') }}">
                                                 @csrf
                                                 <button class="dropdown-item text-danger" onclick="return confirm('Confirm Logout?');"> 
                                                     <i class="bi bi-box-arrow-right me-2"></i>Logout

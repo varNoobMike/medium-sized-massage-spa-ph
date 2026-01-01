@@ -3,41 +3,33 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Auth\LoginRequest;
+use App\Services\Auth\LoginService;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function showForm()
+    protected $authService;
+
+    public function __construct(LoginService $authService){
+        $this->authService = $authService;
+    }
+
+
+    public function showLoginForm()
     {
         return view('auth.login', [
             'breadcrumbs' => [
-                ['title' => 'Home', 'url' => route('guest.home')],
+                ['title' => 'Home', 'url' => route('guest.home.index')],
                 ['title' => 'Login', 'url' => null],
             ],
         ]);
     }
 
-    public function submitForm(Request $request)
+    public function login(LoginRequest $request)
     {
-        // Validate the incoming request data
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
 
-        // Attempt to authenticate the user
-        if (! Auth::attempt($credentials)) {
-
-            // Back with error message
-            return back()
-                ->with('auth_error', 'Invalid email or password.')
-                ->onlyInput('email');
-
-        }
-
-        // Regenerate session to prevent fixation
-        $request->session()->regenerate();
+        $this->authService->login($request->validated());
 
         // Redirect based on role
         return match (Auth::user()->role) {
@@ -49,12 +41,9 @@ class LoginController extends Controller
 
     }
 
-    public function logout(Request $request)
+    public function logout()
     {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
+        $this->authService->logout();
         return redirect()->route('login');
     }
     

@@ -3,20 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Services\SpaProfileService;
+use App\Services\SpaService;
+
 
 class SpaProfileController extends Controller
 {
-    protected $spaProfileService;
+    protected $spaService;
 
-    public function __construct(SpaProfileService $spaProfileService)
+    public function __construct(SpaService $spaService)
     {
-        $this->spaProfileService = $spaProfileService;
+        $this->spaService = $spaService;
     }
 
     public function index()
     {
-        $spaProfile = $this->spaProfileService->getMainBranchProfile(); // Main Branch of Spa
+        $spaProfile = $this->spaService->getMainBranch(); // Main Branch of Spa
 
         return view('admin.spa-profile.index', [
             'breadcrumbs' => [

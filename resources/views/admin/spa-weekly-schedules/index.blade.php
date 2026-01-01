@@ -34,20 +34,11 @@
         }"
         >
 
-        {{-- Form Validation Errors --}}
-        @if ($errors->any())
-            <div class="alert alert-danger mb-4">
-                {{ $errors->first() }}
-            </div>
-        {{-- Runtime / DB error --}}
-        @elseif (session('error'))
-            <div class="alert alert-danger mb-4">
-                {{ session('error') }}
-            </div>
-        {{-- Success Message --}}
-        @elseif (session('success'))
+
+        {{-- Alert Success Message after Update --}}
+        @if (session('spa_weekly_schedule_update_success'))
             <div class="alert alert-success mb-4">
-                {{ session('success') }}
+                {{ session('spa_weekly_schedule_update_success') }}
             </div>
         @endif
 

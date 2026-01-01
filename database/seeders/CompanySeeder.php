@@ -14,7 +14,7 @@ class CompanySeeder extends Seeder
     public function run(): void
     {
 
-        $companySeedData = $this->seedData();
+        $companySeedData = $this->getSeedData();
 
         DB::transaction(function () use ($companySeedData) {
             Company::updateOrCreate(
@@ -30,7 +30,7 @@ class CompanySeeder extends Seeder
     }
 
     // Company
-    private function seedData()
+    private function getSeedData()
     {
         return
         ['name' => 'Rose Massage Services',

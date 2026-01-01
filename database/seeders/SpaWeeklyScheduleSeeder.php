@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\SpaWeeklySchedule;
-use App\Services\SpaContextService;
+use App\Services\SpaService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -15,15 +15,15 @@ class SpaWeeklyScheduleSeeder extends Seeder
     public function run(): void
     {
 
-        $scheduleSeedData = $this->seedData();
-        $spaID = SpaContextService::getMainBranchID(); // Spa main branch ID
+        $scheduleSeedData = $this->getSeedData();
+        $spaId = SpaService::getMainBranch()->id; // Spa main branch ID
 
-        DB::transaction(function () use ($spaID, $scheduleSeedData) {
+        DB::transaction(function () use ($spaId, $scheduleSeedData) {
             foreach ($scheduleSeedData as $schedule) {
 
                 SpaWeeklySchedule::updateOrCreate(
                     [
-                        'spa_id' => $spaID,
+                        'spa_id' => $spaId,
                         'day_of_week' => $schedule['day_of_week'],
                     ],
                     [
@@ -38,7 +38,7 @@ class SpaWeeklyScheduleSeeder extends Seeder
     }
 
     // Weekly Schedules
-    private function seedData()
+    private function getSeedData()
     {
         return [
             ['day_of_week' => 'Monday', 'open_time' => '08:00', 'close_time' => '17:00'],

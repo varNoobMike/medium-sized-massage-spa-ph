@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use App\Services\SpaContextService;
+use App\Services\SpaService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -15,10 +15,10 @@ class UserSeeder extends Seeder
     public function run(): void
     {
 
-        $userSeedData = $this->seedData();
-        $spaID = SpaContextService::getMainBranchID(); // Spa main branch ID
+        $userSeedData = $this->getSeedData();
+        $spaId = SpaService::getMainBranch()->id; // Spa main branch ID
 
-        DB::transaction(function () use ($userSeedData, $spaID) {
+        DB::transaction(function () use ($userSeedData, $spaId) {
 
             foreach ($userSeedData as $seed) {
 
@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
                 // Only for Staff
                 if ($user->role != 'Client') {
                     // Attach to spa pivot table
-                    $user->spas()->sync([$spaID]);
+                    $user->spas()->sync([$spaId]);
                 }
 
             }
@@ -39,14 +39,14 @@ class UserSeeder extends Seeder
     }
 
     // Users
-    private function seedData(): array
+    private function getSeedData(): array
     {
         return [
             // Admin
             [
                 'email' => 'admin@example.com',
                 'name' => 'Admin123',
-                'password' => 'admin-123', // auto hashed via User model cast
+                'password' => 'admin-123', 
                 'role' => 'Admin',
             ],
             // Therapist A

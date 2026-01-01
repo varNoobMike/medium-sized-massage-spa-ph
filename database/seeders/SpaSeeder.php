@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Spa;
-use App\Services\CompanyContextService;
+use App\Services\CompanyService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -15,14 +15,14 @@ class SpaSeeder extends Seeder
     public function run(): void
     {
     
-        $spaSeedData = $this->seedData();
-        $companyID = CompanyContextService::getCompanyID(); // Company ID
+        $spaSeedData = $this->getSeedData();
+        $companyId = CompanyService::getCompany()->id; // Company ID
 
-        DB::transaction(function () use ($spaSeedData, $companyID) {
+        DB::transaction(function () use ($spaSeedData, $companyId) {
             foreach ($spaSeedData as $spa) {
                 Spa::updateOrCreate(
                     ['name' => $spa['name']],
-                    array_merge($spa, ['company_id' => $companyID])
+                    array_merge($spa, ['company_id' => $companyId])
                 );
 
             }
@@ -31,7 +31,7 @@ class SpaSeeder extends Seeder
     }
 
     // Spas (Branches)
-    private function seedData()
+    private function getSeedData()
     {
         return [
             [

@@ -6,10 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class GuestHomeController extends Controller
+class HomeController extends Controller
 {
     public function __invoke()
     {
-        return view('guest.index');
+        return view('guest.home.index');
     }
 }

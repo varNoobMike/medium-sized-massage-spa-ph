@@ -15,4 +15,5 @@ class TherapistService
     {
         return User::where('role', 'Therapist')->orderBy('email')->get();
     }
+    
 }

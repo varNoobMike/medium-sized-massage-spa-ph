@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Therapist;
 
 use App\Http\Controllers\Controller;
 
-class TherapistDashboardController extends Controller
+class DashboardController extends Controller
 {
     public function __invoke()
     {
 
-        return view('therapist.dashboard', [
+        return view('therapist.dashboard.index', [
             'breadcrumbs' => [
                 ['title' => 'Therapist', 'url' => route('therapist.dashboard.index')],
                 ['title' => 'Dashboard', 'url' => null],

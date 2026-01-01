@@ -1,4 +1,4 @@
-@extends('layouts.guest.app')
+@extends('layouts.auth.app')
 
 @section('title', 'Login - Rose Massage Services')
 
@@ -34,20 +34,25 @@
                         <h1 class="text-center mb-4">Login</h1>
 
                         {{-- Form --}}
-                        <form action="{{ route('login') }}" method="POST">
+                        <form action="{{ route('login.submit') }}" method="POST">
 
                             @csrf
 
-                            {{-- Alerts --}}
-                            @if(session('auth_error'))
+
+                            {{-- Login Error Alert --}}
+                            @error('auth_error')
                                 <div class="alert alert-danger rounded-3 mb-4">
-                                    {{ session('auth_error') }}
+                                    {{ $message }}
                                 </div>
-                            @elseif(session('register_success'))
+                            @enderror
+
+                            {{-- Registration Success Alert after redirecting to this page --}}
+                            @if(session('register_success'))
                                 <div class="alert alert-success rounded-3 mb-4">
                                     {{ session('register_success') }}
                                 </div>
                             @endif
+
 
                             {{-- Email --}}
                             <div class="mb-4">

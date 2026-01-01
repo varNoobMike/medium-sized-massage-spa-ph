@@ -13,7 +13,7 @@ class ServiceSeeder extends Seeder
      */
     public function run(): void
     {
-        $serviceSeedData = $this->seedData();
+        $serviceSeedData = $this->getSeedData();
 
         DB::transaction(function () use ($serviceSeedData) {
             foreach ($serviceSeedData as $service) {
@@ -28,7 +28,7 @@ class ServiceSeeder extends Seeder
     }
 
     // Services
-    private function seedData()
+    private function getSeedData()
     {
         return [
             ['name' => 'Full Body Massage Soft', 'duration_minutes' => 60, 'price' => 1500.00],
