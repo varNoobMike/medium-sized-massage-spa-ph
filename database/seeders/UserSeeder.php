@@ -7,16 +7,17 @@ use App\Services\SpaService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
+
 class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
-    public function run(): void
+    public function run(SpaService $spaService): void
     {
 
         $userSeedData = $this->getSeedData();
-        $spaId = SpaService::getMainBranch()->id; // Spa main branch ID
+        $spaId = $spaService->getMainBranch()->id; // Spa main branch ID
 
         DB::transaction(function () use ($userSeedData, $spaId) {
 
@@ -29,7 +30,7 @@ class UserSeeder extends Seeder
 
                 // Only for Staff
                 if ($user->role != 'Client') {
-                    // Attach to spa pivot table
+                    // Attach to spa pivot table ('spa_staff')
                     $user->spas()->sync([$spaId]);
                 }
 
@@ -55,6 +56,7 @@ class UserSeeder extends Seeder
                 'name' => 'Therapist A',
                 'password' => 'therapist-a-123',
                 'role' => 'Therapist',
+                'approved_at' => now(),
             ],
             // Therapist B
             [
@@ -62,6 +64,7 @@ class UserSeeder extends Seeder
                 'name' => 'Therapist B',
                 'password' => 'therapist-b-123',
                 'role' => 'Therapist',
+                'approved_at' => now(),
             ],
             // Therapist C
             [
@@ -69,6 +72,7 @@ class UserSeeder extends Seeder
                 'name' => 'Therapist C',
                 'password' => 'therapist-c-123',
                 'role' => 'Therapist',
+                'approved_at' => now(),
             ],
             // Client A
             [

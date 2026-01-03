@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Spa;
+
 
 class Service extends Model
 {
@@ -17,5 +19,10 @@ class Service extends Model
         'price',
     ];
 
+    public function spas()
+    {
+        return $this->belongsToMany(Spa::class, 'spa_services', 'service_id', 'spa_id')
+            ->withTimestamps();
+    }
 
 }

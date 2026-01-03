@@ -26,7 +26,7 @@ Route::controller(App\Http\Controllers\Auth\loginController::class)->group(funct
 
     // Login
     Route::middleware('redir_authenticated_by_role')->group(function () {
-        Route::get('login', 'showLoginForm')->name('login'); // must use built-in route name 'login' by laravel
+        Route::get('login', 'showLoginForm')->name('login'); // use built-in route name 'login' by laravel
         Route::post('login', 'login')->name('login.submit');
     });
 
@@ -43,18 +43,17 @@ Route::controller(App\Http\Controllers\Auth\loginController::class)->group(funct
 Route::prefix('register')->name('register.')->group(function () {
 
     // Client (User) Registration
-    Route::get('user', [App\Http\Controllers\Auth\Client\RegisterController::class, 'showRegisterForm'])
+    Route::get('user', [App\Http\Controllers\Auth\RegisterClientUserController::class, 'showRegisterForm'])
         ->name('client');
-    Route::post('user', [App\Http\Controllers\Auth\Client\RegisterController::class, 'register'])
+    Route::post('user', [App\Http\Controllers\Auth\RegisterClientUserController::class, 'register'])
         ->name('client.submit');
 
     
     // Therapist Registration
-    Route::get('therapist', [App\Http\Controllers\Auth\Therapist\RegisterController::class, 'showRegisterForm'])
+    Route::get('therapist', [App\Http\Controllers\Auth\RegisterTherapistUserController::class, 'showRegisterForm'])
         ->name('therapist');
-    Route::post('therapist', [App\Http\Controllers\Auth\Therapist\RegisterController::class, 'register'])
-        ->name('therapist.submit');
-        
+    Route::post('therapist', [App\Http\Controllers\Auth\RegisterTherapistUserController::class, 'register'])
+        ->name('therapist.submit');   
 
 });
 
@@ -79,8 +78,10 @@ Route::middleware(['auth', 'role:Admin'])
             ->name('spa-profile.index');
 
         // Therapists
-        Route::get('therapists', [\App\Http\Controllers\Admin\TherapistController::class, 'index'])
+        Route::get('therapists', [\App\Http\Controllers\Admin\TherapistUserController::class, 'index'])
             ->name('therapists.index');
+        Route::put('therapists/{therapist}/approve', [\App\Http\Controllers\Admin\TherapistUserController::class, 'approve'])
+            ->name('therapists.approve');
 
         // Spa Weekly Schedules (index, update) only
         Route::resource('spa-weekly-schedules', \App\Http\Controllers\Admin\SpaWeeklyScheduleController::class)
@@ -100,7 +101,7 @@ Route::middleware(['auth', 'role:Therapist'])
         Route::get('dashboard', \App\Http\Controllers\Therapist\DashboardController::class)->name('dashboard.index');
 
         // Weekly Schedules (index, update) only
-        Route::resource('weekly-schedule', \App\Http\Controllers\Therapist\WeeklyScheduleController::class)
+        Route::resource('weekly-schedules', \App\Http\Controllers\Therapist\WeeklyScheduleController::class)
             ->only(['index', 'update']);
 
 });

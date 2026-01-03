@@ -23,7 +23,7 @@
                     <div class="mb-3 text-center">
                         <div class="fw-semibold">{{ auth()->user()->name }}</div>
 
-                        <span class="badge bg-secondary mt-1">
+                        <span class="badge bg-secondary rounded-3 px-2 mt-1">
                             {{ auth()->user()->role->name ?? 'Admin' }}
                         </span>
                     </div>
@@ -68,8 +68,8 @@
                             </a>
                         </li>
 
-                        <li class="nav-item dropdown {{ request()->routeIs('admin.spa-weekly-schedules.index') ? 'bg-secondary rounded-3' : '' }}">
-                            <button class="nav-link {{ request()->routeIs('admin.spa-weekly-schedules.index') ? 'text-white' : 'text-dark' }}" data-bs-toggle="dropdown">
+                        <li class="nav-item dropdown {{ request()->routeIs('admin.spa-weekly-schedules.*') ? 'bg-secondary rounded-3' : '' }}">
+                            <button class="nav-link {{ request()->routeIs('admin.spa-weekly-schedules.*') ? 'text-white' : 'text-dark' }}" data-bs-toggle="dropdown">
                                 <i class="bi bi-calendar-event me-2"></i>
                                 Spa Schedules
                             </button>

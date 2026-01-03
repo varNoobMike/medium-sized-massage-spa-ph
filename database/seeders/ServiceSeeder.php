@@ -3,24 +3,32 @@
 namespace Database\Seeders;
 
 use App\Models\Service;
+use App\Services\SpaService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Exception;
 
 class ServiceSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
-    public function run(): void
+    public function run(SpaService $spaService): void
     {
         $serviceSeedData = $this->getSeedData();
 
-        DB::transaction(function () use ($serviceSeedData) {
+        $spaId = $spaService->getMainBranch()->id; // Spa main branch ID
+
+        DB::transaction(function () use ($serviceSeedData, $spaId) {
             foreach ($serviceSeedData as $service) {
-                Service::updateOrCreate(
+
+                $service = Service::updateOrCreate(
                     ['name' => $service['name']],
                     $service
                 );
+
+                // Attach at pivot table ('spa_services')
+                $service->spas()->sync([$spaId]);
 
             }
         });

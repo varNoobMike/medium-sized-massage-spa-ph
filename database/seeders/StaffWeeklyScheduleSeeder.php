@@ -9,12 +9,20 @@ use Illuminate\Support\Facades\DB;
 
 class StaffWeeklyScheduleSeeder extends Seeder
 {
+
+
     /**
      * Run the database seeds.
      */
-    public function run(): void
+    public function run(TestService $testService): void
     {
-        $scheduleSeedData = $this->getSeedData();
+
+        $therapistOneId = $testService->getFirstTherapist()->id;
+        $therapistTwoId = $testService->getSecondTherapist()->id;
+        $therapistThreeId = $testService->getThirdTherapist()->id;
+
+        $scheduleSeedData = $this->getSeedData($therapistOneId, $therapistTwoId, $therapistThreeId);
+
 
         DB::transaction(function () use ($scheduleSeedData) {
             foreach ($scheduleSeedData as $schedule) {
@@ -35,40 +43,36 @@ class StaffWeeklyScheduleSeeder extends Seeder
 
     }
 
-    // Weekly Schedules
-    private function getSeedData(): array
+    // Weekly Schedules (tests schedules for therapists) may removed later...
+    private function getSeedData(int $therapistOneId, int $therapistTwoId, int $therapistThreeId): array
     {
-        $therapistA = TestService::getFirstTherapist()->id;
-        $therapistB = TestService::getSecondTherapist()->id;
-        $therapistC = TestService::getThirdTherapist()->id;
-
         return [
             // Therapist A
-            ['user_id' => $therapistA, 'day_of_week' => 'Monday', 'start_time' => '08:00', 'end_time' => '17:00'],
-            ['user_id' => $therapistA, 'day_of_week' => 'Tuesday', 'start_time' => '08:00', 'end_time' => '17:00'],
-            ['user_id' => $therapistA, 'day_of_week' => 'Wednesday', 'start_time' => '08:00', 'end_time' => '17:00'],
-            ['user_id' => $therapistA, 'day_of_week' => 'Thursday', 'start_time' => '08:00', 'end_time' => '17:00'],
-            ['user_id' => $therapistA, 'day_of_week' => 'Friday', 'start_time' => '08:00', 'end_time' => '17:00'],
-            ['user_id' => $therapistA, 'day_of_week' => 'Saturday', 'start_time' => '01:00', 'end_time' => '14:00'],
-            ['user_id' => $therapistA, 'day_of_week' => 'Sunday', 'start_time' => '10:00', 'end_time' => '15:00'],
+            ['user_id' => $therapistOneId, 'day_of_week' => 'Monday', 'start_time' => '08:00', 'end_time' => '17:00'],
+            ['user_id' => $therapistOneId, 'day_of_week' => 'Tuesday', 'start_time' => '08:00', 'end_time' => '17:00'],
+            ['user_id' => $therapistOneId, 'day_of_week' => 'Wednesday', 'start_time' => '08:00', 'end_time' => '17:00'],
+            ['user_id' => $therapistOneId, 'day_of_week' => 'Thursday', 'start_time' => '08:00', 'end_time' => '17:00'],
+            ['user_id' => $therapistOneId, 'day_of_week' => 'Friday', 'start_time' => '08:00', 'end_time' => '17:00'],
+            ['user_id' => $therapistOneId, 'day_of_week' => 'Saturday', 'start_time' => '01:00', 'end_time' => '14:00'],
+            ['user_id' => $therapistOneId, 'day_of_week' => 'Sunday', 'start_time' => '10:00', 'end_time' => '15:00'],
 
             // Therapist B
-            ['user_id' => $therapistB, 'day_of_week' => 'Monday', 'start_time' => '08:00', 'end_time' => '17:00'],
-            ['user_id' => $therapistB, 'day_of_week' => 'Tuesday', 'start_time' => '08:00', 'end_time' => '17:00'],
-            ['user_id' => $therapistB, 'day_of_week' => 'Wednesday', 'start_time' => '08:00', 'end_time' => '17:00'],
-            ['user_id' => $therapistB, 'day_of_week' => 'Thursday', 'start_time' => '08:00', 'end_time' => '17:00'],
-            ['user_id' => $therapistB, 'day_of_week' => 'Friday', 'start_time' => '08:00', 'end_time' => '17:00'],
-            ['user_id' => $therapistB, 'day_of_week' => 'Saturday', 'start_time' => '01:00', 'end_time' => '14:00'],
-            ['user_id' => $therapistB, 'day_of_week' => 'Sunday', 'start_time' => '10:00', 'end_time' => '15:00'],
+            ['user_id' => $therapistTwoId, 'day_of_week' => 'Monday', 'start_time' => '08:00', 'end_time' => '17:00'],
+            ['user_id' => $therapistTwoId, 'day_of_week' => 'Tuesday', 'start_time' => '08:00', 'end_time' => '17:00'],
+            ['user_id' => $therapistTwoId, 'day_of_week' => 'Wednesday', 'start_time' => '08:00', 'end_time' => '17:00'],
+            ['user_id' => $therapistTwoId, 'day_of_week' => 'Thursday', 'start_time' => '08:00', 'end_time' => '17:00'],
+            ['user_id' => $therapistTwoId, 'day_of_week' => 'Friday', 'start_time' => '08:00', 'end_time' => '17:00'],
+            ['user_id' => $therapistTwoId, 'day_of_week' => 'Saturday', 'start_time' => '01:00', 'end_time' => '14:00'],
+            ['user_id' => $therapistTwoId, 'day_of_week' => 'Sunday', 'start_time' => '10:00', 'end_time' => '15:00'],
 
             // Therapist C
-            ['user_id' => $therapistC, 'day_of_week' => 'Monday', 'start_time' => '08:00', 'end_time' => '17:00'],
-            ['user_id' => $therapistC, 'day_of_week' => 'Tuesday', 'start_time' => '08:00', 'end_time' => '17:00'],
-            ['user_id' => $therapistC, 'day_of_week' => 'Wednesday', 'start_time' => '08:00', 'end_time' => '17:00'],
-            ['user_id' => $therapistC, 'day_of_week' => 'Thursday', 'start_time' => '08:00', 'end_time' => '17:00'],
-            ['user_id' => $therapistC, 'day_of_week' => 'Friday', 'start_time' => '08:00', 'end_time' => '17:00'],
-            ['user_id' => $therapistC, 'day_of_week' => 'Saturday', 'start_time' => '01:00', 'end_time' => '14:00'],
-            ['user_id' => $therapistC, 'day_of_week' => 'Sunday', 'start_time' => '10:00', 'end_time' => '15:00'],
+            ['user_id' => $therapistThreeId, 'day_of_week' => 'Monday', 'start_time' => '08:00', 'end_time' => '17:00'],
+            ['user_id' => $therapistThreeId, 'day_of_week' => 'Tuesday', 'start_time' => '08:00', 'end_time' => '17:00'],
+            ['user_id' => $therapistThreeId, 'day_of_week' => 'Wednesday', 'start_time' => '08:00', 'end_time' => '17:00'],
+            ['user_id' => $therapistThreeId, 'day_of_week' => 'Thursday', 'start_time' => '08:00', 'end_time' => '17:00'],
+            ['user_id' => $therapistThreeId, 'day_of_week' => 'Friday', 'start_time' => '08:00', 'end_time' => '17:00'],
+            ['user_id' => $therapistThreeId, 'day_of_week' => 'Saturday', 'start_time' => '01:00', 'end_time' => '14:00'],
+            ['user_id' => $therapistThreeId, 'day_of_week' => 'Sunday', 'start_time' => '10:00', 'end_time' => '15:00'],
         ];
     }
 }

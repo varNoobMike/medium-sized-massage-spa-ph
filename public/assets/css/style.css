@@ -16,9 +16,26 @@
 }
 
 
+/*
+.modal .modal-dialog .modal-content {
+    border-radius: 30px !important;
+}
+*/
+
 
 body {
     font-family: var(--font);
+}
+
+
+
+/* hero for Client */
+#hero {
+    height: 70vh;
+    background: url('/storage/spa-images/full-body.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
 
 

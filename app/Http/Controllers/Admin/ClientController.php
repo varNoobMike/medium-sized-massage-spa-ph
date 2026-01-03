@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Services\ClientService;
+use App\Services\ClientUserService;
 
 class ClientController extends Controller
 {
-    protected $clientService;
+    private ClientUserService $clientService;
 
-    public function __construct(ClientService $clientService)
+    public function __construct(ClientUserService $clientService)
     {
         $this->clientService = $clientService;
     }
@@ -17,7 +17,7 @@ class ClientController extends Controller
     public function index()
     {
 
-        $clients = $this->clientService->getAllServices();
+        $clients = $this->clientService->getAll();
 
         return view('admin.client.index', [
             'breadcrumbs' => [

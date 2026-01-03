@@ -23,7 +23,7 @@
                     <div class="mb-3 text-center">
                         <div class="fw-semibold">{{ auth()->user()->name }}</div>
 
-                        <span class="badge bg-secondary mt-1">
+                        <span class="badge bg-secondary rounded-3 mt-1">
                             {{ auth()->user()->role->name ?? 'Therapist' }}
                         </span>
                     </div>
@@ -47,14 +47,14 @@
                             </a>
                         </li>
 
-                        <li class="nav-item dropdown {{ request()->routeIs('therapist.weekly-schedule.index') ? 'bg-secondary rounded-3' : '' }}">
-                            <button class="nav-link {{ request()->routeIs('therapist.weekly-schedule.index') ? 'text-white' : 'text-dark' }}" data-bs-toggle="dropdown">
+                        <li class="nav-item dropdown {{ request()->routeIs('therapist.weekly-schedules.*') ? 'bg-secondary rounded-3' : '' }}">
+                            <button class="nav-link {{ request()->routeIs('therapist.weekly-schedules.*') ? 'text-white' : 'text-dark' }}" data-bs-toggle="dropdown">
                                 <i class="bi bi-calendar-event me-2"></i>
                                 My Schedules
                             </button>
                             <ul class="dropdown-menu rounded-3 shadow-sm">
                                 <li>
-                                    <a href="{{ route('therapist.weekly-schedule.index') }}" class="dropdown-item {{ request()->routeIs('admin.spa-weekly-schedule.index') ? 'text-bg-secondary' : 'text-dark' }}">
+                                    <a href="{{ route('therapist.weekly-schedules.index') }}" class="dropdown-item {{ request()->routeIs('admin.spa-weekly-schedules.index') ? 'text-bg-secondary' : 'text-dark' }}">
                                         <i class="bi bi-calendar-week me-2"></i>
                                         Weekly Schedules
                                     </a>
@@ -181,22 +181,30 @@
                         </ol>
                     </nav>
 
-                    {{-- Page Heading --}}
-                    <div id="page-heading">
-                        <h4 class="fw-semibold mb-0">@yield('page-heading')</h4>
-                        <p class="text-muted small mb-0">@yield('page-heading-small')</p>
-                    </div>
+                  
 
-                    {{-- Content --}}
-                    <div id="content" class="mt-4">
-                        @yield('content')
-                    </div>
+                    @if(!auth()->user()->approved_at)
+                        <h3 class="text-center mb-1 mt-5">Your account is pending approval.</h3>
+                        <p class="text-center">Please wait for the administrator to activate your access.</p>
+                    @else
+                        {{-- Page Heading --}}
+                        <div id="page-heading">
+                            <h4 class="fw-semibold mb-0">@yield('page-heading')</h4>
+                            <p class="text-muted small mb-0">@yield('page-heading-small')</p>
+                        </div> 
+
+                        {{-- Content --}}
+                        <div id="content" class="mt-4">
+                            @yield('content')
+                        </div>
+                    @endif
 
                 </div>
 
             </div>
 
         </div>
+
     </div>
 
     @include('partials.foot-script-shared')

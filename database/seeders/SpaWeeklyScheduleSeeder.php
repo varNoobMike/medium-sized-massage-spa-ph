@@ -12,11 +12,13 @@ class SpaWeeklyScheduleSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run(): void
+    public function run(SpaService $spaService): void
     {
 
         $scheduleSeedData = $this->getSeedData();
-        $spaId = SpaService::getMainBranch()->id; // Spa main branch ID
+
+        $spaId = $spaService->getMainBranch()->id; // Spa main branch ID
+
 
         DB::transaction(function () use ($spaId, $scheduleSeedData) {
             foreach ($scheduleSeedData as $schedule) {

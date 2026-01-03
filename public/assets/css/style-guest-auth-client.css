@@ -1,9 +1,0 @@
-/* Shared stylings for both 'Guest' and 'Client' */
-
-#hero {
-    height: 70vh;
-    background: url('/storage/spa-images/full-body.jpg');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-}

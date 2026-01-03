@@ -21,16 +21,29 @@
 
 @section('content')
 
+
+        {{-- Alert Update Weekly Schedule Error --}}
+        @if($errors->any())
+            <div class="alert alert-danger rounded-3 mb-4">
+                {{ $errors->first() }}
+            </div>
+        {{-- Alert Update Weekly Schedule Success --}}
+        @elseif(session('approve_client_success'))
+            <div class="alert alert-success rounded-3 mb-4">
+                {{ session('approve_client_success') }}
+            </div>
+        @endif
+
+
         {{-- Table --}}
         <table class="table table-hover">
 
             <thead>
                 <tr>
-                    <th>Email</th>
-                    <th>Name</th>
-                    <th>Email Verified At</th>
-                    <th>Date Registered At</th>
-                    <th>Action</th>
+                    <th class="p-3">Email</th>
+                    <th class="p-3">Name</th>
+                    <th class="p-3">Email Verified At</th>
+                    <th class="p-3">Action</th>
                 </tr>
             </thead>
 
@@ -38,13 +51,12 @@
 
                 @forelse ( $clients as $client)
                     <tr>
-                        <td>{{ $client->email }}</td>
-                        <td>{{ $client->name }}</td>
-                        <td>{{ $client->email_verified_at ?? 'Unverified' }}</td>
-                        <td>{{ $client->created_at }}</td>
+                        <td class="p-3">{{ $client->email }}</td>
+                        <td class="p-3">{{ $client->name }}</td>
+                        <td class="p-3">{{ $client->email_verified_at ?? 'Unverified' }}</td>
 
                         {{-- Dropdown Action --}}
-                        <td>
+                        <td class="p-3">
 
                             <div class="dropdown">
 
@@ -53,14 +65,13 @@
                                 </button>
 
                                 <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3">
+
                                     <li>
                                         <a href="" class="dropdown-item">
                                             <i class="bi bi-eye me-2"></i>View
                                         </a>
                                     </li>
                                   
-                                    
-                        
                                 </ul>
 
                             </div>

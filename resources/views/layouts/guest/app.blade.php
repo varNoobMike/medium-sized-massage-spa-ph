@@ -3,7 +3,6 @@
 
 <head>
     @include('partials.head-meta')
-    <link rel="stylesheet" href="{{ asset('assets/css/style-guest-auth-client.css') }}">
 </head>
 
 <body>

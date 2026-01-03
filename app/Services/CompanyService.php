@@ -6,9 +6,11 @@ use App\Models\Company;
 
 class CompanyService
 {
-    // is for seeding also and so is set to 'static'
-    public static function getCompany()
+
+    // the one and only company
+    public function getOne()
     {
         return Company::first();
     }
+    
 }

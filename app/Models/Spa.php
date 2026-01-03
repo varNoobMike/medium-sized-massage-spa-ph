@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Service;
 
 class Spa extends Model
 {
@@ -27,6 +28,12 @@ class Spa extends Model
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function services()
+    {
+        return $this->belongsToMany(Service::class, 'spa_services', 'spa_id', 'service_id')
+            ->withTimestamps();
     }
 
     public function staffs()

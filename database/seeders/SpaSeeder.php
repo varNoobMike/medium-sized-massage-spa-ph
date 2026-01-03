@@ -12,11 +12,12 @@ class SpaSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run(): void
+    public function run(CompanyService $companyService): void
     {
     
         $spaSeedData = $this->getSeedData();
-        $companyId = CompanyService::getCompany()->id; // Company ID
+
+        $companyId = $companyService->getCompany()->id; // Company ID
 
         DB::transaction(function () use ($spaSeedData, $companyId) {
             foreach ($spaSeedData as $spa) {

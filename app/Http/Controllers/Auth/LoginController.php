@@ -3,15 +3,16 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
-use App\Services\Auth\LoginService;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\LoginRequest;
+use App\Services\AuthService;
+
 
 class LoginController extends Controller
 {
-    protected $authService;
 
-    public function __construct(LoginService $authService){
+    private AuthService $authService;
+
+    public function __construct(AuthService $authService){
         $this->authService = $authService;
     }
 
@@ -26,25 +27,29 @@ class LoginController extends Controller
         ]);
     }
 
+
     public function login(LoginRequest $request)
     {
-
-        $this->authService->login($request->validated());
+     
+        $validated = $request->validated();
+        $user = $this->authService->login($validated);
 
         // Redirect based on role
-        return match (Auth::user()->role) {
+        return match ($user->role) {
             'Admin' => redirect()->route('admin.dashboard.index'),
             'Therapist' => redirect()->route('therapist.dashboard.index'),
             'Client' => redirect()->route('client.home.index'),
-            default => redirect('/'),
+             default => redirect('/'), // or change to abort later...
         };
-
+        
     }
+
 
     public function logout()
     {
         $this->authService->logout();
         return redirect()->route('login');
     }
+
     
 }

@@ -1,7 +1,6 @@
+@extends('layouts.admin.app')
 
-@extends('layouts.therapist.app')
-
-@section('title', 'My Weekly Schedules')
+@section('title', 'Spa Weekly Schedules')
 
 @section('breadcrumb')
     @foreach ( $breadcrumbs as $crumb)
@@ -17,9 +16,8 @@
     @endforeach
 @endsection
 
-@section('page-heading', 'My Weekly Schedules')
+@section('page-heading', 'Spa Weekly Schedules')
 @section('page-heading-small', 'Lorem ipsum dolor set amet.')
-
 
 @section('content')
 
@@ -29,26 +27,25 @@
             form: {
                 schedule_id: null,
                 day_of_week: '',
-                start_time: '',
-                end_time: ''
+                open_time: '',
+                close_time: ''
             }
         }"
         >
 
 
-        {{-- Alert Update Weekly Schedule Error --}}
+        {{-- alert weekly schedule update error --}}
         @if($errors->any())
             <div class="alert alert-danger rounded-3 mb-4">
                 {{ $errors->first() }}
             </div>
-        {{-- Alert Update Weekly Schedule Success --}}
-        @elseif(session('staff_weekly_schedule_update_success'))
+        {{-- alert weekly schedule update success --}}
+        @elseif(session('spa_weekly_schedule_update_success'))
             <div class="alert alert-success rounded-3 mb-4">
-                {{ session('staff_weekly_schedule_update_success') }}
+                {{ session('spa_weekly_schedule_update_success') }}
             </div>
         @endif
         
-
         
         {{-- Weekly Schedules Table --}} 
         <div class="table-responsive">
@@ -61,14 +58,13 @@
                             <th class="p-3">Action</th>
                         </tr>
                     </thead>
-
                     <tbody>
 
                         @forelse ( $weeklySchedules as $schedule)
                             <tr>
                                 <td class="p-3">{{ $schedule->day_of_week }}</td>
-                                <td class="p-3">{{ \Carbon\Carbon::parse($schedule->start_time)->format('g:i A') }}</td>
-                                <td class="p-3">{{ \Carbon\Carbon::parse($schedule->end_time)->format('g:i A') }}</td>
+                                <td class="p-3">{{ \Carbon\Carbon::parse($schedule->open_time)->format('g:i A') }}</td>
+                                <td class="p-3">{{ \Carbon\Carbon::parse($schedule->close_time)->format('g:i A') }}</td>
                                 
                                 <td class="p-3">
                                     <div class="dropdown">
@@ -84,63 +80,55 @@
                                             <li>
                                                 <button class="dropdown-item" 
                                                     data-bs-toggle="modal" 
-                                                    data-bs-target="#therapist-weekly-schedule-edit-modal"
+                                                    data-bs-target="#spa-weekly-schedule-edit-modal"
                                                     @click="
                                                         form.schedule_id = @js($schedule->id);
                                                         form.day_of_week = @js($schedule->day_of_week);
-                                                        form.start_time = @js(\Carbon\Carbon::parse($schedule->start_time)->format('H:i'));
-                                                        form.end_time = @js(\Carbon\Carbon::parse($schedule->end_time)->format('H:i'));"
+                                                        form.open_time = @js(\Carbon\Carbon::parse($schedule->open_time)->format('H:i'));
+                                                        form.close_time = @js(\Carbon\Carbon::parse($schedule->close_time)->format('H:i'));"
                                                 >
                                                     <i class="bi bi-pencil me-2"></i>
                                                     Edit
                                                 </button>
-                                            </li>
-                                            
+                                            </li>   
                                         </ul>
                                     </div>
                                 </td>
-                            </tr>
-
+                            </tr> 
                         @empty
                         <tr>
-                            <td class="text-center" colspan="5">Schedule not found.</td>
-                        </tr>
-                            
+                            <td class="text-center" colspan="5">Schedules not found.</td>
+                        </tr> 
                         @endforelse
 
                     </tbody>
-
             </table>
-
         </div>
         
+        
         {{-- Edit Modal) --}}
-        <div id="therapist-weekly-schedule-edit-modal" class="modal fade" tabindex="-1" aria-hidden="true"
+        <div id="spa-weekly-schedule-edit-modal" class="modal fade" tabindex="-1" aria-hidden="true"
             @hidden.bs.modal="
             form.schedule_id = null;
             form.day_of_week = '';
-            form.start_time = '';
-            form.end_time = '';">
+            form.open_time = '';
+            form.close_time = '';">
 
             <div class="modal-dialog">
-
                 <div class="modal-content rounded-3">
-
                     <div class="modal-header">
                         <h5 class="modal-title fw-semibold">Edit Schedule</h5>
                     </div>
-
                     <div class="modal-body">
 
                         {{-- Form --}}
                         <form 
-                            :action="`{{ url('therapist/weekly-schedules') }}/${form.schedule_id}`" 
+                            :action="`{{ url('admin/spa-weekly-schedules') }}/${form.schedule_id}`" 
                             method="POST"
                             @submit.prevent="
                             if (loading) return;
                             loading = true;
-                            $el.submit();
-                        ">
+                            $el.submit(); ">
 
                             @csrf
                             @method('PUT')
@@ -152,16 +140,16 @@
                                 <input type="text" readonly class="form-control rounded-3" name="day_of_week" x-model="form.day_of_week">
                             </div>
 
-                            {{-- Start Time --}}
+                            {{-- Open TIme --}}
                             <div class="mb-4">
-                                <label for="" class="form-label">Start Time</label>
-                                <input type="time" class="form-control rounded-3" name="start_time" x-model="form.start_time">
+                                <label for="" class="form-label">Open Time</label>
+                                <input type="time" class="form-control rounded-3" name="open_time" x-model="form.open_time">
                             </div>
 
-                            {{-- End Time --}}
+                            {{-- Close Time --}}
                             <div class="mb-4">
-                                <label for="" class="form-label">End Time</label>
-                                <input type="time" class="form-control rounded-3" name="end_time" x-model="form.end_time">
+                                <label for="" class="form-label">Close Time</label>
+                                <input type="time" class="form-control rounded-3" name="close_time" x-model="form.close_time">
                             </div>
 
                             {{-- Submit Button --}}
@@ -173,19 +161,13 @@
                                     aria-hidden="true">
                                 </span>
                             </button>
-
                         </form>
 
                     </div>
-
                 </div>
-
-            </div>
-            
+            </div>   
         </div>
-
     </div>
-
 @endsection
 
 

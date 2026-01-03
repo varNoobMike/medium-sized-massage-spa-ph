@@ -36,6 +36,13 @@
 
                             @csrf
 
+
+                            @if($errors->any())
+                                <div class="alert alert-danger rounded-3 mb-4">
+                                    {{ $errors->first() }}
+                                </div>
+                            @endif
+
                             {{-- Email --}}
                             <div class="mb-4">
                                 <label for="" class="form-label">Email</label>

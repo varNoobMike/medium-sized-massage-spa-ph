@@ -48,6 +48,19 @@ class User extends Authenticatable
         ];
     }
 
+    public const ROLE_ADMIN = 'Admin';
+    public const ROLE_STAFF = 'Staff';
+    public const ROLE_THERAPIST = 'Therapist';
+    public const ROLE_CLIENT = 'Client';
+
+
+    public const ROLES = [
+        self::ROLE_ADMIN,
+        self::ROLE_STAFF,
+        self::ROLE_THERAPIST,
+        self::ROLE_CLIENT
+    ];
+
     public function staffWeeklySchedules()
     {
         return $this->hasMany(StaffWeeklySchedule::class, 'user_id');

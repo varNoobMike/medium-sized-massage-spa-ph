@@ -28,13 +28,13 @@
 
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Logo</th>
-                    <th>Location</th>
-                    <th>Total Beds</th>
-                    <th>Action</th>
+                    <th class="p-3">Name</th>
+                    <th class="p-3">Email</th>
+                    <th class="p-3">Phone</th>
+                    <th class="p-3">Logo</th>
+                    <th class="p-3">Location</th>
+                    <th class="p-3">Total Beds</th>
+                    <th class="p-3">Action</th>
                 </tr>
             </thead>
 
@@ -48,15 +48,15 @@
                     @endphp
                     
                     <tr>
-                        <td>{{ $profile->company->name }}</td>
-                        <td>{{ $profile->company->email }}</td>
-                        <td>{{ $profile->company->phone }}</td>
-                        <td>{{ $profile->company->logo ?? 'No Image' }}</td>
-                        <td>{{ $profile->location }}</td>
-                        <td>{{ $profile->total_beds }}</td>
+                        <td class="p-3">{{ $profile->company->name }}</td>
+                        <td class="p-3">{{ $profile->company->email }}</td>
+                        <td class="p-3">{{ $profile->company->phone }}</td>
+                        <td class="p-3">{{ $profile->company->logo ?? 'No Image' }}</td>
+                        <td class="p-3">{{ $profile->location }}</td>
+                        <td class="p-3">{{ $profile->total_beds }}</td>
 
                         {{-- Dropdown Action --}}
-                        <td>
+                        <td class="p-3">
 
                             <div class="dropdown">
 

@@ -8,7 +8,7 @@ use App\Services\SpaService;
 
 class SpaProfileController extends Controller
 {
-    protected $spaService;
+    private SpaService $spaService;
 
     public function __construct(SpaService $spaService)
     {
