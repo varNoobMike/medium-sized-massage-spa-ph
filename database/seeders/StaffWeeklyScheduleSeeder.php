@@ -37,10 +37,8 @@ class StaffWeeklyScheduleSeeder extends Seeder
                         'end_time' => $schedule['end_time'],
                     ]
                 );
-
             }
         });
-
     }
 
     // Weekly Schedules (tests schedules for therapists) may removed later...

@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\Spa;
 use App\Models\Service;
 
 class ServiceService
@@ -11,9 +10,6 @@ class ServiceService
     public function getAll()
     {
         return Service::orderBy('name')
-            ->orderBy('name')
             ->get();
     }
-
-    
 }

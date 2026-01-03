@@ -1,9 +1,8 @@
 @extends('layouts.admin.app')
 
-@section('title', 'Spa Profile')
+@section('title', 'Clients')
 
 @section('breadcrumb')
-
 @foreach ( $breadcrumbs as $crumb)
 @if ($crumb['url'])
 <li class="breadcrumb-item">
@@ -15,45 +14,46 @@
 </li>
 @endif
 @endforeach
-
 @endsection
 
-@section('page-heading', 'Spa Profile')
+@section('page-heading', 'Clients')
 @section('page-heading-small', 'Lorem ipsum dolor set amet.')
 
 @section('content')
+
+
+{{-- Alert Update Weekly Schedule Error --}}
+@if($errors->any())
+<div class="alert alert-danger rounded-3 mb-4">
+    {{ $errors->first() }}
+</div>
+{{-- Alert Update Weekly Schedule Success --}}
+@elseif(session('approve_client_success'))
+<div class="alert alert-success rounded-3 mb-4">
+    {{ session('approve_client_success') }}
+</div>
+@endif
+
 
 {{-- Table --}}
 <table class="table table-hover">
 
     <thead>
         <tr>
-            <th class="p-3">Name</th>
             <th class="p-3">Email</th>
-            <th class="p-3">Phone</th>
-            <th class="p-3">Logo</th>
-            <th class="p-3">Location</th>
-            <th class="p-3">Total Beds</th>
+            <th class="p-3">Name</th>
+            <th class="p-3">Email Verified At</th>
             <th class="p-3">Action</th>
         </tr>
     </thead>
 
     <tbody>
 
-
-        @if($spaProfile)
-
-        @php
-        $profile = $spaProfile;
-        @endphp
-
+        @forelse ( $clients as $client)
         <tr>
-            <td class="p-3">{{ $profile->company->name }}</td>
-            <td class="p-3">{{ $profile->company->email }}</td>
-            <td class="p-3">{{ $profile->company->phone }}</td>
-            <td class="p-3">{{ $profile->company->logo ?? 'No Image' }}</td>
-            <td class="p-3">{{ $profile->location }}</td>
-            <td class="p-3">{{ $profile->total_beds }}</td>
+            <td class="p-3">{{ $client->email }}</td>
+            <td class="p-3">{{ $client->name }}</td>
+            <td class="p-3">{{ $client->email_verified_at ?? 'Unverified' }}</td>
 
             {{-- Dropdown Action --}}
             <td class="p-3">
@@ -72,14 +72,6 @@
                             </a>
                         </li>
 
-                        <li>
-                            <a href="" class="dropdown-item">
-                                <i class="bi bi-pencil me-2"></i>Edit
-                            </a>
-                        </li>
-
-
-
                     </ul>
 
                 </div>
@@ -88,8 +80,9 @@
 
         </tr>
 
+        @empty
 
-        @endif
+        @endforelse
 
     </tbody>
 

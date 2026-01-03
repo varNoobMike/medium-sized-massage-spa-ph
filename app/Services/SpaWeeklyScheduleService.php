@@ -13,22 +13,25 @@ class SpaWeeklyScheduleService
     /* no create method yet, add later... */
 
     // update
-    public function update(SpaWeeklySchedule $schedule, array $data)
+    public function update(SpaWeeklySchedule $spaWeeklySchedule, array $data)
     {
 
-        DB::transaction(function () use ($schedule, $data) {
+        DB::transaction(function () use ($spaWeeklySchedule, $data) {
 
-            $schedule->update([
+            $schedule = $spaWeeklySchedule->update([
                 'open_time' => $data['open_time'],
                 'close_time' => $data['close_time'],
             ]);
 
 
             if (!$schedule) {
+
                 throw ValidationException::withMessages([
                     'spa_weekly_schedule_update_error' => 'Failed to update schedule.',
                 ]);
             }
+
+            // dd($schedule);
 
             return $schedule;
         });

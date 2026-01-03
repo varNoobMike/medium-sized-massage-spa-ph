@@ -12,41 +12,36 @@ class StaffWeeklyScheduleService
 {
 
     /* no create method yet, add later */
-    
 
-    public function update(array $data, int $scheduleId, int $userId)
+
+    public function update(StaffWeeklySchedule $weeklySchedule, array $data)
     {
-      
-        DB::transaction(function () use ($data, $scheduleId, $userId) {
 
-            $schedule = StaffWeeklySchedule::where('id', $scheduleId)
-                ->where('user_id', $userId)
-                ->update([
-                    'start_time' => $data['start_time'],
-                    'end_time' => $data['end_time'],
+        DB::transaction(function () use ($weeklySchedule, $data) {
+
+            $schedule = $weeklySchedule->update([
+                'start_time' => $data['start_time'],
+                'end_time' => $data['end_time'],
             ]);
 
-            if(!$schedule)
-            {
+            if (!$schedule) {
                 throw ValidationException::withMessages([
                     'staff_weekly_schedule_update_error' => 'Failed to update schedule.',
-                ]);  
+                ]);
             }
 
             return $schedule;
-
         });
-
     }
 
 
 
-    // specific staff weekly schedules
+    // specific staff's weekly schedules
     public function getAllByUserId(int $userId)
     {
 
         return StaffWeeklySchedule::with('staff:id,name')
-            ->whereHas('staff', function ($q) use($userId) {
+            ->whereHas('staff', function ($q) use ($userId) {
                 $q->where('id', $userId);
             })
             ->orderByRaw("
@@ -58,7 +53,7 @@ class StaffWeeklyScheduleService
 
     // all staff weekly schedules
     public function getAll()
-    { 
+    {
 
         return StaffWeeklySchedule::with('staff:id,name')
             ->orderByRaw("
@@ -66,6 +61,4 @@ class StaffWeeklyScheduleService
             ")
             ->get();
     }
-
-
 }

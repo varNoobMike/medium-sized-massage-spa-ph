@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
     {
 
         $userSeedData = $this->getSeedData();
-        $spaId = $spaService->getMainBranch()->id; // Spa main branch ID
+        $spaId = $spaService->getMainBranch()->id; // spa main branch id
 
         DB::transaction(function () use ($userSeedData, $spaId) {
 
@@ -28,9 +28,9 @@ class UserSeeder extends Seeder
                     $seed
                 );
 
-                // Only for Staff
+                // only for staff
                 if ($user->role != 'Client') {
-                    // Attach to spa pivot table ('spa_staff')
+                    // attach to spa pivot table ('spa_staff')
                     $user->spas()->sync([$spaId]);
                 }
 

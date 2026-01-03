@@ -1,9 +1,8 @@
 @extends('layouts.admin.app')
 
-@section('title', 'Spa Profile')
+@section('title', 'Services')
 
 @section('breadcrumb')
-
 @foreach ( $breadcrumbs as $crumb)
 @if ($crumb['url'])
 <li class="breadcrumb-item">
@@ -15,13 +14,26 @@
 </li>
 @endif
 @endforeach
-
 @endsection
 
-@section('page-heading', 'Spa Profile')
+@section('page-heading', 'Services')
 @section('page-heading-small', 'Lorem ipsum dolor set amet.')
 
 @section('content')
+
+
+{{-- Alert Update Service Error --}}
+@if($errors->any())
+<div class="alert alert-danger rounded-3 mb-4">
+    {{ $errors->first() }}
+</div>
+{{-- Alert Update Service Success --}}
+@elseif(session('approve_client_success'))
+<div class="alert alert-success rounded-3 mb-4">
+    {{ session('update_service_success') }}
+</div>
+@endif
+
 
 {{-- Table --}}
 <table class="table table-hover">
@@ -29,31 +41,19 @@
     <thead>
         <tr>
             <th class="p-3">Name</th>
-            <th class="p-3">Email</th>
-            <th class="p-3">Phone</th>
-            <th class="p-3">Logo</th>
-            <th class="p-3">Location</th>
-            <th class="p-3">Total Beds</th>
+            <th class="p-3">Duration (mins)</th>
+            <th class="p-3">Price</th>
             <th class="p-3">Action</th>
         </tr>
     </thead>
 
     <tbody>
 
-
-        @if($spaProfile)
-
-        @php
-        $profile = $spaProfile;
-        @endphp
-
+        @forelse ( $services as $service)
         <tr>
-            <td class="p-3">{{ $profile->company->name }}</td>
-            <td class="p-3">{{ $profile->company->email }}</td>
-            <td class="p-3">{{ $profile->company->phone }}</td>
-            <td class="p-3">{{ $profile->company->logo ?? 'No Image' }}</td>
-            <td class="p-3">{{ $profile->location }}</td>
-            <td class="p-3">{{ $profile->total_beds }}</td>
+            <td class="p-3">{{ $service->name }}</td>
+            <td class="p-3">{{ $service->duration_minutes }}</td>
+            <td class="p-3">{{ $service->price }}</td>
 
             {{-- Dropdown Action --}}
             <td class="p-3">
@@ -78,7 +78,15 @@
                             </a>
                         </li>
 
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
 
+                        <li>
+                            <a href="" class="dropdown-item text-danger">
+                                <i class="bi bi-trash me-2"></i>Delete
+                            </a>
+                        </li>
 
                     </ul>
 
@@ -88,8 +96,9 @@
 
         </tr>
 
+        @empty
 
-        @endif
+        @endforelse
 
     </tbody>
 

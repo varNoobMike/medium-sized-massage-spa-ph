@@ -4,26 +4,29 @@ namespace App\Http\Controllers\Therapist;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StaffWeeklyScheduleRequest;
-use Illuminate\Http\Request;
+use App\Models\StaffWeeklySchedule;
 use Illuminate\Support\Facades\Auth;
 use App\Services\StaffWeeklyScheduleService;
 
 
 class WeeklyScheduleController extends Controller
 {
+
     private StaffWeeklyScheduleService $staffWeeklyScheduleService;
 
-    public function __construct(StaffWeeklyScheduleService $staffWeeklyScheduleService){
+    // constructor
+    public function __construct(StaffWeeklyScheduleService $staffWeeklyScheduleService)
+    {
         $this->staffWeeklyScheduleService = $staffWeeklyScheduleService;
     }
 
-
+    // index
     public function index()
     {
-        $userId = Auth::user()->id;
-        $weeklySchedules = $this->staffWeeklyScheduleService->getAllByUserId($userId);
+        $weeklySchedules = $this->staffWeeklyScheduleService
+            ->getAllByUserId(Auth::user()->id);
 
-        return view('therapist.weekly-schedule.index', [
+        return view('therapist.weekly-schedules.index', [
             'breadcrumbs' => [
                 ['title' => 'Therapist', 'url' => route('therapist.dashboard.index')],
                 ['title' => 'My Weekly Schedules', 'url' => null],
@@ -31,19 +34,14 @@ class WeeklyScheduleController extends Controller
         ], compact('weeklySchedules'));
     }
 
-
-    public function update(StaffWeeklyScheduleRequest $request, int $scheduleId)
+    // update 
+    public function update(StaffWeeklyScheduleRequest $request, StaffWeeklySchedule $weeklySchedule)
     {
 
-        $validated = $request->validated();
-        $userId = Auth::user()->id;
-        
-        $this->staffWeeklyScheduleService->update($validated, $scheduleId, $userId);
+        $this->staffWeeklyScheduleService
+            ->update($weeklySchedule, $request->validated());
 
-        return redirect()->route('therapist.weekly-schedule.index')
+        return redirect()->route('therapist.weekly-schedules.index')
             ->with('staff_weekly_schedule_update_success', 'Schedule updated successfully.');
     }
-
-    
-
 }

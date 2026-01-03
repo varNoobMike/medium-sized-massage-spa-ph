@@ -19,7 +19,7 @@ class ClientController extends Controller
 
         $clients = $this->clientService->getAll();
 
-        return view('admin.client.index', [
+        return view('admin.clients.index', [
             'breadcrumbs' => [
                 ['title' => 'Admin', 'url' => route('admin.dashboard.index')],
                 ['title' => 'Clients', 'url' => null],

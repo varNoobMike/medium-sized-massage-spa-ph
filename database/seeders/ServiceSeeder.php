@@ -6,7 +6,6 @@ use App\Models\Service;
 use App\Services\SpaService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Exception;
 
 class ServiceSeeder extends Seeder
 {

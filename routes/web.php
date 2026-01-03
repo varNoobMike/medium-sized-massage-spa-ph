@@ -77,6 +77,10 @@ Route::middleware(['auth', 'role:Admin'])
         Route::get('spa-profile', [\App\Http\Controllers\Admin\SpaProfileController::class, 'index'])
             ->name('spa-profile.index');
 
+        // Services
+        Route::resource('services', \App\Http\Controllers\Admin\ServiceController::class)
+            ->only('index');
+
         // Therapists
         Route::get('therapists', [\App\Http\Controllers\Admin\TherapistUserController::class, 'index'])
             ->name('therapists.index');

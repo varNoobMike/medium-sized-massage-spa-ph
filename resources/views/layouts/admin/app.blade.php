@@ -90,7 +90,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="" class="nav-link text-dark">
+                            <a href="{{ route('admin.services.index') }}" class="nav-link {{ request()->routeIs('admin.services.index') ? 'text-bg-secondary rounded-3' : 'text-dark' }}">
                                 <i class="bi bi-list-check me-2"></i>
                                 Services
                             </a>
@@ -102,6 +102,7 @@
                                 Therapists
                             </a>
                         </li>
+                        
                         <li class="nav-item">
                             <a href="" class="nav-link text-dark">
                                 <i class="bi bi-credit-card me-2"></i>

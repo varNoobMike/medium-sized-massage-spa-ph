@@ -25,7 +25,7 @@ class SpaWeeklyScheduleController extends Controller
         $weeklySchedules = $this->spaWeeklyScheduleService
             ->getAllFromMainBranch();
 
-        return view('admin.spa-weekly-schedule.index', [
+        return view('admin.spa-weekly-schedules.index', [
             'breadcrumbs' => [
                 ['title' => 'Admin', 'url' => route('admin.dashboard.index')],
                 ['title' => 'Spa Weekly Schedules', 'url' => null],
@@ -35,14 +35,14 @@ class SpaWeeklyScheduleController extends Controller
 
 
     // update
-    public function update(SpaWeeklyScheduleRequest $request, SpaWeeklySchedule $schedule)
+    public function update(SpaWeeklyScheduleRequest $request, SpaWeeklySchedule $spaWeeklySchedule)
     {
 
         $this->spaWeeklyScheduleService
-            ->update($schedule, $request->validated());
+            ->update($spaWeeklySchedule, $request->validated());
 
         return redirect()
-            ->route('admin.spa-weekly-schedule.index')
+            ->route('admin.spa-weekly-schedules.index')
             ->with('spa_weekly_schedule_update_success', 'Schedule updated successfully.');
     }
     

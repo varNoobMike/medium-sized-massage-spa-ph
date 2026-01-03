@@ -14,10 +14,9 @@ class SpaSeeder extends Seeder
      */
     public function run(CompanyService $companyService): void
     {
-    
-        $spaSeedData = $this->getSeedData();
 
-        $companyId = $companyService->getCompany()->id; // Company ID
+        $spaSeedData = $this->getSeedData();
+        $companyId = $companyService->getOne()->id; // company id
 
         DB::transaction(function () use ($spaSeedData, $companyId) {
             foreach ($spaSeedData as $spa) {
@@ -25,10 +24,8 @@ class SpaSeeder extends Seeder
                     ['name' => $spa['name']],
                     array_merge($spa, ['company_id' => $companyId])
                 );
-
             }
         });
-
     }
 
     // Spas (Branches)

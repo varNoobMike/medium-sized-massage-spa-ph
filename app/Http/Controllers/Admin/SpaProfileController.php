@@ -17,7 +17,7 @@ class SpaProfileController extends Controller
 
     public function index()
     {
-        $spaProfile = $this->spaService->getMainBranch(); // Main Branch of Spa
+        $spaProfile = $this->spaService->getMainBranch(); // spa main branch id
 
         return view('admin.spa-profile.index', [
             'breadcrumbs' => [

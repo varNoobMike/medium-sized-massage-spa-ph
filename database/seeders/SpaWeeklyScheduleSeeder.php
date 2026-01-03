@@ -16,8 +16,7 @@ class SpaWeeklyScheduleSeeder extends Seeder
     {
 
         $scheduleSeedData = $this->getSeedData();
-
-        $spaId = $spaService->getMainBranch()->id; // Spa main branch ID
+        $spaId = $spaService->getMainBranch()->id; // spa main branch id
 
 
         DB::transaction(function () use ($spaId, $scheduleSeedData) {
