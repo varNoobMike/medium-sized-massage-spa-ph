@@ -12,7 +12,8 @@ class LoginController extends Controller
 
     private AuthService $authService;
 
-    public function __construct(AuthService $authService){
+    public function __construct(AuthService $authService)
+    {
         $this->authService = $authService;
     }
 
@@ -30,18 +31,16 @@ class LoginController extends Controller
 
     public function login(LoginRequest $request)
     {
-     
-        $validated = $request->validated();
-        $user = $this->authService->login($validated);
+
+        $user = $this->authService->login($request->validated());
 
         // Redirect based on role
         return match ($user->role) {
             'Admin' => redirect()->route('admin.dashboard.index'),
             'Therapist' => redirect()->route('therapist.dashboard.index'),
             'Client' => redirect()->route('client.home.index'),
-             default => redirect('/'), // or change to abort later...
+            default => redirect('/'), // or change to abort later...
         };
-        
     }
 
 
@@ -50,6 +49,4 @@ class LoginController extends Controller
         $this->authService->logout();
         return redirect()->route('login');
     }
-
-    
 }

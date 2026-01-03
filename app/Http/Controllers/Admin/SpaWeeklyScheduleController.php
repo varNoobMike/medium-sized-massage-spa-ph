@@ -4,26 +4,26 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SpaWeeklyScheduleRequest;
+use App\Models\SpaWeeklySchedule;
 use App\Services\SpaWeeklyScheduleService;
-use App\Services\SpaService;
+
 
 class SpaWeeklyScheduleController extends Controller
 {
 
     private SpaWeeklyScheduleService $spaWeeklyScheduleService;
-    private SpaService $spaService;
 
-    public function __construct(
-        SpaWeeklyScheduleService $spaWeeklyScheduleService,
-        SpaService $spaService
-    ) {
+    // constructor
+    public function __construct(SpaWeeklyScheduleService $spaWeeklyScheduleService)
+    {
         $this->spaWeeklyScheduleService = $spaWeeklyScheduleService;
-        $this->spaService = $spaService;
     }
 
+    // index
     public function index()
     {
-        $weeklySchedules = $this->spaWeeklyScheduleService->getAllFromMainBranch();
+        $weeklySchedules = $this->spaWeeklyScheduleService
+            ->getAllFromMainBranch();
 
         return view('admin.spa-weekly-schedule.index', [
             'breadcrumbs' => [
@@ -34,17 +34,16 @@ class SpaWeeklyScheduleController extends Controller
     }
 
 
-
-    public function update(SpaWeeklyScheduleRequest $request, int $scheduleId)
+    // update
+    public function update(SpaWeeklyScheduleRequest $request, SpaWeeklySchedule $schedule)
     {
-        // dd($scheduleId);
 
-        $validated = $request->validated();
-        $spaId = $this->spaService->getMainBranch()->id;
-        $schedule = $this->spaWeeklyScheduleService->update($validated, $scheduleId, $spaId);
+        $this->spaWeeklyScheduleService
+            ->update($schedule, $request->validated());
 
         return redirect()
             ->route('admin.spa-weekly-schedule.index')
             ->with('spa_weekly_schedule_update_success', 'Schedule updated successfully.');
     }
+    
 }

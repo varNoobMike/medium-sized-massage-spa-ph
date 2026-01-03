@@ -14,14 +14,15 @@ class RegisterTherapistUserController extends Controller
     protected AuthService $authService;
     protected SpaService $spaService;
 
-    public function __construct(AuthService $authService,
-                                SpaService $spaService)
-    {
+    public function __construct(
+        AuthService $authService,
+        SpaService $spaService
+    ) {
         $this->authService = $authService;
         $this->spaService = $spaService;
     }
 
-    
+
     public function showRegisterForm()
     {
 
@@ -33,23 +34,19 @@ class RegisterTherapistUserController extends Controller
         ]);
     }
 
-  
+
     public function register(RegisterUserRequest $request)
     {
 
-        $validated = $request->validated();
-        $role = 'Therapist';
-        $spaId = $this->spaService->getMainBranch()->id;
-
-        $this->authService->register($validated, $role, $spaId);
+        $this->authService->register(
+            $request->validated(),
+            'Therapist', // role
+            $this->spaService->getMainBranch()->id // spa main branch id
+        );
 
         // Redirect to Login 
         return redirect()
             ->route('login')
             ->with('register_success', 'Registration successful. You can now log in.');
-            
     }
-
-
-
 }

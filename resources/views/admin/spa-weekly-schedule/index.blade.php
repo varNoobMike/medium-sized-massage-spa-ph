@@ -106,7 +106,7 @@
         </div>
         
         
-        {{-- Edit Modal) --}}
+        {{-- Edit Modal --}}
         <div id="spa-weekly-schedule-edit-modal" class="modal fade" tabindex="-1" aria-hidden="true"
             @hidden.bs.modal="
             form.schedule_id = null;

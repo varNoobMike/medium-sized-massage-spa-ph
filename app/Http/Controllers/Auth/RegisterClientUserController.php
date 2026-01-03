@@ -11,11 +11,12 @@ class RegisterClientUserController extends Controller
 
     private AuthService $authService;
 
-    public function __construct(AuthService $authService){
+    public function __construct(AuthService $authService)
+    {
         $this->authService = $authService;
     }
 
-    
+
     public function showRegisterForm()
     {
 
@@ -25,23 +26,20 @@ class RegisterClientUserController extends Controller
                 ['title' => 'Register as User', 'url' => null],
             ],
         ]);
-
     }
 
-  
+
     public function register(RegisterUserRequest $request)
     {
-        $validated = $request->validated();
-        $role = 'Client'; 
 
-        $this->authService->register($validated, $role);
+        $this->authService->register(
+            $request->validated(),
+            'Client' // role
+        );
 
         // Redirect to Login
         return redirect()
             ->route('login')
             ->with('register_success', 'Registration successful. You can now log in.');
     }
-
-
-    
 }
