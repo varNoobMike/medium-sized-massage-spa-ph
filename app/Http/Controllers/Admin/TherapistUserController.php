@@ -4,21 +4,18 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Services\TherapistUserService;
-
+use App\Models\User;
 
 class TherapistUserController extends Controller
 {
 
-    private TherapistUserService $therapistUserService;
+    /* constructor */
+    public function __construct(private TherapistUserService $therapistUserService) {}
 
-    public function __construct(TherapistUserService $therapistUserService)
-    {
-        $this->therapistUserService = $therapistUserService;
-    }
-
+    /* index */
     public function index()
     {
-        $therapists = $this->therapistUserService->getAll();
+        $therapists = $this->therapistUserService->getAllTherapists();
 
         return view('admin.therapists.index', [
             'breadcrumbs' => [
@@ -28,15 +25,13 @@ class TherapistUserController extends Controller
         ], compact('therapists'));
     }
 
-
-    public function approve(int $userId)
+    /* approve */
+    public function approve(User $therapist)
     {
-        $this->therapistUserService->approve($userId);
+        $this->therapistUserService->approveTherapist($therapist);
 
         return redirect()
             ->route('admin.therapists.index')
             ->with('approve_therapist_success', 'Therapist is approved successfully.');
     }
-
-
 }

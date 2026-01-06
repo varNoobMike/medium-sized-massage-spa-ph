@@ -23,8 +23,8 @@ class SpaWeeklyScheduleRequest extends FormRequest
     {
         return [
             'day_of_week' => 'required|string',
-            'open_time' => 'required|date_format:H:i',
-            'close_time' => 'required|date_format:H:i|after:open_time',
+            'start_time' => 'required|date_format:H:i',
+            'end_time' => 'required|date_format:H:i|after:start_time',
         ];
     }
 }

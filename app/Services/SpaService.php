@@ -4,17 +4,16 @@ namespace App\Services;
 
 use App\Models\Spa;
 
+
 class SpaService
 {
-    
-    public function getMainBranch()
+    public function getFirstSpa()
     {
-        return Spa::with('company')->where('is_main_branch', true)->first();
+        return Spa::with('company')->first();
     }
 
-    public function getAll(){
+    public function getAllSpas()
+    {
         return Spa::with('company')->get();
     }
-
-    
 }

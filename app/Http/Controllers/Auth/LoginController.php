@@ -10,14 +10,11 @@ use App\Services\AuthService;
 class LoginController extends Controller
 {
 
-    private AuthService $authService;
-
-    public function __construct(AuthService $authService)
-    {
-        $this->authService = $authService;
-    }
+    /* constructor */
+    public function __construct(private AuthService $authService) {}
 
 
+    /* show login form */
     public function showLoginForm()
     {
         return view('auth.login', [
@@ -28,7 +25,7 @@ class LoginController extends Controller
         ]);
     }
 
-
+    /* login */
     public function login(LoginRequest $request)
     {
 
@@ -43,7 +40,7 @@ class LoginController extends Controller
         };
     }
 
-
+    /* logout */
     public function logout()
     {
         $this->authService->logout();

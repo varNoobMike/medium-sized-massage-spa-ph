@@ -9,14 +9,11 @@ use App\Services\AuthService;
 class RegisterClientUserController extends Controller
 {
 
-    private AuthService $authService;
-
-    public function __construct(AuthService $authService)
-    {
-        $this->authService = $authService;
-    }
+    /* constructor */
+    public function __construct(private AuthService $authService) {}
 
 
+    /* show register form */
     public function showRegisterForm()
     {
 
@@ -28,7 +25,7 @@ class RegisterClientUserController extends Controller
         ]);
     }
 
-
+    /* register */
     public function register(RegisterUserRequest $request)
     {
 

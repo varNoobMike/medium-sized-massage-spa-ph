@@ -3,23 +3,26 @@
 namespace App\Services;
 
 use App\Models\User;
+use InvalidArgumentException;
 
-// general purpose user service class
 class UserService
 {
 
-    public function getOneById(int $id){
+    public function getUserById(int $id)
+    {
         return User::where('id', $id)->get();
     }
 
-    public function getAllByRole(string $role){
+    public function getUsersByRole(string $role)
+    {
+        if (!in_array($role, User::ROLES)) {
+            throw new InvalidArgumentException("Invalid user role: $role");
+        }
         return User::where('role', $role)->get();
     }
 
-    public function getAll(){
-        return User::all();
+    public function getAllUsers()
+    {
+        return User::get();
     }
-
-   
-
 }

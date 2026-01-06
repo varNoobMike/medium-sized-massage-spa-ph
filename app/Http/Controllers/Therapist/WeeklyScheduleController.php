@@ -8,23 +8,19 @@ use App\Models\StaffWeeklySchedule;
 use Illuminate\Support\Facades\Auth;
 use App\Services\StaffWeeklyScheduleService;
 
+/* WeeklyScheduleController */
 
 class WeeklyScheduleController extends Controller
 {
 
-    private StaffWeeklyScheduleService $staffWeeklyScheduleService;
+    /* constructor */
+    public function __construct(private StaffWeeklyScheduleService $staffWeeklyScheduleService) {}
 
-    // constructor
-    public function __construct(StaffWeeklyScheduleService $staffWeeklyScheduleService)
-    {
-        $this->staffWeeklyScheduleService = $staffWeeklyScheduleService;
-    }
-
-    // index
+    /* index */
     public function index()
     {
         $weeklySchedules = $this->staffWeeklyScheduleService
-            ->getAllByUserId(Auth::user()->id);
+            ->getSchedulesByUserId(Auth::user()->id);
 
         return view('therapist.weekly-schedules.index', [
             'breadcrumbs' => [
@@ -34,14 +30,16 @@ class WeeklyScheduleController extends Controller
         ], compact('weeklySchedules'));
     }
 
-    // update 
+    /* update */
     public function update(StaffWeeklyScheduleRequest $request, StaffWeeklySchedule $weeklySchedule)
     {
 
         $this->staffWeeklyScheduleService
-            ->update($weeklySchedule, $request->validated());
+            ->updateSchedule($weeklySchedule, $request->validated());
 
         return redirect()->route('therapist.weekly-schedules.index')
             ->with('staff_weekly_schedule_update_success', 'Schedule updated successfully.');
     }
+
+    
 }

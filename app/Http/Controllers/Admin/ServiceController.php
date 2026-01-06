@@ -9,20 +9,16 @@ use Illuminate\Http\Request;
 class ServiceController extends Controller
 {
 
-    private ServiceService $serviceService;
+    /* constructor */
+    public function __construct(private ServiceService $serviceService) {}
 
-    public function __construct(ServiceService $serviceService)
-    {
-        $this->serviceService = $serviceService;
-    }
 
-    
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $services = $this->serviceService->getAll(); 
+        $services = $this->serviceService->getAllServices();
 
         return view('admin.services.index', [
             'breadcrumbs' => [
@@ -79,6 +75,4 @@ class ServiceController extends Controller
     {
         //
     }
-
-
 }

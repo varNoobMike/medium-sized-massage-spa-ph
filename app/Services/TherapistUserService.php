@@ -5,35 +5,36 @@ namespace App\Services;
 use App\Models\User;
 use Illuminate\Validation\ValidationException;
 
-// service class for therapist users
 class TherapistUserService
 {
 
     /* no create method yet, insertion is done via auth service's register method */
 
-    public function getOne(int $userId)
+    public function getTherapistById(int $userId)
     {
-        return User::where('role', 'Therapist')->where('id', $userId)->orderBy('email')->get();
+        return User::where('role', User::ROLE_THERAPIST)
+            ->where('id', $userId)
+            ->orderBy('email')->get();
     }
 
-    public function getAll()
+    public function getAllTherapists()
     {
-        return User::where('role', 'Therapist')->orderBy('email')->get();
+        return User::where('role', User::ROLE_THERAPIST)
+            ->orderBy('email')->get();
     }
 
-    public function approve(int $userId)
+    public function approveTherapist(User $therapist)
     {
-        $userApproval = User::where('id', $userId)->update(['approved_at' => now()]);
+        $approved = $therapist->update([
+            'approved_at' => now(),
+        ]);
 
-        if(!$userApproval)
-        {
+        if (!$approved) {
             throw ValidationException::withMessages([
                 'approve_therapist_error' => 'Failed to approve therapist.',
-            ]);  
+            ]);
         }
 
-        return $userApproval;
-
+        return $approved;
     }
-    
 }

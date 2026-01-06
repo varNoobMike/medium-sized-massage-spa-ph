@@ -8,13 +8,10 @@ use App\Models\User;
 class AdminUserService
 {
 
-    // the one and only admin
-    public function getOne()
+    public function getFirstAdmin()
     {
-        return User::where('role', 'Admin')
+        return User::where('role', User::ROLE_ADMIN)
             ->first();
     }
-
-   
-
+    
 }

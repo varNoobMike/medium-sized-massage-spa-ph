@@ -4,11 +4,12 @@ namespace App\Services;
 
 use App\Models\Company;
 
+
 class CompanyService
 {
 
-    // the one and only company
-    public function getOne()
+    /* get the first row, which is the company */
+    public function getFirstCompany()
     {
         return Company::first();
     }

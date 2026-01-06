@@ -7,17 +7,14 @@ use App\Services\ClientUserService;
 
 class ClientController extends Controller
 {
-    private ClientUserService $clientService;
 
-    public function __construct(ClientUserService $clientService)
-    {
-        $this->clientService = $clientService;
-    }
+    public function __construct(private ClientUserService $clientService) {}
+
 
     public function index()
     {
 
-        $clients = $this->clientService->getAll();
+        $clients = $this->clientService->getAllClients();
 
         return view('admin.clients.index', [
             'breadcrumbs' => [
@@ -26,4 +23,7 @@ class ClientController extends Controller
             ],
         ], compact('clients'));
     }
+
+    // Additional methods can be added here
+
 }

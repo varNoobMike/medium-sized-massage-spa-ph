@@ -76,39 +76,41 @@
                         {{-- Dropdown Menu--}}
                         <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-3">
 
+                            @if(!$therapist->approved_at)
                             {{-- Approve --}}
-                            <li>
-                                <form
-                                    :action="`{{ url('admin/therapists') }}/${form.user_id}/approve`"
-                                    method="POST">
-                                    @csrf
-                                    @method('PUT')
+                                <li>
+                                    <form
+                                        :action="`{{ url('admin/therapists') }}/${form.user_id}/approve`"
+                                        method="POST">
+                                        @csrf
+                                        @method('PUT')
 
-                                    {{-- Hidden User ID --}}
-                                    <input type="hidden" name="id" x-model="form.user_id">
+                                        {{-- Hidden User ID --}}
+                                        <input type="hidden" name="id" x-model="form.user_id">
 
-                                    <button type="submit" class="dropdown-item text-success"
-                                        onclick="return confirm('Are you sure you want to approve this client?');"
-                                        @click="form.user_id = @js($therapist->id);">
-                                        <i class="bi bi-check-circle"></i> Approve
-                                    </button>
-                                </form>
-                            </li>
+                                        <button type="submit" class="dropdown-item text-success"
+                                            onclick="return confirm('Are you sure you want to approve this client?');"
+                                            @click="form.user_id = @js($therapist->id);">
+                                            <i class="bi bi-check-circle"></i> Approve
+                                        </button>
+                                    </form>
+                                </li>
 
-                            {{-- Decline --}}
-                            <li>
-                                <form action="" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="dropdown-item text-danger" onclick="return confirm('Are you sure you want to decline this client?');">
-                                        <i class="bi bi-x-circle"></i> Decline
-                                    </button>
-                                </form>
-                            </li>
-
-                            <li>
-                                <hr class="dropdown-divider" />
-                            </li>
+                                {{-- Decline --}}
+                                <li>
+                                    <form action="" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="dropdown-item text-danger" onclick="return confirm('Are you sure you want to decline this client?');">
+                                            <i class="bi bi-x-circle"></i> Decline
+                                        </button>
+                                    </form>
+                                </li>
+                            
+                                <li>
+                                    <hr class="dropdown-divider" />
+                                </li>
+                            @endif
 
                             <li>
                                 <a href="" class="dropdown-item">

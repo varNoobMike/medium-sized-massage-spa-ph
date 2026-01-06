@@ -3,11 +3,6 @@
 use Illuminate\Support\Facades\Route;
 
 
-// tests
-Route::get('spa-profile', [\App\Services\SpaService::class, 'getMainBranch']);
-
-
-
 /******************************************************************************************** */
 // Guest Routes 
 Route::middleware('redir_authenticated_by_role')->group(function () {
@@ -15,8 +10,6 @@ Route::middleware('redir_authenticated_by_role')->group(function () {
     // Home
     Route::get('/', App\Http\Controllers\Guest\HomeController::class)
         ->name('guest.home.index');
-
-
 });
 
 
@@ -34,7 +27,6 @@ Route::controller(App\Http\Controllers\Auth\loginController::class)->group(funct
     Route::middleware('auth')->group(function () {
         Route::post('logout', 'logout')->name('logout');
     });
-
 });
 
 
@@ -48,13 +40,12 @@ Route::prefix('register')->name('register.')->group(function () {
     Route::post('user', [App\Http\Controllers\Auth\RegisterClientUserController::class, 'register'])
         ->name('client.submit');
 
-    
+
     // Therapist Registration
     Route::get('therapist', [App\Http\Controllers\Auth\RegisterTherapistUserController::class, 'showRegisterForm'])
         ->name('therapist');
     Route::post('therapist', [App\Http\Controllers\Auth\RegisterTherapistUserController::class, 'register'])
-        ->name('therapist.submit');   
-
+        ->name('therapist.submit');
 });
 
 
@@ -90,8 +81,7 @@ Route::middleware(['auth', 'role:Admin'])
         // Spa Weekly Schedules (index, update) only
         Route::resource('spa-weekly-schedules', \App\Http\Controllers\Admin\SpaWeeklyScheduleController::class)
             ->only(['index', 'update']);
-
-});
+    });
 
 
 /******************************************************************************************** */
@@ -102,13 +92,18 @@ Route::middleware(['auth', 'role:Therapist'])
     ->group(function () {
 
         // Dashboard
-        Route::get('dashboard', \App\Http\Controllers\Therapist\DashboardController::class)->name('dashboard.index');
+        Route::get('dashboard', \App\Http\Controllers\Therapist\DashboardController::class)
+            ->name('dashboard.index');
 
         // Weekly Schedules (index, update) only
         Route::resource('weekly-schedules', \App\Http\Controllers\Therapist\WeeklyScheduleController::class)
             ->only(['index', 'update']);
 
-});
+        // Spa Weekly Schedules (read only)
+        Route::get('spa-weekly-schedules', \App\Http\Controllers\Therapist\SpaWeeklyScheduleController::class)
+            ->name('spa-weekly-schedules.index');
+
+    });
 /******************************************************************************************** */
 
 
@@ -120,6 +115,5 @@ Route::middleware(['auth', 'role:Client'])
 
         // Home
         Route::get('home', \App\Http\Controllers\Client\HomeController::class)->name('home.index');
-
-});
+    });
 /******************************************************************************************** */

@@ -5,24 +5,18 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterUserRequest;
 use App\Services\AuthService;
-use App\Services\SpaService;
 
 
 class RegisterTherapistUserController extends Controller
 {
 
-    protected AuthService $authService;
-    protected SpaService $spaService;
-
+    /* constructor */
     public function __construct(
-        AuthService $authService,
-        SpaService $spaService
-    ) {
-        $this->authService = $authService;
-        $this->spaService = $spaService;
-    }
+        private AuthService $authService,
+    ) {}
 
 
+    /* show register form */
     public function showRegisterForm()
     {
 
@@ -34,14 +28,13 @@ class RegisterTherapistUserController extends Controller
         ]);
     }
 
-
+    /* register */
     public function register(RegisterUserRequest $request)
     {
 
         $this->authService->register(
             $request->validated(),
             'Therapist', // role
-            $this->spaService->getMainBranch()->id // spa main branch id
         );
 
         // Redirect to Login 

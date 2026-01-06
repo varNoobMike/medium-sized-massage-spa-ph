@@ -6,21 +6,21 @@ use App\Models\SpaWeeklySchedule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
-
 class SpaWeeklyScheduleService
 {
 
     /* no create method yet, add later... */
 
-    // update
-    public function update(SpaWeeklySchedule $spaWeeklySchedule, array $data)
+    public function updateSchedule(SpaWeeklySchedule $spaWeeklySchedule, array $data)
     {
+
+        // dd($data);
 
         DB::transaction(function () use ($spaWeeklySchedule, $data) {
 
             $schedule = $spaWeeklySchedule->update([
-                'open_time' => $data['open_time'],
-                'close_time' => $data['close_time'],
+                'start_time' => $data['start_time'],
+                'end_time' => $data['end_time'],
             ]);
 
 
@@ -31,32 +31,17 @@ class SpaWeeklyScheduleService
                 ]);
             }
 
-            // dd($schedule);
-
             return $schedule;
         });
     }
 
-    // all schedules from main branch
-    public function getAllFromMainBranch()
+    public function getAllSchedules()
     {
-        // spa main branch weekly schedules
-        return SpaWeeklySchedule::with('spa:id,name,is_main_branch')
-            ->whereHas('spa', function ($q) {
-                $q->where('is_main_branch', true);
-            })
+        return SpaWeeklySchedule::with('spa:id,name')
             ->orderByRaw("
-                FIELD(day_of_week, 'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday')
-            ")
-            ->get();
-    }
-
-    // all schedules
-    public function getAll()
-    {
-        return SpaWeeklySchedule::with('spa:id,name,is_main_branch')
-            ->orderByRaw("
-                FIELD(day_of_week, 'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday')
+                FIELD(day_of_week, 
+                    'Monday','Tuesday','Wednesday',
+                    'Thursday','Friday','Saturday','Sunday')
             ")
             ->get();
     }

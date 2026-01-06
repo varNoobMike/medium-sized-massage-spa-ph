@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Symfony\Component\Mime\Email;
 
 class Company extends Model
 {
@@ -18,7 +19,9 @@ class Company extends Model
         'logo',
     ];
 
-    public function spas(){
+
+    public function spas()
+    {
         return $this->hasMany(Spa::class);
     }
 }

@@ -11,19 +11,13 @@ use App\Services\SpaWeeklyScheduleService;
 class SpaWeeklyScheduleController extends Controller
 {
 
-    private SpaWeeklyScheduleService $spaWeeklyScheduleService;
+    public function __construct(private SpaWeeklyScheduleService $spaWeeklyScheduleService) {}
 
-    // constructor
-    public function __construct(SpaWeeklyScheduleService $spaWeeklyScheduleService)
-    {
-        $this->spaWeeklyScheduleService = $spaWeeklyScheduleService;
-    }
 
-    // index
     public function index()
     {
         $weeklySchedules = $this->spaWeeklyScheduleService
-            ->getAllFromMainBranch();
+            ->getAllSchedules();
 
         return view('admin.spa-weekly-schedules.index', [
             'breadcrumbs' => [
@@ -34,16 +28,17 @@ class SpaWeeklyScheduleController extends Controller
     }
 
 
-    // update
+    /* update */
     public function update(SpaWeeklyScheduleRequest $request, SpaWeeklySchedule $spaWeeklySchedule)
     {
 
+        // dd($request->validated());
+
         $this->spaWeeklyScheduleService
-            ->update($spaWeeklySchedule, $request->validated());
+            ->updateSchedule($spaWeeklySchedule, $request->validated());
 
         return redirect()
             ->route('admin.spa-weekly-schedules.index')
             ->with('spa_weekly_schedule_update_success', 'Schedule updated successfully.');
     }
-    
 }

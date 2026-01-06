@@ -27,8 +27,8 @@
             form: {
                 schedule_id: null,
                 day_of_week: '',
-                open_time: '',
-                close_time: ''
+                start_time: '',
+                end_time: ''
             }
         }">
 
@@ -52,8 +52,10 @@
             <thead>
                 <tr>
                     <th class="p-3">Day of Week</th>
-                    <th class="p-3">Open Time</th>
-                    <th class="p-3">Close Time</th>
+                    <th class="p-3">Start Time</th>
+                    <th class="p-3">Break Start</th>
+                    <th class="p-3">Break End</th>
+                    <th class="p-3">End Time</th>
                     <th class="p-3">Action</th>
                 </tr>
             </thead>
@@ -62,8 +64,21 @@
                 @forelse ( $weeklySchedules as $schedule)
                 <tr>
                     <td class="p-3">{{ $schedule->day_of_week }}</td>
-                    <td class="p-3">{{ \Carbon\Carbon::parse($schedule->open_time)->format('g:i A') }}</td>
-                    <td class="p-3">{{ \Carbon\Carbon::parse($schedule->close_time)->format('g:i A') }}</td>
+                    <td class="p-3">{{ \Carbon\Carbon::parse($schedule->start_time)->format('g:i A') }}</td>
+                    <td class="p-3">
+                        {{ $schedule->break_time_start
+                            ? \Carbon\Carbon::parse($schedule->break_time_start)->format('g:i A')
+                            : '—'
+                        }}
+                    </td>
+
+                    <td class="p-3">
+                        {{ $schedule->break_time_end
+                            ? \Carbon\Carbon::parse($schedule->break_time_end)->format('g:i A')
+                            : '—'
+                        }}
+                    </td>
+                    <td class="p-3">{{ \Carbon\Carbon::parse($schedule->end_time)->format('g:i A') }}</td>
 
                     <td class="p-3">
                         <div class="dropdown">
@@ -83,8 +98,8 @@
                                         @click="
                                                         form.schedule_id = @js($schedule->id);
                                                         form.day_of_week = @js($schedule->day_of_week);
-                                                        form.open_time = @js(\Carbon\Carbon::parse($schedule->open_time)->format('H:i'));
-                                                        form.close_time = @js(\Carbon\Carbon::parse($schedule->close_time)->format('H:i'));">
+                                                        form.start_time = @js(\Carbon\Carbon::parse($schedule->start_time)->format('H:i'));
+                                                        form.end_time = @js(\Carbon\Carbon::parse($schedule->end_time)->format('H:i'));">
                                         <i class="bi bi-pencil me-2"></i>
                                         Edit
                                     </button>
@@ -109,8 +124,8 @@
         @hidden.bs.modal="
             form.schedule_id = null;
             form.day_of_week = '';
-            form.open_time = '';
-            form.close_time = '';">
+            form.start_time = '';
+            form.end_time = '';">
 
         <div class="modal-dialog">
             <div class="modal-content rounded-3">
@@ -138,16 +153,16 @@
                             <input type="text" readonly class="form-control rounded-3" name="day_of_week" x-model="form.day_of_week">
                         </div>
 
-                        {{-- Open TIme --}}
+                        {{-- Start Time --}}
                         <div class="mb-4">
-                            <label for="" class="form-label">Open Time</label>
-                            <input type="time" class="form-control rounded-3" name="open_time" x-model="form.open_time">
+                            <label for="" class="form-label">Start Time</label>
+                            <input type="time" class="form-control rounded-3" name="start_time" x-model="form.start_time">
                         </div>
 
-                        {{-- Close Time --}}
+                        {{-- End Time --}}
                         <div class="mb-4">
-                            <label for="" class="form-label">Close Time</label>
-                            <input type="time" class="form-control rounded-3" name="close_time" x-model="form.close_time">
+                            <label for="" class="form-label">End Time</label>
+                            <input type="time" class="form-control rounded-3" name="end_time" x-model="form.end_time">
                         </div>
 
                         {{-- Submit Button --}}

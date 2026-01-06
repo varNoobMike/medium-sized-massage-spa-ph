@@ -19,10 +19,10 @@ class Service extends Model
         'price',
     ];
 
-    public function spas()
-    {
-        return $this->belongsToMany(Spa::class, 'spa_services', 'service_id', 'spa_id')
-            ->withTimestamps();
-    }
 
+
+    public function spa()
+    {
+        return $this->belongsTo(Spa::class);
+    }
 }

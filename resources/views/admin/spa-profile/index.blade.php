@@ -41,19 +41,13 @@
     <tbody>
 
 
-        @if($spaProfile)
-
-        @php
-        $profile = $spaProfile;
-        @endphp
-
         <tr>
-            <td class="p-3">{{ $profile->company->name }}</td>
-            <td class="p-3">{{ $profile->company->email }}</td>
-            <td class="p-3">{{ $profile->company->phone }}</td>
-            <td class="p-3">{{ $profile->company->logo ?? 'No Image' }}</td>
-            <td class="p-3">{{ $profile->location }}</td>
-            <td class="p-3">{{ $profile->total_beds }}</td>
+            <td class="p-3">{{ $company->name }}</td>
+            <td class="p-3">{{ $company->email }}</td>
+            <td class="p-3">{{ $company->phone }}</td>
+            <td class="p-3">{{ $company->logo ?? 'No Image' }}</td>
+            <td class="p-3">{{ $spa->location }}</td>
+            <td class="p-3">{{ $spa->total_beds }}</td>
 
             {{-- Dropdown Action --}}
             <td class="p-3">
@@ -79,7 +73,6 @@
                         </li>
 
 
-
                     </ul>
 
                 </div>
@@ -87,9 +80,6 @@
             </td>
 
         </tr>
-
-
-        @endif
 
     </tbody>
 

@@ -5,24 +5,25 @@ namespace App\Services;
 use App\Models\User;
 
 
-// service class for client users
+
 class ClientUserService
 {
 
     /* no create method yet, insertion is done by auth service's register method */
 
-    public function getOneById(int $id)
+    /* get a row of client user by id */
+    public function getClientById(int $id)
     {
-        return User::where('role', 'Client')
+        return User::where('role', User::ROLE_CLIENT)
             ->where('id', $id)
             ->first();
     }
 
-    public function getAll()
+    /* get rows of client users */
+    public function getAllClients()
     {
-        return User::where('role', 'Client')
+        return User::where('role', User::ROLE_CLIENT)
             ->orderBy('email')
             ->get();
     }
-
 }

@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\StaffWeeklySchedule;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
@@ -11,10 +10,9 @@ use Illuminate\Validation\ValidationException;
 class StaffWeeklyScheduleService
 {
 
-    /* no create method yet, add later */
+    /* no create method yet, add later... */
 
-
-    public function update(StaffWeeklySchedule $weeklySchedule, array $data)
+    public function updateSchedule(StaffWeeklySchedule $weeklySchedule, array $data)
     {
 
         DB::transaction(function () use ($weeklySchedule, $data) {
@@ -35,9 +33,7 @@ class StaffWeeklyScheduleService
     }
 
 
-
-    // specific staff's weekly schedules
-    public function getAllByUserId(int $userId)
+    public function getSchedulesByUserId(int $userId)
     {
 
         return StaffWeeklySchedule::with('staff:id,name')
@@ -45,19 +41,9 @@ class StaffWeeklyScheduleService
                 $q->where('id', $userId);
             })
             ->orderByRaw("
-                FIELD(day_of_week, 'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday')
-            ")
-            ->get();
-    }
-
-
-    // all staff weekly schedules
-    public function getAll()
-    {
-
-        return StaffWeeklySchedule::with('staff:id,name')
-            ->orderByRaw("
-                FIELD(day_of_week, 'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday')
+                FIELD(day_of_week, 
+                    'Monday','Tuesday','Wednesday',
+                    'Thursday','Friday','Saturday','Sunday')
             ")
             ->get();
     }

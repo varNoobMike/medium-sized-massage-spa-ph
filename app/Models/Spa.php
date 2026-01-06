@@ -14,16 +14,9 @@ class Spa extends Model
      */
     protected $fillable = [
         'name',
-        'company_id',
-        'is_main_branch',
         'location',
         'total_beds',
     ];
-
-    public function spaWeeklySchedules()
-    {
-        return $this->hasMany(SpaWeeklySchedule::class);
-    }
 
     public function company()
     {
@@ -32,13 +25,11 @@ class Spa extends Model
 
     public function services()
     {
-        return $this->belongsToMany(Service::class, 'spa_services', 'spa_id', 'service_id')
-            ->withTimestamps();
+        return $this->hasMany(Service::class);
     }
 
-    public function staffs()
+    public function spaWeeklySchedules()
     {
-        return $this->belongsToMany(User::class, 'spa_staff', 'spa_id', 'user_id')
-            ->withTimestamps();
+        return $this->hasMany(SpaWeeklySchedule::class);
     }
 }
