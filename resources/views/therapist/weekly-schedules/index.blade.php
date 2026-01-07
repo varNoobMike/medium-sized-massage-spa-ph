@@ -34,12 +34,11 @@
         }">
 
 
-    {{-- Alert Update Weekly Schedule Error --}}
     @if($errors->any())
     <div class="alert alert-danger rounded-3 mb-4">
         {{ $errors->first() }}
     </div>
-    {{-- Alert Update Weekly Schedule Success --}}
+
     @elseif(session('staff_weekly_schedule_update_success'))
     <div class="alert alert-success rounded-3 mb-4">
         {{ session('staff_weekly_schedule_update_success') }}

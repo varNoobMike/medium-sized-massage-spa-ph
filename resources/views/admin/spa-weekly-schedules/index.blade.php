@@ -28,17 +28,18 @@
                 schedule_id: null,
                 day_of_week: '',
                 start_time: '',
+                break_time_start: '',
+                break_time_end: '',
                 end_time: ''
             }
         }">
 
 
-    {{-- alert weekly schedule update error --}}
     @if($errors->any())
     <div class="alert alert-danger rounded-3 mb-4">
         {{ $errors->first() }}
     </div>
-    {{-- alert weekly schedule update success --}}
+
     @elseif(session('spa_weekly_schedule_update_success'))
     <div class="alert alert-success rounded-3 mb-4">
         {{ session('spa_weekly_schedule_update_success') }}
@@ -46,7 +47,7 @@
     @endif
 
 
-    {{-- Weekly Schedules Table --}}
+    {{-- Spa Weekly Schedules Table --}}
     <div class="table-responsive">
         <table class="table table-hover">
             <thead>
@@ -99,6 +100,16 @@
                                                         form.schedule_id = @js($schedule->id);
                                                         form.day_of_week = @js($schedule->day_of_week);
                                                         form.start_time = @js(\Carbon\Carbon::parse($schedule->start_time)->format('H:i'));
+                                                        form.break_time_start = @js(
+                                                            $schedule->break_time_start
+                                                                ? \Carbon\Carbon::parse($schedule->break_time_start)->format('H:i')
+                                                                : ''
+                                                        );
+                                                        form.break_time_end = @js(
+                                                            $schedule->break_time_end
+                                                                ? \Carbon\Carbon::parse($schedule->break_time_end)->format('H:i')
+                                                                : ''
+                                                        );
                                                         form.end_time = @js(\Carbon\Carbon::parse($schedule->end_time)->format('H:i'));">
                                         <i class="bi bi-pencil me-2"></i>
                                         Edit
@@ -125,6 +136,8 @@
             form.schedule_id = null;
             form.day_of_week = '';
             form.start_time = '';
+            form.break_time_start = '',
+            form.break_time_end = '',
             form.end_time = '';">
 
         <div class="modal-dialog">
@@ -157,6 +170,18 @@
                         <div class="mb-4">
                             <label for="" class="form-label">Start Time</label>
                             <input type="time" class="form-control rounded-3" name="start_time" x-model="form.start_time">
+                        </div>
+
+                        {{-- Break Time Start --}}
+                        <div class="mb-4">
+                            <label for="" class="form-label">Break Time Start</label>
+                            <input type="time" class="form-control rounded-3" name="break_time_start" x-model="form.break_time_start">
+                        </div>
+
+                        {{-- Break Time End --}}
+                        <div class="mb-4">
+                            <label for="" class="form-label">Break Time End</label>
+                            <input type="time" class="form-control rounded-3" name="break_time_end" x-model="form.break_time_end">
                         </div>
 
                         {{-- End Time --}}

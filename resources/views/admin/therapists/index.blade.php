@@ -32,17 +32,17 @@
 
 
 
-    {{-- alert therapist approval error --}}
     @if($errors->any())
     <div class="alert alert-danger rounded-3 mb-4">
         {{ $errors->first() }}
     </div>
-    {{-- alert therapist approval success --}}
+
     @elseif(session('approve_therapist_success'))
     <div class="alert alert-success rounded-3 mb-4">
         {{ session('approve_therapist_success') }}
     </div>
     @endif
+
 
 
     <table class="table table-hover">
@@ -78,38 +78,38 @@
 
                             @if(!$therapist->approved_at)
                             {{-- Approve --}}
-                                <li>
-                                    <form
-                                        :action="`{{ url('admin/therapists') }}/${form.user_id}/approve`"
-                                        method="POST">
-                                        @csrf
-                                        @method('PUT')
+                            <li>
+                                <form
+                                    :action="`{{ url('admin/therapists') }}/${form.user_id}`"
+                                    method="POST">
+                                    @csrf
+                                    @method('PUT')
 
-                                        {{-- Hidden User ID --}}
-                                        <input type="hidden" name="id" x-model="form.user_id">
+                                    {{-- Hidden User ID --}}
+                                    <input type="hidden" name="id" x-model="form.user_id">
 
-                                        <button type="submit" class="dropdown-item text-success"
-                                            onclick="return confirm('Are you sure you want to approve this client?');"
-                                            @click="form.user_id = @js($therapist->id);">
-                                            <i class="bi bi-check-circle"></i> Approve
-                                        </button>
-                                    </form>
-                                </li>
+                                    <button type="submit" class="dropdown-item text-success"
+                                        onclick="return confirm('Are you sure you want to approve this person as therapist?');"
+                                        @click="form.user_id = @js($therapist->id);">
+                                        <i class="bi bi-check-circle"></i> Approve
+                                    </button>
+                                </form>
+                            </li>
 
-                                {{-- Decline --}}
-                                <li>
-                                    <form action="" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="dropdown-item text-danger" onclick="return confirm('Are you sure you want to decline this client?');">
-                                            <i class="bi bi-x-circle"></i> Decline
-                                        </button>
-                                    </form>
-                                </li>
-                            
-                                <li>
-                                    <hr class="dropdown-divider" />
-                                </li>
+                            {{-- Decline --}}
+                            <li>
+                                <form action="" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="dropdown-item text-danger" onclick="return confirm('Are you sure you want to decline this client?');">
+                                        <i class="bi bi-x-circle"></i> Decline
+                                    </button>
+                                </form>
+                            </li>
+
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
                             @endif
 
                             <li>

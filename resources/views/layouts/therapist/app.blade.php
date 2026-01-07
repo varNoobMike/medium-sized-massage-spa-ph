@@ -30,7 +30,7 @@
 
                     <hr>
 
-                     {{-- Nav Links --}}
+                    {{-- Nav Links --}}
                     <ul class="nav flex-column">
 
                         <li class="nav-item">
@@ -91,16 +91,16 @@
                                 </li>
                             </ul>
                         </li>
-         
+
 
                         <li class="nav-item">
-                            <a href="" class="nav-link text-dark">
+                            <a href="{{ route('therapist.services.index') }}" class="nav-link {{ request()->routeIs('therapist.services.index') ? 'text-bg-secondary rounded-3' : 'text-dark' }}" class="nav-link text-dark">
                                 <i class="bi bi-list-check me-2"></i>
-                                Services
+                                Spa Services
                             </a>
                         </li>
 
-                        
+
                         <li class="nav-item">
                             <a href="" class="nav-link text-dark">
                                 <i class="bi bi-gear me-2"></i>
@@ -137,22 +137,22 @@
                                 <!-- Profile Dropdown -->
                                 <li class="nav-item dropdown ms-lg-3">
                                     <a class="nav-link p-0" href="#" role="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                        data-bs-toggle="dropdown" aria-expanded="false">
 
                                         @php
-                                            $user = auth()->user();
+                                        $user = auth()->user();
                                         @endphp
 
                                         @if($user && $user->profile_photo)
-                                            <img src="{{ asset('storage/' . $user->profile_photo) }}"
-                                                class="rounded-circle"
-                                                width="40" height="40"
-                                                style="object-fit: cover;">
+                                        <img src="{{ asset('storage/' . $user->profile_photo) }}"
+                                            class="rounded-circle"
+                                            width="40" height="40"
+                                            style="object-fit: cover;">
                                         @else
-                                            <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center"
-                                                style="width:40px;height:40px;font-weight:600;">
-                                                {{ strtoupper(substr($user->name ?? 'U', 0, 1)) }}
-                                            </div>
+                                        <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center"
+                                            style="width:40px;height:40px;font-weight:600;">
+                                            {{ strtoupper(substr($user->name ?? 'U', 0, 1)) }}
+                                        </div>
                                         @endif
                                     </a>
 
@@ -172,12 +172,14 @@
                                             </a>
                                         </li>
 
-                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
 
                                         <li>
                                             <form method="POST" action="{{ route('logout') }}">
                                                 @csrf
-                                                <button class="dropdown-item text-danger" onclick="return confirm('Confirm Logout?');"> 
+                                                <button class="dropdown-item text-danger" onclick="return confirm('Confirm Logout?');">
                                                     <i class="bi bi-box-arrow-right me-2"></i>Logout
                                                 </button>
                                             </form>
@@ -205,22 +207,22 @@
                         </ol>
                     </nav>
 
-                  
+
 
                     @if(!auth()->user()->approved_at)
-                        <h3 class="text-center mb-1 mt-5">Your account is pending approval.</h3>
-                        <p class="text-center">Please wait for the administrator to activate your access.</p>
+                    <h3 class="text-center mb-1 mt-5">Your account is pending approval.</h3>
+                    <p class="text-center">Please wait for the administrator to activate your access.</p>
                     @else
-                        {{-- Page Heading --}}
-                        <div id="page-heading">
-                            <h4 class="fw-semibold mb-0">@yield('page-heading')</h4>
-                            <p class="text-muted small mb-0">@yield('page-heading-small')</p>
-                        </div> 
+                    {{-- Page Heading --}}
+                    <div id="page-heading">
+                        <h4 class="fw-semibold mb-0">@yield('page-heading')</h4>
+                        <p class="text-muted small mb-0">@yield('page-heading-small')</p>
+                    </div>
 
-                        {{-- Content --}}
-                        <div id="content" class="mt-4">
-                            @yield('content')
-                        </div>
+                    {{-- Content --}}
+                    <div id="content" class="mt-4">
+                        @yield('content')
+                    </div>
                     @endif
 
                 </div>

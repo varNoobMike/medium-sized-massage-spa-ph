@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'role',
         'password',
+        'approved_at'
 
     ];
 
@@ -68,6 +69,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(StaffWeeklySchedule::class, 'user_id');
     }
-
-    
 }

@@ -2,22 +2,25 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\SpaWeeklySchedule\GetAllSpaWeeklySchedulesAction;
+use App\Actions\SpaWeeklySchedule\UpdateWeeklyScheduleAction;
+use App\Exceptions\CustomDomainException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SpaWeeklyScheduleRequest;
 use App\Models\SpaWeeklySchedule;
-use App\Services\SpaWeeklyScheduleService;
 
 
 class SpaWeeklyScheduleController extends Controller
 {
 
-    public function __construct(private SpaWeeklyScheduleService $spaWeeklyScheduleService) {}
 
-
-    public function index()
+    /**
+     * Display all spa weekly scheduless
+     * 
+     */
+    public function index(GetAllSpaWeeklySchedulesAction $action)
     {
-        $weeklySchedules = $this->spaWeeklyScheduleService
-            ->getAllSchedules();
+        $weeklySchedules = $action->run();
 
         return view('admin.spa-weekly-schedules.index', [
             'breadcrumbs' => [
@@ -28,17 +31,33 @@ class SpaWeeklyScheduleController extends Controller
     }
 
 
-    /* update */
-    public function update(SpaWeeklyScheduleRequest $request, SpaWeeklySchedule $spaWeeklySchedule)
-    {
+    /**
+     * Update spa day of week schedule
+     * 
+     */
+    public function update(
+        SpaWeeklyScheduleRequest $request,
+        SpaWeeklySchedule $spaWeeklySchedule,
+        UpdateWeeklyScheduleAction $action
+    ) {
 
-        // dd($request->validated());
+        try {
+            $scheduleData = $request->validated();
+            $action->run($spaWeeklySchedule, $scheduleData);
 
-        $this->spaWeeklyScheduleService
-            ->updateSchedule($spaWeeklySchedule, $request->validated());
+            return redirect()
+                ->route('admin.spa-weekly-schedules.index')
+                ->with(
+                    'spa_weekly_schedule_update_success',
+                    "Schedule is updated successfully for day of week '$spaWeeklySchedule->day_of_week'."
+                );
+        } catch (CustomDomainException $e) {
 
-        return redirect()
-            ->route('admin.spa-weekly-schedules.index')
-            ->with('spa_weekly_schedule_update_success', 'Schedule updated successfully.');
+            return redirect()->back()
+                ->withErrors(
+                    ['spa_weekly_schedule_update_error' =>
+                    "Failed to update schedule for day of week '$spaWeeklySchedule->day_of_week'."]
+                );
+        }
     }
 }

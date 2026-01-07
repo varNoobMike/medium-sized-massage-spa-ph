@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers\Therapist;
 
+use App\Actions\SpaWeeklySchedule\GetAllSpaWeeklySchedulesAction;
 use App\Http\Controllers\Controller;
-use App\Services\SpaWeeklyScheduleService;
 
 
 class SpaWeeklyScheduleController extends Controller
 {
 
-    public function __invoke(SpaWeeklyScheduleService $spaWeeklyScheduleService)
+    /**
+     * Get all spa weekly schedules
+     * 
+     */
+    public function __invoke(GetAllSpaWeeklySchedulesAction $action)
     {
-        $weeklySchedules = $spaWeeklyScheduleService
-            ->getAllSchedules();
+        $weeklySchedules = $action->run();
 
         return view('therapist.spa-weekly-schedules.index', [
             'breadcrumbs' => [

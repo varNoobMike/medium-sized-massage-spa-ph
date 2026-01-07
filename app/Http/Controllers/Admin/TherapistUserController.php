@@ -2,20 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\User\ApproveTherapistUserAction;
+use App\Actions\User\GetAllTherapistUsersAction;
+use App\Exceptions\CustomDomainException;
 use App\Http\Controllers\Controller;
-use App\Services\TherapistUserService;
 use App\Models\User;
+
 
 class TherapistUserController extends Controller
 {
 
-    /* constructor */
-    public function __construct(private TherapistUserService $therapistUserService) {}
 
-    /* index */
-    public function index()
+    /**
+     * Display all therapist users
+     * 
+     */
+    public function index(GetAllTherapistUsersAction $action)
     {
-        $therapists = $this->therapistUserService->getAllTherapists();
+        $therapists = $action->run();
 
         return view('admin.therapists.index', [
             'breadcrumbs' => [
@@ -25,13 +29,23 @@ class TherapistUserController extends Controller
         ], compact('therapists'));
     }
 
-    /* approve */
-    public function approve(User $therapist)
-    {
-        $this->therapistUserService->approveTherapist($therapist);
 
-        return redirect()
-            ->route('admin.therapists.index')
-            ->with('approve_therapist_success', 'Therapist is approved successfully.');
+    /** 
+     * Approve therapist user
+     * 
+     */
+    public function approve(User $therapist, ApproveTherapistUserAction $action)
+    {
+        try {
+            $action->run($therapist);
+
+            return redirect()
+                ->route('admin.therapists.index')
+                ->with('approve_therapist_success', "Therapist '$therapist->email' is approved successfully.");
+        } catch (CustomDomainException $e) {
+            return redirect()
+                ->back()
+                ->withErrors(['approve_therapist_error' => "Failed to approve therapist '$therapist->email'."]);
+        }
     }
 }

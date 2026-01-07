@@ -7,28 +7,50 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 
+/* Service class for `staff_weekly_schedules` */
+
 class StaffWeeklyScheduleService
 {
 
-    /* no create method yet, add later... */
+
+    public function createSchedules(array $data, int $userId)
+    {
+        return DB::transaction(function () use ($data, $userId) {
+
+            // Merge user_id into each schedule
+            $now = now();
+            $rows = array_map(function ($schedule) use ($userId, $now) {
+                return [
+                    ...$schedule,
+                    'user_id' => $userId,
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ];
+            }, $data);
+
+            StaffWeeklySchedule::insert($rows);
+
+            return true;
+        });
+    }
 
     public function updateSchedule(StaffWeeklySchedule $weeklySchedule, array $data)
     {
 
-        DB::transaction(function () use ($weeklySchedule, $data) {
+        return DB::transaction(function () use ($weeklySchedule, $data) {
 
-            $schedule = $weeklySchedule->update([
+            $updated = $weeklySchedule->update([
                 'start_time' => $data['start_time'],
                 'end_time' => $data['end_time'],
             ]);
 
-            if (!$schedule) {
+            if (!$updated) {
                 throw ValidationException::withMessages([
                     'staff_weekly_schedule_update_error' => 'Failed to update schedule.',
                 ]);
             }
 
-            return $schedule;
+            return $weeklySchedule;
         });
     }
 

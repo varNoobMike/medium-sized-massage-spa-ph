@@ -14,8 +14,11 @@ class SpaWeeklySchedule extends Model
     protected $fillable = [
         'day_of_week',
         'start_time',
+        'break_time_start',
+        'break_time_end',
         'end_time',
         'is_unavailable',
+        'spa_id',
     ];
 
 

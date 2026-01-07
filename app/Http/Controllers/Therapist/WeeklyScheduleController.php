@@ -2,25 +2,28 @@
 
 namespace App\Http\Controllers\Therapist;
 
+
+use App\Actions\StaffWeeklySchedule\GetStaffWeeklySchedulesAction;
+use App\Actions\User\UpdateStaffWeeklyScheduleAction;
+use App\Exceptions\CustomDomainException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StaffWeeklyScheduleRequest;
 use App\Models\StaffWeeklySchedule;
 use Illuminate\Support\Facades\Auth;
-use App\Services\StaffWeeklyScheduleService;
 
-/* WeeklyScheduleController */
 
 class WeeklyScheduleController extends Controller
 {
 
-    /* constructor */
-    public function __construct(private StaffWeeklyScheduleService $staffWeeklyScheduleService) {}
 
-    /* index */
-    public function index()
+    /**
+     * Get current logged in therapist (staff) schedules
+     * 
+     */
+    public function index(GetStaffWeeklySchedulesAction $action)
     {
-        $weeklySchedules = $this->staffWeeklyScheduleService
-            ->getSchedulesByUserId(Auth::user()->id);
+        $therapist = Auth::user();
+        $weeklySchedules = $action->run($therapist);
 
         return view('therapist.weekly-schedules.index', [
             'breadcrumbs' => [
@@ -30,16 +33,34 @@ class WeeklyScheduleController extends Controller
         ], compact('weeklySchedules'));
     }
 
-    /* update */
-    public function update(StaffWeeklyScheduleRequest $request, StaffWeeklySchedule $weeklySchedule)
-    {
 
-        $this->staffWeeklyScheduleService
-            ->updateSchedule($weeklySchedule, $request->validated());
+    /**
+     * Update logged in therapist (staff) day of week schedule
+     * 
+     */
+    public function update(
+        StaffWeeklyScheduleRequest $request,
+        StaffWeeklySchedule $weeklySchedule,
+        UpdateStaffWeeklyScheduleAction $action
+    ) {
 
-        return redirect()->route('therapist.weekly-schedules.index')
-            ->with('staff_weekly_schedule_update_success', 'Schedule updated successfully.');
+        try {
+            $scheduleData = $request->validated();
+            $action->run($weeklySchedule, $scheduleData);
+
+            return redirect()
+                ->route('therapist.weekly-schedules.index')
+                ->with(
+                    'staff_weekly_schedule_update_success',
+                    "Schedule is updated successfully for day of week '$weeklySchedule->day_of_week'."
+                );
+        } catch (CustomDomainException $e) {
+
+            return redirect()->back()
+                ->withErrors(
+                    ['staff_weekly_schedule_update_error' =>
+                    "Failed to update schedule for day of week '$weeklySchedule->day_of_week'."]
+                );
+        }
     }
-
-    
 }

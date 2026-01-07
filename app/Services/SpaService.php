@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Spa;
 
+/* Service class for `spas` */
 
 class SpaService
 {

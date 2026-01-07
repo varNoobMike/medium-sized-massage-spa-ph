@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Actions\Auth\LoginUserAction;
+use App\Actions\Auth\LogoutUserAction;
+use App\Exceptions\CustomDomainException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
-use App\Services\AuthService;
 
 
 class LoginController extends Controller
 {
 
-    /* constructor */
-    public function __construct(private AuthService $authService) {}
-
-
-    /* show login form */
+    /**
+     * Show login user form
+     * 
+     */
     public function showLoginForm()
     {
         return view('auth.login', [
@@ -25,25 +26,38 @@ class LoginController extends Controller
         ]);
     }
 
-    /* login */
-    public function login(LoginRequest $request)
+    /**
+     * Login user
+     * 
+     */
+    public function login(LoginRequest $request, LoginUserAction $action)
     {
 
-        $user = $this->authService->login($request->validated());
+        try {
+            $user = $action->run($request->validated());
 
-        // Redirect based on role
-        return match ($user->role) {
-            'Admin' => redirect()->route('admin.dashboard.index'),
-            'Therapist' => redirect()->route('therapist.dashboard.index'),
-            'Client' => redirect()->route('client.home.index'),
-            default => redirect('/'), // or change to abort later...
-        };
+            return match ($user->role) {
+                'Admin' => redirect()->route('admin.dashboard.index'),
+                'Therapist' => redirect()->route('therapist.dashboard.index'),
+                'Client' => redirect()->route('client.home.index'),
+                default => abort(403, 'Unauthorized role.'),
+            };
+        } catch (CustomDomainException $e) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['auth_error' => 'Invalid email or password.']);
+        }
     }
 
-    /* logout */
-    public function logout()
+
+
+    /**
+     * Logout user
+     */
+    public function logout(LogoutUserAction $action)
     {
-        $this->authService->logout();
-        return redirect()->route('login');
+        $action->run();
+        return redirect()->route('login')
+            ->with('logout_success', 'You have been logged out successfully.');
     }
 }

@@ -36,7 +36,6 @@
 
                     @csrf
 
-                    {{-- Error alert --}}
                     @if($errors->any())
                     <div class="alert alert-danger rounded-3 mb-4">
                         {{ $errors->first() }}

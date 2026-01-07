@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 
 class DashboardController extends Controller
 {
-    /* invoke */
+    /**
+     * Invoke 
+     * 
+     */
     public function __invoke()
     {
         return view('admin.dashboard.index', [

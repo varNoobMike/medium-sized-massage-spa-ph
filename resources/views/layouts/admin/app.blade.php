@@ -102,7 +102,7 @@
                                 Therapists
                             </a>
                         </li>
-                        
+
                         <li class="nav-item">
                             <a href="" class="nav-link text-dark">
                                 <i class="bi bi-credit-card me-2"></i>
@@ -150,25 +150,26 @@
                                 <li class="nav-item">
                                     <a class="nav-link active" href="#">Home</a>
                                 </li>
+
+                                @auth
+                                @php
+                                $user = auth()->user();
+                                @endphp
                                 <!-- Profile Dropdown -->
                                 <li class="nav-item dropdown ms-lg-3">
                                     <a class="nav-link p-0" href="#" role="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                        data-bs-toggle="dropdown" aria-expanded="false">
 
-                                        @php
-                                            $user = auth()->user();
-                                        @endphp
-
-                                        @if($user && $user->profile_photo)
-                                            <img src="{{ asset('storage/' . $user->profile_photo) }}"
-                                                class="rounded-circle"
-                                                width="40" height="40"
-                                                style="object-fit: cover;">
+                                        @if($user->profile_photo)
+                                        <img src="{{ asset('storage/' . $user->profile_photo) }}"
+                                            class="rounded-circle"
+                                            width="40" height="40"
+                                            style="object-fit: cover;">
                                         @else
-                                            <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center"
-                                                style="width:40px;height:40px;font-weight:600;">
-                                                {{ strtoupper(substr($user->name ?? 'U', 0, 1)) }}
-                                            </div>
+                                        <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center"
+                                            style="width:40px;height:40px;font-weight:600;">
+                                            {{ strtoupper(substr($user->name ?? 'U', 0, 1)) }}
+                                        </div>
                                         @endif
                                     </a>
 
@@ -188,12 +189,14 @@
                                             </a>
                                         </li>
 
-                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
 
                                         <li>
                                             <form method="POST" action="{{ route('logout') }}">
                                                 @csrf
-                                                <button class="dropdown-item text-danger" onclick="return confirm('Confirm Logout?');"> 
+                                                <button class="dropdown-item text-danger" onclick="return confirm('Confirm Logout?');">
                                                     <i class="bi bi-box-arrow-right me-2"></i>Logout
                                                 </button>
                                             </form>
@@ -202,6 +205,8 @@
                                     </ul>
 
                                 </li>
+                                @endauth
+
 
                             </ul>
 

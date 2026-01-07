@@ -16,6 +16,7 @@ class Spa extends Model
         'name',
         'location',
         'total_beds',
+        'company_id'
     ];
 
     public function company()

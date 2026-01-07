@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Models\Company;
 
-
+/* Service class for `companies` */
 class CompanyService
 {
 

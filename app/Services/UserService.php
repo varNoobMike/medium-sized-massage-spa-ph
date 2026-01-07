@@ -3,7 +3,8 @@
 namespace App\Services;
 
 use App\Models\User;
-use InvalidArgumentException;
+
+/* Service class for `users` */
 
 class UserService
 {
@@ -15,9 +16,6 @@ class UserService
 
     public function getUsersByRole(string $role)
     {
-        if (!in_array($role, User::ROLES)) {
-            throw new InvalidArgumentException("Invalid user role: $role");
-        }
         return User::where('role', $role)->get();
     }
 

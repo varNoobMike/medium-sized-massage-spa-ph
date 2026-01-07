@@ -2,27 +2,30 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\Spa\GetSpaProfileAction;
 use App\Http\Controllers\Controller;
-use App\Services\SpaService;
-use App\Services\CompanyService;
 
 
 class SpaProfileController extends Controller
 {
 
-    public function __construct(private SpaService $spaService, private CompanyService $companyService) {}
 
-    public function index()
+    /**
+     * Display spa profile
+     * 
+     */
+    public function index(GetSpaProfileAction $action)
     {
 
-        $spa = $this->spaService->getFirstSpa();
-        $company = $this->companyService->getFirstCompany();
+        $spaProfile = $action->run();
+
+        // dd($spaProfile->company->email);
 
         return view('admin.spa-profile.index', [
             'breadcrumbs' => [
                 ['title' => 'Admin', 'url' => route('admin.dashboard.index')],
                 ['title' => 'Spa Profile', 'url' => null],
             ],
-        ], compact('spa', 'company'));
+        ], compact('spaProfile'));
     }
 }

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\User;
 
 
+/* Service class for `users` where role is Client */
 
 class ClientUserService
 {

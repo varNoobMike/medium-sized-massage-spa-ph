@@ -51,7 +51,6 @@ class StaffWeeklyScheduleSeeder extends Seeder
             ['user_id' => $therapistCId, 'day_of_week' => 'Saturday', 'start_time' => '10:00', 'end_time' => '15:00'],
             ['user_id' => $therapistCId, 'day_of_week' => 'Sunday', 'start_time' => '10:00', 'end_time' => '15:00'],
 
-
         ];
 
 

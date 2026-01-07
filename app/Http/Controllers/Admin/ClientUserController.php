@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\User\GetAllClientUsersAction;
 use App\Http\Controllers\Controller;
-use App\Services\ClientUserService;
 
-class ClientController extends Controller
+class ClientUserController extends Controller
 {
 
-    public function __construct(private ClientUserService $clientService) {}
 
-
-    public function index()
+    /**
+     * Display all client users
+     * 
+     */
+    public function index(GetAllClientUsersAction $action)
     {
 
-        $clients = $this->clientService->getAllClients();
+        $clients = $action->run();
 
         return view('admin.clients.index', [
             'breadcrumbs' => [

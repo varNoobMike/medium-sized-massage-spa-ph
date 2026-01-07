@@ -2,23 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\Services\GetAllServicesAction;
 use App\Http\Controllers\Controller;
-use App\Services\ServiceService;
 use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
 
-    /* constructor */
-    public function __construct(private ServiceService $serviceService) {}
-
 
     /**
-     * Display a listing of the resource.
+     * Display all services
+     * 
      */
-    public function index()
+    public function index(GetAllServicesAction $action)
     {
-        $services = $this->serviceService->getAllServices();
+        $services = $action->run();
 
         return view('admin.services.index', [
             'breadcrumbs' => [

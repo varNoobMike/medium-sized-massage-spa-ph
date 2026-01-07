@@ -39,12 +39,16 @@
                     @csrf
 
 
-                    {{-- Error alert --}}
                     @if($errors->any())
                     <div class="alert alert-danger rounded-3 mb-4">
                         {{ $errors->first() }}
                     </div>
-                    {{-- Alert after redirecting to this page --}}
+
+                    @elseif(session('logout_success'))
+                    <div class="alert alert-success rounded-3 mb-4">
+                        {{ session('logout_success') }}
+                    </div>
+
                     @elseif(session('register_success'))
                     <div class="alert alert-success rounded-3 mb-4">
                         {{ session('register_success') }}
