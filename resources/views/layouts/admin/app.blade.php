@@ -5,9 +5,6 @@
     @include('partials.head-meta')
 </head>
 
-
-</style>
-
 <body class="bg-primary">
 
     <div class="container-fluid p-4">
@@ -22,7 +19,6 @@
                     {{-- User info --}}
                     <div class="mb-3 text-center">
                         <div class="fw-semibold">{{ auth()->user()->name }}</div>
-
                         <span class="badge bg-secondary rounded-3 px-2 mt-1">
                             {{ auth()->user()->role->name ?? 'Admin' }}
                         </span>
@@ -68,20 +64,25 @@
                             </a>
                         </li>
 
-                        <li class="nav-item dropdown {{ request()->routeIs('admin.spa-weekly-schedules.*') ? 'bg-secondary rounded-3' : '' }}">
-                            <button class="nav-link {{ request()->routeIs('admin.spa-weekly-schedules.*') ? 'text-white' : 'text-dark' }}" data-bs-toggle="dropdown">
+                        <li class="nav-item dropdown">
+                            <a
+                                class="nav-link dropdown-toggle {{ request()->routeIs('admin.spa-weekly-schedules.*') ? 'text-bg-secondary rounded-3' : 'text-dark' }}"
+                                href="#"
+                                role="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false">
                                 <i class="bi bi-calendar-event me-2"></i>
                                 Spa Schedules
-                            </button>
+                            </a>
                             <ul class="dropdown-menu rounded-3 shadow-sm">
                                 <li>
-                                    <a href="{{ route('admin.spa-weekly-schedules.index') }}" class="dropdown-item {{ request()->routeIs('admin.spa-weekly-schedules.index') ? 'text-bg-secondary' : 'text-dark' }}">
+                                    <a href="{{ route('admin.spa-weekly-schedules.index') }}" class="dropdown-item {{ request()->routeIs('admin.spa-weekly-schedules.index') ? 'active' : '' }}">
                                         <i class="bi bi-calendar-week me-2"></i>
                                         Weekly Schedules
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="" class="dropdown-item">
+                                    <a href="#" class="dropdown-item">
                                         <i class="bi bi-calendar-minus me-2"></i>
                                         Datetime Unavailable
                                     </a>
@@ -134,7 +135,7 @@
             <div id="right-side-layout" class="col-lg-10">
 
                 {{-- Top Right Navbar --}}
-                <nav id="top-right-navbar" class="navbar navbar-expand-lg navbar-white bg-white shadow-sm px-4 py-3 rounded-3">
+                <nav id="top-right-navbar" class="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-4 py-3 rounded-3">
                     <div class="container">
                         <a class="navbar-brand" href="{{ url('/') }}">Rose Massage</a>
 
@@ -207,7 +208,6 @@
                                 </li>
                                 @endauth
 
-
                             </ul>
 
                         </div>
@@ -216,7 +216,7 @@
 
                 </nav>
 
-                {{-- Below Top Right Navbar / Main --}}
+                {{-- Main Content --}}
                 <div id="main" class="container bg-white p-4 shadow-sm mt-4 min-vh-100 rounded-3">
 
                     {{-- Breadcrumb --}}
@@ -245,8 +245,6 @@
     </div>
 
     @include('partials.foot-script-shared')
-
-    <!-- Specific JS Scripts -->
     @yield('foot-script-specific')
 
 </body>

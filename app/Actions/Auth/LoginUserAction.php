@@ -3,6 +3,7 @@
 namespace App\Actions\Auth;
 
 use App\Exceptions\CustomDomainException;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -13,7 +14,7 @@ class LoginUserAction
      * Login user
      * 
      */
-    public function run(array $credentials)
+    public function run(array $credentials): User
     {
 
         // Attempt to authenticate the user

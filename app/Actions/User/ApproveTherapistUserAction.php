@@ -1,40 +1,33 @@
 <?php
 
+/*
+
 namespace App\Actions\User;
 
 use App\Actions\SpaWeeklySchedule\GetAllSpaWeeklySchedulesAction;
 use App\Exceptions\CustomDomainException;
-use App\Exceptions\User\TherapistUserApprovalFailedException;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+
+use function Symfony\Component\Clock\now;
 
 class ApproveTherapistUserAction
 {
 
-    /**
-     * Constructor
-     * 
-     */
     public function __construct(protected GetAllSpaWeeklySchedulesAction $getSchedulesAction) {}
-
-
-    /**
-     * Approve therapist user
-     * 
-     */
-    public function run(User $therapist)
+    
+    public function run(User $therapist): User
     {
 
         if ($therapist->approved_at) {
             throw new CustomDomainException("Therapist '$therapist->email' was already approved.");
         }
 
-        $now = now();
 
-        return DB::transaction(function () use ($therapist, $now) {
+        return DB::transaction(function () use ($therapist) {
 
             $updated = $therapist->update([
-                'approved_at' => $now
+                'approved_at' => now(),
             ]);
 
 
@@ -44,35 +37,10 @@ class ApproveTherapistUserAction
                 );
             }
 
-            $schedules = $this->getFormattedSchedules();
-
-            if (empty($schedules)) {
-                throw new CustomDomainException(
-                    "No default schedules found to assign to therapist '$therapist->email'."
-                );
-            }
-
-            $created = $therapist->staffWeeklySchedules()->createMany($schedules);
-
-            if (count($created) !== count($schedules)) {
-                throw new CustomDomainException(
-                    "Failed to assign all default schedules to therapist '$therapist->email'."
-                );
-            }
-
-            return $therapist->load('staffWeeklySchedules');
+            return $therapist->refresh();
         });
     }
-
-    private function getFormattedSchedules()
-    {
-        return $this->getSchedulesAction
-            ->run()
-            ->map(fn($schedule) => [
-                'day_of_week' => $schedule->day_of_week,
-                'start_time'  => $schedule->start_time,
-                'end_time'    => $schedule->end_time,
-            ])
-            ->toArray();
-    }
 }
+
+
+*/

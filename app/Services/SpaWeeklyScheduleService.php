@@ -2,42 +2,70 @@
 
 namespace App\Services;
 
+use App\Exceptions\CustomDomainException;
 use App\Models\SpaWeeklySchedule;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\ValidationException;
-
-/* Service class for `spa_weekly_schedules` */
 
 class SpaWeeklyScheduleService
 {
+    /**
+     * Create a new class instance.
+     */
+    public function __construct()
+    {
+        //
+    }
 
-    /* no create method yet, add later... */
 
-    public function updateSchedule(SpaWeeklySchedule $spaWeeklySchedule, array $data)
+    /**
+     * Update schedule
+     * 
+     */
+    public function updateSchedule(SpaWeeklySchedule $spaWeeklySchedule, array $updateScheduleData)
     {
 
-        // dd($data);
-        return DB::transaction(function () use ($spaWeeklySchedule, $data) {
+        return DB::transaction(function () use ($spaWeeklySchedule, $updateScheduleData) {
 
             $updated = $spaWeeklySchedule->update([
-                'start_time' => $data['start_time'],
-                'end_time' => $data['end_time'],
+                'start_time' => $updateScheduleData['start_time'],
+                'end_time' => $updateScheduleData['end_time'],
             ]);
 
 
             if (!$updated) {
-
-                throw ValidationException::withMessages([
-                    'spa_weekly_schedule_update_error' => 'Failed to update schedule.',
-                ]);
+                throw new CustomDomainException("Failed to update schedule for day of week '$spaWeeklySchedule->day_of_week'.");
             }
 
-            return $spaWeeklySchedule;
+            return $spaWeeklySchedule->refresh();
         });
     }
 
-    public function getAllSchedules()
+
+    /**
+     * Get schedules
+     * 
+     */
+    public function getSchedules()
     {
-        
+        $schedules = SpaWeeklySchedule
+            ::orderByRaw("
+                FIELD(day_of_week, 
+                    'Monday','Tuesday','Wednesday',
+                    'Thursday','Friday','Saturday','Sunday')
+            ")
+            ->get();
+
+        return $this->formatSchedules($schedules);
+    }
+
+    /**
+     * Format schedules
+     * 
+     */
+    private function formatSchedules($schedules)
+    {
+        return $schedules->groupBy('day_of_week')->map(function ($items) {
+            return $items->sortBy('start_time')->values();
+        });
     }
 }

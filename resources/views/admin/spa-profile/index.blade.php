@@ -42,12 +42,12 @@
 
 
         <tr>
-            <td class="p-3">{{ $spaProfile->name }}</td>
-            <td class="p-3">{{ $spaProfile->company->email }}</td>
-            <td class="p-3">{{ $spaProfile->company->phone }}</td>
-            <td class="p-3">{{ $spaProfile->company->logo ?? 'No Image' }}</td>
-            <td class="p-3">{{ $spaProfile->location }}</td>
-            <td class="p-3">{{ $spaProfile->total_beds }}</td>
+            <td class="p-3">{{ $profile->name }}</td>
+            <td class="p-3">{{ $profile->company->email }}</td>
+            <td class="p-3">{{ $profile->company->phone }}</td>
+            <td class="p-3">{{ $profile->company->logo ?? 'No Image' }}</td>
+            <td class="p-3">{{ $profile->location }}</td>
+            <td class="p-3">{{ $profile->total_beds }}</td>
 
             {{-- Dropdown Action --}}
             <td class="p-3">

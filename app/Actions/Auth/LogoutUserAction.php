@@ -11,7 +11,7 @@ class LogoutUserAction
      * Logout user
      * 
      */
-    public function run()
+    public function run(): bool
     {
         Auth::logout();
 

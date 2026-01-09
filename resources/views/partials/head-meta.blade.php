@@ -12,12 +12,13 @@
 
 <!-- Bootstrap Icons -->
 <link rel="stylesheet" href="{{ asset('assets/bootstrap-icons-1.13.1/bootstrap-icons.min.css') }}">
+
 <!-- Bootstrap CSS -->
-<!--
 <link rel="stylesheet" href=" {{ asset('assets/bootstrap-5.3.8-dist/css/bootstrap.min.css') }}">
--->
-<!-- Bootswatch Cosmo -->
+
+<!-- Bootswatch Cosmo 
 <link rel="stylesheet" href=" {{ asset('assets/bootswatch/cosmo/bootstrap.min.css') }}">
+-->
 
 <!-- Custom CSS -->
 <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">

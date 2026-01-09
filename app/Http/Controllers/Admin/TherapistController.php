@@ -2,24 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Actions\User\ApproveTherapistUserAction;
-use App\Actions\User\GetAllTherapistUsersAction;
-use App\Exceptions\CustomDomainException;
+// use App\Actions\User\ApproveTherapistUserAction;
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Services\TherapistService;
 
-
-class TherapistUserController extends Controller
+class TherapistController extends Controller
 {
+
+    public function __construct(private TherapistService $service) {}
 
 
     /**
-     * Display all therapist users
+     * Display therapists
      * 
      */
-    public function index(GetAllTherapistUsersAction $action)
+    public function index()
     {
-        $therapists = $action->run();
+        $therapists = $this->service->getTherapists();
 
         return view('admin.therapists.index', [
             'breadcrumbs' => [
@@ -30,10 +29,8 @@ class TherapistUserController extends Controller
     }
 
 
-    /** 
-     * Approve therapist user
-     * 
-     */
+    /* Approve therapist
+    
     public function approve(User $therapist, ApproveTherapistUserAction $action)
     {
         try {
@@ -48,4 +45,6 @@ class TherapistUserController extends Controller
                 ->withErrors(['approve_therapist_error' => "Failed to approve therapist '$therapist->email'."]);
         }
     }
+
+    */
 }

@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             ServiceSeeder::class,
             SpaWeeklyScheduleSeeder::class,
-            StaffWeeklyScheduleSeeder::class,
+            // StaffWeeklyScheduleSeeder::class,
         ]);
     }
 }

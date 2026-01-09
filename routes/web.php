@@ -61,7 +61,7 @@ Route::middleware(['auth', 'role:Admin'])
             ->name('dashboard.index');
 
         // Clients
-        Route::get('clients', [\App\Http\Controllers\Admin\CLientUserController::class, 'index'])
+        Route::get('clients', [\App\Http\Controllers\Admin\CLientController::class, 'index'])
             ->name('clients.index');
 
         // Spa Profile
@@ -73,9 +73,9 @@ Route::middleware(['auth', 'role:Admin'])
             ->only('index');
 
         // Therapists
-        Route::get('therapists', [\App\Http\Controllers\Admin\TherapistUserController::class, 'index'])
+        Route::get('therapists', [\App\Http\Controllers\Admin\TherapistController::class, 'index'])
             ->name('therapists.index');
-        Route::put('therapists/{therapist}', [\App\Http\Controllers\Admin\TherapistUserController::class, 'approve'])
+        Route::put('therapists/{therapist}', [\App\Http\Controllers\Admin\TherapistController::class, 'approve'])
             ->name('therapists.approve');
 
         // Spa Weekly Schedules (index, update) only

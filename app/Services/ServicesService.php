@@ -2,25 +2,27 @@
 
 namespace App\Services;
 
-use App\Models\Spa;
+use App\Models\Service;
 
-class SpaService
+
+class ServicesService
 {
     /**
      * Create a new class instance.
      */
     public function __construct()
     {
-        //
+        # code
     }
 
 
+
     /**
-     * Get profile
+     * Get services
      * 
      */
-    public function getProfile()
+    public function getServices()
     {
-        return Spa::with('company')->first();
+        return Service::orderBy('name')->get();
     }
 }

@@ -14,7 +14,7 @@ class RegisterUserAction
      * Register user (Client, Therapist, etc...)
      * 
      */
-    public function run(array $userData, string $role)
+    public function run(array $userData, string $role): User
     {
 
         // Check if role is valid

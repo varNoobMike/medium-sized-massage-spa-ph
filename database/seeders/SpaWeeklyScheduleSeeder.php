@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Exceptions\Schedule\InvalidDayOfWeekException;
+use App\Exceptions\CustomDomainException;
 use App\Models\SpaWeeklySchedule;
 use App\Models\Spa;
 use Illuminate\Database\Seeder;
@@ -16,39 +16,35 @@ class SpaWeeklyScheduleSeeder extends Seeder
     public function run(): void
     {
 
-        $spaId = Spa::first()->id;
+        $spa = Spa::first();
 
         $scheduleSeeds = [
-            ['day_of_week' => 'Monday', 'start_time' => '08:00', 'break_time_start' => '12:00', 'break_time_end' => '13:00', 'end_time' => '17:00', 'spa_id' => $spaId],
-            ['day_of_week' => 'Tuesday', 'start_time' => '08:00', 'break_time_start' => '12:00', 'break_time_end' => '13:00', 'end_time' => '17:00', 'spa_id' => $spaId],
-            ['day_of_week' => 'Wednesday', 'start_time' => '08:00', 'break_time_start' => '12:00', 'break_time_end' => '13:00', 'end_time' => '17:00', 'spa_id' => $spaId],
-            ['day_of_week' => 'Thursday', 'start_time' => '08:00', 'break_time_start' => '12:00', 'break_time_end' => '13:00', 'end_time' => '17:00', 'spa_id' => $spaId],
-            ['day_of_week' => 'Friday', 'start_time' => '08:00', 'break_time_start' => '12:00', 'break_time_end' => '13:00', 'end_time' => '17:00', 'spa_id' => $spaId],
-            ['day_of_week' => 'Saturday', 'start_time' => '10:00', 'break_time_start' => null, 'break_time_end' => null, 'end_time' => '15:00', 'spa_id' => $spaId],
-            ['day_of_week' => 'Sunday', 'start_time' => '10:00', 'break_time_start' => null, 'break_time_end' => null, 'end_time' => '15:00', 'spa_id' => $spaId],
+            ['day_of_week' => 'Monday', 'start_time' => '13:00', 'end_time' => '17:00',],
+            ['day_of_week' => 'Monday', 'start_time' => '08:00', 'end_time' => '12:00',],
+
+            ['day_of_week' => 'Tuesday', 'start_time' => '13:00', 'end_time' => '17:00',],
+            ['day_of_week' => 'Tuesday', 'start_time' => '08:00', 'end_time' => '12:00',],
+
+            ['day_of_week' => 'Wednesday', 'start_time' => '13:00', 'end_time' => '17:00',],
+            ['day_of_week' => 'Wednesday', 'start_time' => '08:00', 'end_time' => '12:00',],
+
+            ['day_of_week' => 'Thursday', 'start_time' => '13:00', 'end_time' => '17:00',],
+            ['day_of_week' => 'Thursday', 'start_time' => '08:00', 'end_time' => '12:00',],
+
+            ['day_of_week' => 'Friday', 'start_time' => '13:00',  'end_time' => '17:00',],
+            ['day_of_week' => 'Friday', 'start_time' => '08:00',  'end_time' => '12:00',],
+
+            ['day_of_week' => 'Saturday', 'start_time' => '15:00', 'end_time' => '19:00',],
+            ['day_of_week' => 'Saturday', 'start_time' => '10:00', 'end_time' => '14:00',],
+
+            ['day_of_week' => 'Sunday', 'start_time' => '15:00', 'end_time' => '19:00',],
+            ['day_of_week' => 'Sunday', 'start_time' => '10:00', 'end_time' => '14:00',],
+
+
         ];
 
-        DB::transaction(function () use ($scheduleSeeds) {
-
-            foreach ($scheduleSeeds as $schedule) {
-
-                if (!in_array($schedule['day_of_week'], SpaWeeklySchedule::DAYS)) {
-                    throw new InvalidDayOfWeekException();
-                }
-
-                SpaWeeklySchedule::updateOrCreate(
-                    [
-                        'spa_id' => $schedule['spa_id'],
-                        'day_of_week' => $schedule['day_of_week'],
-                    ],
-                    [
-                        'start_time' => $schedule['start_time'],
-                        'break_time_start' => $schedule['break_time_start'] ?? null,
-                        'break_time_end' => $schedule['break_time_end'] ?? null,
-                        'end_time' => $schedule['end_time'],
-                    ]
-                );
-            }
+        DB::transaction(function () use ($spa, $scheduleSeeds) {
+            $spa->spaWeeklySchedules()->createMany($scheduleSeeds);
         });
     }
 }

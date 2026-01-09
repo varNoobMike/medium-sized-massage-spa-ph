@@ -1,5 +1,7 @@
 <?php
 
+/*
+
 namespace App\Actions\User;
 
 use App\Exceptions\CustomDomainException;
@@ -9,11 +11,8 @@ use Illuminate\Support\Facades\DB;
 class UpdateStaffWeeklyScheduleAction
 {
 
-    /**
-     * Update staff day of week schedule
-     * 
-     */
-    public function run(StaffWeeklySchedule $weeklySchedule, array $scheduleData)
+    
+    public function run(StaffWeeklySchedule $weeklySchedule, array $scheduleData): StaffWeeklySchedule
     {
 
         // dd($data);
@@ -34,3 +33,5 @@ class UpdateStaffWeeklyScheduleAction
         });
     }
 }
+
+*/

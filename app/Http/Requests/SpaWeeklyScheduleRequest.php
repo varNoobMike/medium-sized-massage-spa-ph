@@ -25,8 +25,6 @@ class SpaWeeklyScheduleRequest extends FormRequest
             'day_of_week' => 'required|string',
             'start_time' => 'required|date_format:H:i',
             'end_time' => 'required|date_format:H:i|after:start_time',
-            'break_time_start' => 'required|date_format:H:i|after:start_time|before:end_time',
-            'break_time_end' => 'required|date_format:H:i|after:break_time_start|before:end_time',
         ];
     }
 }
