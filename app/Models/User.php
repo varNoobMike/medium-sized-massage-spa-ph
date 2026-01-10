@@ -50,7 +50,6 @@ class User extends Authenticatable
     }
 
 
-    /** User role whitelists */
     public const ROLE_ADMIN = 'Admin';
     public const ROLE_STAFF = 'Staff';
     public const ROLE_THERAPIST = 'Therapist';
@@ -63,10 +62,4 @@ class User extends Authenticatable
         self::ROLE_THERAPIST,
         self::ROLE_CLIENT
     ];
-
-
-    public function staffWeeklySchedules()
-    {
-        return $this->hasMany(StaffWeeklySchedule::class, 'user_id');
-    }
 }

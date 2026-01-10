@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Exceptions\CustomDomainException;
-use App\Http\Requests\SpaWeeklyScheduleRequest;
+use App\Http\Requests\SpaWeeklySchedule\UpdateScheduleRequest;
 use App\Models\SpaWeeklySchedule;
 use App\Services\SpaWeeklyScheduleService;
 
@@ -40,31 +39,25 @@ class SpaWeeklyScheduleController extends Controller
      * Update schedule
      * 
      */
-    public function update(SpaWeeklyScheduleRequest $request, SpaWeeklySchedule $spaWeeklySchedule)
+    public function update(UpdateScheduleRequest $request, SpaWeeklySchedule $schedule)
     {
 
-        try {
+        $updateData = $request->validated();
 
-            $updateScheduleData = $request->validated();
-            $updatedSchedule = $this->service->updateSchedule($spaWeeklySchedule, $updateScheduleData);
+        $updatedSchedule = $this->service
+            ->updateSchedule($schedule, $updateData);
 
-            session()->flash('updatedSchedule', $updatedSchedule);
+        session()->flash('updatedSchedule', collect([
+            'id' => $updatedSchedule->id,
+            'day_of_week' => $updatedSchedule->day_of_week,
+        ]));
 
-            return redirect()
-                ->route('admin.spa-weekly-schedules.index')
-                ->with(
-                    'spa_weekly_schedule_update_success',
-                    "Schedule is updated successfully for day of week '{$spaWeeklySchedule->day_of_week}'."
-                );
-        } catch (CustomDomainException $e) {
 
-            return redirect()->back()
-                ->withErrors(
-                    [
-                        'spa_weekly_schedule_update_error' =>
-                        "Failed to update schedule for day of week '{$spaWeeklySchedule->day_of_week}'."
-                    ]
-                );
-        }
+        return redirect()
+            ->route('admin.spa-weekly-schedules.index')
+            ->with(
+                'spa_weekly_schedule_update_success',
+                "Schedule is updated successfully for day of week '{$schedule->day_of_week}'."
+            );
     }
 }

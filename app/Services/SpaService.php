@@ -7,19 +7,10 @@ use App\Models\Spa;
 class SpaService
 {
     /**
-     * Create a new class instance.
-     */
-    public function __construct()
-    {
-        //
-    }
-
-
-    /**
      * Get profile
      * 
      */
-    public function getProfile()
+    public function getProfile(): ?Spa
     {
         return Spa::with('company')->first();
     }

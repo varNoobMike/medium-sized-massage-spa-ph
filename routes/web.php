@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 
 
-/******************************************************************************************** */
 // Guest Routes 
 Route::middleware('redir_authenticated_by_role')->group(function () {
 
@@ -13,8 +12,8 @@ Route::middleware('redir_authenticated_by_role')->group(function () {
 });
 
 
-/******************************************************************************************** */
-// Login & Logout
+
+// Login & Logout Routes
 Route::controller(App\Http\Controllers\Auth\loginController::class)->group(function () {
 
     // Login
@@ -30,27 +29,25 @@ Route::controller(App\Http\Controllers\Auth\loginController::class)->group(funct
 });
 
 
-/******************************************************************************************** */
-// Registration Routes
+// Register Routes
 Route::prefix('register')->name('register.')->group(function () {
 
-    // Client (User) Registration
-    Route::get('user', [App\Http\Controllers\Auth\RegisterClientUserController::class, 'showRegisterForm'])
+    // Register Client
+    Route::get('user', [App\Http\Controllers\Auth\Client\RegisterController::class, 'showRegisterForm'])
         ->name('client');
-    Route::post('user', [App\Http\Controllers\Auth\RegisterClientUserController::class, 'register'])
+    Route::post('user', [App\Http\Controllers\Auth\Client\RegisterController::class, 'register'])
         ->name('client.submit');
 
 
-    // Therapist Registration
-    Route::get('therapist', [App\Http\Controllers\Auth\RegisterTherapistUserController::class, 'showRegisterForm'])
+    // Register Therapist
+    Route::get('therapist', [App\Http\Controllers\Auth\Therapist\RegisterController::class, 'showRegisterForm'])
         ->name('therapist');
-    Route::post('therapist', [App\Http\Controllers\Auth\RegisterTherapistUserController::class, 'register'])
+    Route::post('therapist', [App\Http\Controllers\Auth\Therapist\RegisterController::class, 'register'])
         ->name('therapist.submit');
 });
 
 
-/******************************************************************************************** */
-// Admin
+// Admin Routes
 Route::middleware(['auth', 'role:Admin'])
     ->prefix('admin')
     ->name('admin.')
@@ -80,12 +77,14 @@ Route::middleware(['auth', 'role:Admin'])
 
         // Spa Weekly Schedules (index, update) only
         Route::resource('spa-weekly-schedules', \App\Http\Controllers\Admin\SpaWeeklyScheduleController::class)
-            ->only(['index', 'update']);
+            ->only(['index', 'update'])
+            ->parameters([
+                'spa-weekly-schedules' => 'schedule'
+            ]);
     });
 
 
-/******************************************************************************************** */
-// Therapist
+// Therapist Routes
 Route::middleware(['auth', 'role:Therapist'])
     ->prefix('therapist')
     ->name('therapist.')
@@ -107,10 +106,9 @@ Route::middleware(['auth', 'role:Therapist'])
         Route::get('spa-services', \App\Http\Controllers\Therapist\ServiceController::class)
             ->name('services.index');
     });
-/******************************************************************************************** */
 
 
-// Client (note: url disguised as 'user' instead of 'client' for better UX)
+// Client Routes (note: url disguised as 'user' instead of 'client' for better UX)
 Route::middleware(['auth', 'role:Client'])
     ->prefix('user')
     ->name('client.')
@@ -119,4 +117,3 @@ Route::middleware(['auth', 'role:Client'])
         // Home
         Route::get('home', \App\Http\Controllers\Client\HomeController::class)->name('home.index');
     });
-/******************************************************************************************** */

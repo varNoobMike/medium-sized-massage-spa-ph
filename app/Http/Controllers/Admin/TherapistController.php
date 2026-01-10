@@ -4,11 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 // use App\Actions\User\ApproveTherapistUserAction;
 use App\Http\Controllers\Controller;
-use App\Services\TherapistService;
+use App\Services\User\TherapistService;
 
 class TherapistController extends Controller
 {
 
+    /**
+     * Constructor
+     * 
+     */
     public function __construct(private TherapistService $service) {}
 
 

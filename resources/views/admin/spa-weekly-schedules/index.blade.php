@@ -55,13 +55,40 @@
                 </thead>
 
                 <tbody>
+
                     @forelse($weeklySchedules as $dayOfWeekStr => $schedulesArr)
+
+
+                        @php
+                            $colorDayOfWeekRow = '';   
+
+                            $sessionUpdatedSchedule = session('updatedSchedule') ?? null;
+                            $sessionExistingSchedule = session('existingSchedule') ?? null;
+                            $sessionOverlappingSchedule = session('overlappingSchedule') ?? null;
+
+                            if($sessionUpdatedSchedule
+                                && $sessionUpdatedSchedule->get('day_of_week') === $dayOfWeekStr) 
+                            {
+                                $colorDayOfWeekRow = 'table-success';
+                            }
+
+                            elseif($sessionExistingSchedule
+                                && $sessionExistingSchedule->get('day_of_week') === $dayOfWeekStr) 
+                            {
+                                $colorDayOfWeekRow = 'table-danger';
+                            }
+
+                            elseif($sessionOverlappingSchedule
+                                && $sessionOverlappingSchedule->get('day_of_week') === $dayOfWeekStr) 
+                            {
+                                $colorDayOfWeekRow = 'table-danger';
+                            }
+                               
+                        @endphp
 
                         {{-- Day of Week Row --}}
                         <tr
-                            class="{{ session('updatedSchedule') && session('updatedSchedule')->day_of_week === $dayOfWeekStr
-                                ? 'table-success'
-                                : '' }}">
+                            class="{{ $colorDayOfWeekRow }}">
 
                             <td class="fw-semibold align-middle">{{ $dayOfWeekStr }}</td>
                             <td class="p-0">
@@ -83,10 +110,36 @@
 
                                     <tbody>
                                         @forelse($schedulesArr as $schedule)
+
+                                            @php
+                                                $colorTimeSlotsRow = '';   
+
+                                                $sessionUpdatedSchedule = session('updatedSchedule') ?? null;
+                                                $sessionExistingSchedule = session('existingSchedule') ?? null;
+                                                $sessionOverlappingSchedule = session('overlappingSchedule') ?? null;
+
+                                                if($sessionUpdatedSchedule
+                                                    && $sessionUpdatedSchedule->get('id') === $schedule->id) 
+                                                {
+                                                    $colorTimeSlotsRow = 'table-success';
+                                                }
+
+                                                elseif($sessionExistingSchedule
+                                                    && $sessionExistingSchedule->get('id') === $schedule->id) 
+                                                {
+                                                    $colorTimeSlotsRow = 'table-danger';
+                                                }
+
+                                                elseif($sessionOverlappingSchedule
+                                                    && $sessionOverlappingSchedule->get('id') === $schedule->id) 
+                                                {
+                                                    $colorTimeSlotsRow = 'table-danger';
+                                                }
+                                                
+                                            @endphp
+
                                             <tr class="align-middle  
-                                                {{ session('updatedSchedule') && session('updatedSchedule')->id === $schedule->id
-                                                    ? 'table-success'
-                                                    : '' }}">
+                                                {{ $colorTimeSlotsRow }}">
                                                 <td class="text-nowrap">
                                                     {{ \Carbon\Carbon::parse($schedule->start_time)->format('g:i A') }}
                                                 </td>
@@ -146,7 +199,7 @@
 
 
 
-        {{-- Create Time Slot Modal --}}
+        {{-- Create Schedule Modal --}}
         <div id="spa-weekly-schedule-create-modal" class="modal fade" tabindex="-1" aria-hidden="true"
             @hidden.bs.modal="
                     form.schedule_id = null;
@@ -204,7 +257,7 @@
             </div>
         </div>
 
-        {{-- Edit Time Slot Modal --}}
+        {{-- Edit Schedule Modal --}}
         <div id="spa-weekly-schedule-edit-modal" class="modal fade" tabindex="-1" aria-hidden="true"
             @hidden.bs.modal="
                     form.schedule_id = null;

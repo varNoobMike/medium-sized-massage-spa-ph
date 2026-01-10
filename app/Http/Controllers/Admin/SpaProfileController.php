@@ -8,6 +8,10 @@ use App\Services\SpaService;
 class SpaProfileController extends Controller
 {
 
+    /**
+     * Constructor
+     * 
+     */
     public function __construct(private SpaService $service) {}
 
     /**
@@ -18,7 +22,7 @@ class SpaProfileController extends Controller
     {
 
         $profile = $this->service->getProfile();
-        
+
         return view('admin.spa-profile.index', [
             'breadcrumbs' => [
                 ['title' => 'Admin', 'url' => route('admin.dashboard.index')],

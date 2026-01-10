@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Actions\Auth\LoginUserAction;
-use App\Actions\Auth\LogoutUserAction;
-use App\Exceptions\CustomDomainException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\LoginRequest;
+use App\Http\Requests\Auth\LoginUserRequest;
+use App\Services\AuthService;
 
 
 class LoginController extends Controller
 {
+
+    /**
+     * Constructor
+     * 
+     */
+    public function __construct(private AuthService $service) {}
+
 
     /**
      * Show login user form
@@ -30,23 +35,17 @@ class LoginController extends Controller
      * Login user
      * 
      */
-    public function login(LoginRequest $request, LoginUserAction $action)
+    public function login(LoginUserRequest $request)
     {
 
-        try {
-            $user = $action->run($request->validated());
+        $user = $this->service->login($request->validated());
 
-            return match ($user->role) {
-                'Admin' => redirect()->route('admin.dashboard.index'),
-                'Therapist' => redirect()->route('therapist.dashboard.index'),
-                'Client' => redirect()->route('client.home.index'),
-                default => abort(403, 'Unauthorized role.'),
-            };
-        } catch (CustomDomainException $e) {
-            return redirect()->back()
-                ->withInput()
-                ->withErrors(['auth_error' => 'Invalid email or password.']);
-        }
+        return match ($user->role) {
+            'Admin' => redirect()->route('admin.dashboard.index'),
+            'Therapist' => redirect()->route('therapist.dashboard.index'),
+            'Client' => redirect()->route('client.home.index'),
+            default => abort(403, 'Unauthorized role.'),
+        };
     }
 
 
@@ -54,9 +53,9 @@ class LoginController extends Controller
     /**
      * Logout user
      */
-    public function logout(LogoutUserAction $action)
+    public function logout()
     {
-        $action->run();
+        $this->service->logout();
         return redirect()->route('login')
             ->with('logout_success', 'You have been logged out successfully.');
     }

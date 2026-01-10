@@ -3,11 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Services\ClientService;
+use App\Services\User\ClientService;
+
 
 class ClientController extends Controller
 {
 
+    /**
+     * Constructor
+     * 
+     */
     public function __construct(private ClientService $service) {}
 
     /**
