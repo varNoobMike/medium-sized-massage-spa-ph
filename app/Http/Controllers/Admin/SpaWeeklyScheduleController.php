@@ -48,7 +48,7 @@ class SpaWeeklyScheduleController extends Controller
             ->route('admin.spa-weekly-schedules.index')
             ->with(
                 'spa_weekly_schedule_create_success',
-                "Time slot schedule is created successfully for '$createdSchedule->get('day_of_week')'.",
+                "Time slot schedule is created successfully for '$createdSchedule->day_of_week'.",
             );
     }
 
@@ -70,7 +70,7 @@ class SpaWeeklyScheduleController extends Controller
             ->route('admin.spa-weekly-schedules.index')
             ->with(
                 'spa_weekly_schedule_update_success',
-                "Time slot schedule is updated successfully for '{$updatedSchedule->day_of_week}'."
+                "Time slot schedule is updated successfully for '$updatedSchedule->day_of_week'."
             );
     }
 }

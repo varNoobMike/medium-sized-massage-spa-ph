@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Services\User\ClientService;
+use App\Services\ClientService;
 
 
 class ClientController extends Controller

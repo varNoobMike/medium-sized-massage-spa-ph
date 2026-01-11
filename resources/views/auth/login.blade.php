@@ -8,11 +8,17 @@
 
 @if ($crumb['url'])
 <li class="breadcrumb-item">
-    <a href="{{ $crumb['url'] }}" class="text-dark">{{ $crumb['title'] }}</a>
+    <a href="{{ $crumb['url'] }}">
+        <span class="small">
+            {{ $crumb['title'] }}
+        </span>
+    </a>
 </li>
 @else
-<li class="breadcrumb-item">
-    {{ $crumb['title'] }}
+<li class="breadcrumb-item active" aria-current="page">
+    <span class="small">
+        {{ $crumb['title'] }}
+    </span>
 </li>
 @endif
 
@@ -80,7 +86,7 @@
                     </div>
 
                     {{-- Submit Button --}}
-                    <button type="submit" class="btn btn-primary rounded-3 w-100">Login</button>
+                    <button type="submit" class="btn btn-dark rounded-3 w-100">Login</button>
 
                 </form>
 

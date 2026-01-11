@@ -1,0 +1,168 @@
+/* ================================ */
+/*        Admin Panel Styles        */
+/* ================================ */
+
+/* ===== Variables ===== */
+:root {
+    --sidebar-bg: #0b1220;
+    --sidebar-active: #1e293b;
+    --sidebar-text: #cbd5e1;
+    --border-soft: #e5e7eb;
+}
+
+/* ===== Body ===== */
+body {
+    background-color: #f1f5f9;
+    font-size: 0.9rem;
+}
+
+/* ===== Sidebar ===== */
+.admin-sidebar {
+    width: 270px;
+    background: var(--sidebar-bg);
+    min-height: 100vh;
+}
+
+.admin-sidebar .brand {
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: 0.3px;
+}
+
+.admin-sidebar .nav-link {
+    color: var(--sidebar-text);
+    padding: 0.55rem 0.75rem;
+    border-radius: 0.45rem;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.admin-sidebar .nav-link:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+}
+
+.admin-sidebar .nav-link.active {
+    background: var(--sidebar-active);
+    color: #fff;
+}
+
+.admin-sidebar.offcanvas,
+.admin-sidebar.offcanvas-start,
+.admin-sidebar.offcanvas-lg {
+    background-color: var(--sidebar-bg) !important;
+    color: var(--sidebar-text);
+}
+
+.sidebar-section {
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    color: #64748b;
+}
+
+/* ===== Topbar ===== */
+.admin-topbar {
+    height: 60px;
+    background: #ffffff;
+    border-bottom: 1px solid var(--border-soft);
+}
+
+/* ===== Content ===== */
+.admin-content {
+    padding: 2rem 2.25rem;
+}
+
+.content-canvas {
+    max-width: 1400px;
+}
+
+/* ===== Tables & Cards ===== */
+.table-responsive,
+.card-body {
+    overflow: visible;
+    /* allow dropdowns to escape parent boundaries */
+}
+
+.table .dropdown-menu,
+.card .dropdown-menu,
+.d-lg-none .dropdown-menu {
+    z-index: 1055 !important;
+    /* dropdowns above content but below modals */
+}
+
+/* Table styling */
+.table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.table th,
+.table td {
+    vertical-align: middle;
+}
+
+.table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    font-size: 0.8rem;
+}
+
+.table td {
+    font-size: 0.85rem;
+}
+
+/* Card styling */
+.card {
+    border-radius: 0.5rem;
+}
+
+/* ===== Dropdown Fixes ===== */
+.dropdown-menu {
+    z-index: 1055 !important;
+}
+
+/* ===== Utilities ===== */
+.avatar {
+    width: 34px;
+    height: 34px;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+/* Alerts */
+.alert {
+    font-size: 0.85rem;
+    border-radius: 0.5rem;
+}
+
+/* Buttons in tables/cards */
+.table .btn,
+.card .btn {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.35rem;
+}
+
+/* ===== Mobile Tweaks ===== */
+@media (max-width: 991.98px) {
+    .admin-content {
+        padding: 1.25rem;
+    }
+
+    .content-canvas {
+        max-width: 100%;
+    }
+
+    .dropdown-menu {
+        z-index: 1055 !important;
+    }
+
+    .card-body {
+        overflow: visible;
+    }
+}
