@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Exceptions\Auth\LoginFailedException;
 use App\Models\User;
-use App\Services\User\ClientService;
-use App\Services\User\TherapistService;
+use App\Services\ClientService;
+use App\Services\TherapistService;
 
 
 class AuthService

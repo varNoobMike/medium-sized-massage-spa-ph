@@ -32,16 +32,31 @@
 
 
 
-    @if($errors->any())
-    <div class="alert alert-danger rounded-3 mb-4">
-        {{ $errors->first() }}
-    </div>
+        @php
+            $keys = ['therapist_approve_error'];
+        @endphp
 
-    @elseif(session('approve_therapist_success'))
-    <div class="alert alert-success rounded-3 mb-4">
-        {{ session('approve_therapist_success') }}
-    </div>
-    @endif
+        @if ($errors->any())
+            <div class="alert alert-danger mb-4">
+                <ul class="list-unstyled mb-0">
+                    @foreach ($errors->messages() as $field => $messages)
+                        @if (in_array($field, $keys))
+                            @foreach ($messages as $message)
+                                <li class="d-flex align-items-center text-danger mb-1">
+                                    <i class="bi bi-x-circle me-2"></i>
+                                    {{ $message }}
+                                </li>
+                            @endforeach
+                        @endif
+                    @endforeach
+                </ul>
+            </div>
+
+        @elseif(session('therapist_approve_success'))
+        <div class="alert alert-success rounded-3 mb-4">
+            {{ session('therapist_approve_success') }}
+        </div>
+        @endif
 
 
 

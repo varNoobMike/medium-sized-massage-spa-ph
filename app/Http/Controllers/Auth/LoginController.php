@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginUserRequest;
+use App\Http\Requests\Auth\LoginRequest;
 use App\Services\AuthService;
 
 
@@ -35,7 +35,7 @@ class LoginController extends Controller
      * Login user
      * 
      */
-    public function login(LoginUserRequest $request)
+    public function login(LoginRequest $request)
     {
 
         $user = $this->service->login($request->validated());

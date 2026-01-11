@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-// use App\Actions\User\ApproveTherapistUserAction;
 use App\Http\Controllers\Controller;
-use App\Services\User\TherapistService;
+use App\Models\User;
+use App\Services\TherapistService;
+
 
 class TherapistController extends Controller
 {
@@ -33,22 +34,18 @@ class TherapistController extends Controller
     }
 
 
-    /* Approve therapist
-    
-    public function approve(User $therapist, ApproveTherapistUserAction $action)
+    /**
+     * Approve therapist
+     * 
+     */
+    public function approve(User $therapist)
     {
-        try {
-            $action->run($therapist);
-
-            return redirect()
-                ->route('admin.therapists.index')
-                ->with('approve_therapist_success', "Therapist '$therapist->email' is approved successfully.");
-        } catch (CustomDomainException $e) {
-            return redirect()
-                ->back()
-                ->withErrors(['approve_therapist_error' => "Failed to approve therapist '$therapist->email'."]);
-        }
+        $this->service->approveTherapist($therapist);
+        return redirect()
+            ->route('admin.therapists.index')
+            ->with(
+                'therapist_approve_success',
+                "Therapist '$therapist->email' is approved successfully.",
+            );
     }
-
-    */
 }

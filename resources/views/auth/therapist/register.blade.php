@@ -34,14 +34,16 @@
                 {{-- Form --}}
                 <form action="{{ route('register.therapist.submit') }}" method="POST">
 
-                    @csrf
+                    @csrf  
 
-
-                    @if($errors->any())
-                    <div class="alert alert-danger rounded-3 mb-4">
-                        {{ $errors->first() }}
-                    </div>
+                    
+                    @if ($errors->has('register_therapist_error'))
+                        <div class="alert alert-danger d-flex align-items-center text-danger mb-4">
+                            <i class="bi bi-x-circle me-2"></i>
+                            {{ $errors->first('register_therapist_error') }}                     
+                        </div>
                     @endif
+
 
                     {{-- Email --}}
                     <div class="mb-4">

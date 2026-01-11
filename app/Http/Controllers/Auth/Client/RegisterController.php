@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth\Client;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\RegisterUserRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 use App\Services\AuthService;
 
@@ -38,7 +38,7 @@ class RegisterController extends Controller
      * Register client
      * 
      */
-    public function register(RegisterUserRequest $request)
+    public function register(RegisterRequest $request)
     {
         $this->service->register($request->validated(), User::ROLE_CLIENT);
 

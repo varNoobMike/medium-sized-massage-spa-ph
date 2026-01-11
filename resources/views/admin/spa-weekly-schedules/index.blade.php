@@ -32,16 +32,39 @@
     }">
 
 
+       
+        @php
+            $keys = ['start_time', 'end_time', 'spa_weekly_schedule_update_error'];
+        @endphp
+
         @if ($errors->any())
-            <div class="alert alert-danger rounded-3 mb-4">
-                {{ $errors->first() }}
+            <div class="alert alert-danger mb-4">
+                <ul class="list-unstyled mb-0">
+                    @foreach ($errors->messages() as $field => $messages)
+                        @if (in_array($field, $keys))
+                            @foreach ($messages as $message)
+                                <li class="d-flex align-items-center text-danger mb-1">
+                                    <i class="bi bi-x-circle me-2"></i>
+                                    {{ $message }}
+                                </li>
+                            @endforeach
+                        @endif
+                    @endforeach
+                </ul>
             </div>
+
         @elseif(session('spa_weekly_schedule_update_success'))
-            <div class="alert alert-success rounded-3 mb-4">
+            <div class="alert alert-success text-success rounded-3 mb-4">
+                <i class="bi bi-check-circle me-2"></i>
                 {{ session('spa_weekly_schedule_update_success') }}
             </div>
-        @endif
 
+        @elseif(session('spa_weekly_schedule_create_success'))
+            <div class="alert alert-success text-success rounded-3 mb-4">
+                <i class="bi bi-check-circle me-2"></i>
+                {{ session('spa_weekly_schedule_create_success') }}
+            </div>
+        @endif
 
 
         {{-- Spa Weekly Schedules Table --}}
@@ -56,41 +79,12 @@
 
                 <tbody>
 
-                    @forelse($weeklySchedules as $dayOfWeekStr => $schedulesArr)
-
-
-                        @php
-                            $colorDayOfWeekRow = '';   
-
-                            $sessionUpdatedSchedule = session('updatedSchedule') ?? null;
-                            $sessionExistingSchedule = session('existingSchedule') ?? null;
-                            $sessionOverlappingSchedule = session('overlappingSchedule') ?? null;
-
-                            if($sessionUpdatedSchedule
-                                && $sessionUpdatedSchedule->get('day_of_week') === $dayOfWeekStr) 
-                            {
-                                $colorDayOfWeekRow = 'table-success';
-                            }
-
-                            elseif($sessionExistingSchedule
-                                && $sessionExistingSchedule->get('day_of_week') === $dayOfWeekStr) 
-                            {
-                                $colorDayOfWeekRow = 'table-danger';
-                            }
-
-                            elseif($sessionOverlappingSchedule
-                                && $sessionOverlappingSchedule->get('day_of_week') === $dayOfWeekStr) 
-                            {
-                                $colorDayOfWeekRow = 'table-danger';
-                            }
-                               
-                        @endphp
+                    @forelse($schedules as $dayOfWeek => $timeSlots)
 
                         {{-- Day of Week Row --}}
-                        <tr
-                            class="{{ $colorDayOfWeekRow }}">
+                        <tr>
 
-                            <td class="fw-semibold align-middle">{{ $dayOfWeekStr }}</td>
+                            <td class="fw-semibold align-middle">{{ $dayOfWeek }}</td>
                             <td class="p-0">
                                 {{-- Nested Time Slots Table --}}
                                 <table class="table table-sm mb-0">
@@ -101,7 +95,7 @@
                                             <th class="text-end">
                                                 <button class="btn btn-sm btn-success rounded-3 px-3" data-bs-toggle="modal"
                                                     data-bs-target="#spa-weekly-schedule-create-modal"
-                                                    @click="form.day_of_week = '{{ $dayOfWeekStr }}'">
+                                                    @click="form.day_of_week = '{{ $dayOfWeek }}'">
                                                     <i class="bi bi-plus-lg"></i> Add slot
                                                 </button>
                                             </th>
@@ -109,42 +103,14 @@
                                     </thead>
 
                                     <tbody>
-                                        @forelse($schedulesArr as $schedule)
+                                        @forelse($timeSlots as $slot)
 
-                                            @php
-                                                $colorTimeSlotsRow = '';   
-
-                                                $sessionUpdatedSchedule = session('updatedSchedule') ?? null;
-                                                $sessionExistingSchedule = session('existingSchedule') ?? null;
-                                                $sessionOverlappingSchedule = session('overlappingSchedule') ?? null;
-
-                                                if($sessionUpdatedSchedule
-                                                    && $sessionUpdatedSchedule->get('id') === $schedule->id) 
-                                                {
-                                                    $colorTimeSlotsRow = 'table-success';
-                                                }
-
-                                                elseif($sessionExistingSchedule
-                                                    && $sessionExistingSchedule->get('id') === $schedule->id) 
-                                                {
-                                                    $colorTimeSlotsRow = 'table-danger';
-                                                }
-
-                                                elseif($sessionOverlappingSchedule
-                                                    && $sessionOverlappingSchedule->get('id') === $schedule->id) 
-                                                {
-                                                    $colorTimeSlotsRow = 'table-danger';
-                                                }
-                                                
-                                            @endphp
-
-                                            <tr class="align-middle  
-                                                {{ $colorTimeSlotsRow }}">
+                                            <tr class="align-middle">
                                                 <td class="text-nowrap">
-                                                    {{ \Carbon\Carbon::parse($schedule->start_time)->format('g:i A') }}
+                                                    {{ \Carbon\Carbon::parse($slot->start_time)->format('g:i A') }}
                                                 </td>
                                                 <td class="text-nowrap">
-                                                    {{ \Carbon\Carbon::parse($schedule->end_time)->format('g:i A') }}
+                                                    {{ \Carbon\Carbon::parse($slot->end_time)->format('g:i A') }}
                                                 </td>
                                                 <td class="text-end">
                                                     {{-- Actions Dropdown --}}
@@ -163,10 +129,10 @@
                                                                 <button class="dropdown-item" data-bs-toggle="modal"
                                                                     data-bs-target="#spa-weekly-schedule-edit-modal"
                                                                     @click="
-                                                                                form.schedule_id = @js($schedule->id);
-                                                                                form.day_of_week = @js($schedule->day_of_week);
-                                                                                form.start_time = @js(\Carbon\Carbon::parse($schedule->start_time)->format('H:i'));
-                                                                                form.end_time = @js(\Carbon\Carbon::parse($schedule->end_time)->format('H:i'));
+                                                                                form.schedule_id = @js($slot->id);
+                                                                                form.day_of_week = @js($slot->day_of_week);
+                                                                                form.start_time = @js(\Carbon\Carbon::parse($slot->start_time)->format('H:i'));
+                                                                                form.end_time = @js(\Carbon\Carbon::parse($slot->end_time)->format('H:i'));
                                                                             ">
                                                                     <i class="bi bi-pencil me-2"></i>Edit
                                                                 </button>

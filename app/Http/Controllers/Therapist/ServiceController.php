@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Therapist;
 
-use App\Actions\Services\GetAllServicesAction;
 use App\Http\Controllers\Controller;
+use App\Services\ServicesService;
 
 class ServiceController extends Controller
 {
@@ -12,9 +12,9 @@ class ServiceController extends Controller
      * Display all spa's services
      * 
      */
-    public function __invoke(GetAllServicesAction $action)
+    public function __invoke(ServicesService $service)
     {
-        $services = $action->run();
+        $services = $service->getServices();
 
         return view('therapist.services.index', [
             'breadcrumbs' => [

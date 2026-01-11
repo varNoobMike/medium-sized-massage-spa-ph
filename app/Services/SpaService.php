@@ -10,7 +10,7 @@ class SpaService
      * Get profile
      * 
      */
-    public function getProfile(): ?Spa
+    public function getProfile(): Spa|null
     {
         return Spa::with('company')->first();
     }

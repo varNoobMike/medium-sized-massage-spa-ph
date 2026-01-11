@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SpaWeeklySchedule\StoreScheduleRequest;
 use App\Http\Requests\SpaWeeklySchedule\UpdateScheduleRequest;
 use App\Models\SpaWeeklySchedule;
 use App\Services\SpaWeeklyScheduleService;
@@ -24,14 +25,31 @@ class SpaWeeklyScheduleController extends Controller
      */
     public function index()
     {
-        $weeklySchedules = $this->service->getSchedules();
+        $schedules = $this->service->getSchedules();
 
         return view('admin.spa-weekly-schedules.index', [
             'breadcrumbs' => [
                 ['title' => 'Admin', 'url' => route('admin.dashboard.index')],
                 ['title' => 'Spa Weekly Schedules', 'url' => null],
             ],
-        ], compact('weeklySchedules'));
+        ], compact('schedules'));
+    }
+
+    /**
+     * Store schedule
+     * 
+     */
+    public function store(StoreScheduleRequest $request)
+    {
+
+        $createdSchedule = $this->service->createSchedule(collect($request->validated()));
+
+        return redirect()
+            ->route('admin.spa-weekly-schedules.index')
+            ->with(
+                'spa_weekly_schedule_create_success',
+                "Time slot schedule is created successfully for '$createdSchedule->get('day_of_week')'.",
+            );
     }
 
 
@@ -42,22 +60,17 @@ class SpaWeeklyScheduleController extends Controller
     public function update(UpdateScheduleRequest $request, SpaWeeklySchedule $schedule)
     {
 
-        $updateData = $request->validated();
+        $updateData = collect($request->validated());
 
         $updatedSchedule = $this->service
             ->updateSchedule($schedule, $updateData);
-
-        session()->flash('updatedSchedule', collect([
-            'id' => $updatedSchedule->id,
-            'day_of_week' => $updatedSchedule->day_of_week,
-        ]));
 
 
         return redirect()
             ->route('admin.spa-weekly-schedules.index')
             ->with(
                 'spa_weekly_schedule_update_success',
-                "Schedule is updated successfully for day of week '{$schedule->day_of_week}'."
+                "Time slot schedule is updated successfully for '{$updatedSchedule->day_of_week}'."
             );
     }
 }

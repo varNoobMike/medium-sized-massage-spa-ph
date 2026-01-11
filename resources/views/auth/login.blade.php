@@ -39,20 +39,21 @@
                     @csrf
 
 
-                    @if($errors->any())
-                    <div class="alert alert-danger rounded-3 mb-4">
-                        {{ $errors->first() }}
-                    </div>
-
+                    @if ($errors->has('login_error'))
+                        <div class="alert alert-danger d-flex align-items-center text-danger mb-4">
+                            <i class="bi bi-x-circle me-2"></i>
+                            {{ $errors->first('login_error') }}                     
+                        </div>
+                    
                     @elseif(session('logout_success'))
-                    <div class="alert alert-success rounded-3 mb-4">
-                        {{ session('logout_success') }}
-                    </div>
+                        <div class="alert alert-success rounded-3 mb-4">
+                            {{ session('logout_success') }}
+                        </div>
 
                     @elseif(session('register_success'))
-                    <div class="alert alert-success rounded-3 mb-4">
-                        {{ session('register_success') }}
-                    </div>
+                        <div class="alert alert-success rounded-3 mb-4">
+                            {{ session('register_success') }}
+                        </div>
                     @endif
 
 

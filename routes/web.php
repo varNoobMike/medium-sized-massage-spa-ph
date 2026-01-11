@@ -75,9 +75,9 @@ Route::middleware(['auth', 'role:Admin'])
         Route::put('therapists/{therapist}', [\App\Http\Controllers\Admin\TherapistController::class, 'approve'])
             ->name('therapists.approve');
 
-        // Spa Weekly Schedules (index, update) only
+        // Spa Weekly Schedules (index, store, update) only
         Route::resource('spa-weekly-schedules', \App\Http\Controllers\Admin\SpaWeeklyScheduleController::class)
-            ->only(['index', 'update'])
+            ->only(['index', 'store', 'update'])
             ->parameters([
                 'spa-weekly-schedules' => 'schedule'
             ]);
@@ -93,10 +93,6 @@ Route::middleware(['auth', 'role:Therapist'])
         // Dashboard
         Route::get('dashboard', \App\Http\Controllers\Therapist\DashboardController::class)
             ->name('dashboard.index');
-
-        // Weekly Schedules (index, update) only
-        Route::resource('weekly-schedules', \App\Http\Controllers\Therapist\WeeklyScheduleController::class)
-            ->only(['index', 'update']);
 
         // Spa's Weekly Schedules (read only)
         Route::get('spa-weekly-schedules', \App\Http\Controllers\Therapist\SpaWeeklyScheduleController::class)

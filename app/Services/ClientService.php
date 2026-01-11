@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Services\User;
+namespace App\Services;
 
+use App\Exceptions\Auth\RegisterFailedException;
 use Illuminate\Support\Collection;
 use App\Models\User;
 
@@ -14,12 +15,19 @@ class ClientService
      */
     public function createClient(array $createClientData): User|null
     {
-        return User::create([
+        $client = User::create([
             'name' => $createClientData['name'],
             'email' => $createClientData['email'],
             'password' => $createClientData['password'],
             'role' => User::ROLE_CLIENT,
         ]);
+
+
+        if (!$client) {
+            throw new RegisterFailedException("Failed to register as client for '{$createClientData['email']}'. Please retry!");
+        }
+
+        return $client;
     }
 
     /**
