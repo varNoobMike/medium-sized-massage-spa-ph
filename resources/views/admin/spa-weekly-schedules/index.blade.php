@@ -2,20 +2,6 @@
 
 @section('title', 'Manage Spa Weekly Schedules')
 
-@section('breadcrumb')
-@foreach ($breadcrumbs as $crumb)
-    @if ($crumb['url'])
-        <li class="breadcrumb-item">
-            <a href="{{ $crumb['url'] }}" class="text-dark small">{{ $crumb['title'] }}</a>
-        </li>
-    @else
-        <li class="breadcrumb-item active" aria-current="page">
-            <span class="small">{{ $crumb['title'] }}</span>
-        </li>
-    @endif
-@endforeach
-@endsection
-
 @section('page-heading', 'Spa Weekly Schedules')
 @section('page-heading-small', "Manage spa's weekly schedule slots here.")
 

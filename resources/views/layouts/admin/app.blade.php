@@ -1,25 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    @include('partials.head-meta')
+    @include('partials.shared.head-meta')
     <link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}">
 </head>
 
 <body>
 
-<div class="d-flex">
+<div class="d-flex min-vh-100">
 
-    {{-- Sidebar (Desktop = fixed, Mobile = offcanvas) --}}
+    {{-- ================= Sidebar ================= --}}
     <aside
         id="adminSidebar"
         class="admin-sidebar p-3 offcanvas-lg offcanvas-start"
         tabindex="-1"
+        role="navigation"
+        aria-label="Primary sidebar"
     >
 
         {{-- Mobile Header --}}
         <div class="d-lg-none d-flex justify-content-between align-items-center mb-3">
             <span class="text-white fw-semibold">Rose Massage</span>
-            <button class="btn btn-sm btn-outline-light" data-bs-dismiss="offcanvas" data-bs-target="#adminSidebar">
+            <button
+                class="btn btn-sm btn-outline-light"
+                data-bs-dismiss="offcanvas"
+                data-bs-target="#adminSidebar"
+                aria-label="Close sidebar"
+            >
                 <i class="bi bi-x-lg"></i>
             </button>
         </div>
@@ -72,9 +79,7 @@
                 </a>
             </li>
 
-            <li class="sidebar-section mt-4 mb-1 px-2">
-                SCHEDULES
-            </li>
+            <li class="sidebar-section px-2">SCHEDULES</li>
 
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('admin.spa-weekly-schedules.*') ? 'active' : '' }}"
@@ -84,13 +89,11 @@
                 </a>
             </li>
 
-            <li class="sidebar-section mt-4 mb-1 px-2">
-                SETTINGS
-            </li>
+            <li class="sidebar-section px-2">SETTINGS</li>
 
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('admin.spa-profile.*') ? 'active' : '' }}"
-                href="{{ route('admin.spa-profile.index') }}">
+                   href="{{ route('admin.spa-profile.index') }}">
                     <i class="bi bi-building"></i>
                     Spa Profile
                 </a>
@@ -99,75 +102,92 @@
         </ul>
     </aside>
 
-    {{-- Main --}}
+    {{-- ================= Main ================= --}}
     <div class="flex-grow-1">
 
         {{-- Topbar --}}
-        <nav class="admin-topbar d-flex align-items-center justify-content-between px-4">
+        <nav
+            class="admin-topbar d-flex align-items-center justify-content-between px-4"
+            role="navigation"
+            aria-label="Top navigation"
+        >
 
-            {{-- Left: Mobile Toggle + Breadcrumb --}}
+            {{-- Left --}}
             <div class="d-flex align-items-center gap-2">
 
-                {{-- Mobile sidebar toggle --}}
                 <button
                     class="btn btn-sm btn-outline-secondary d-lg-none"
                     data-bs-toggle="offcanvas"
                     data-bs-target="#adminSidebar"
+                    aria-label="Toggle sidebar"
                 >
                     <i class="bi bi-list"></i>
                 </button>
 
-                <ol class="breadcrumb mb-0 small text-muted">
-                    @yield('breadcrumb')
-                </ol>
+                {{-- Breadcrumbs --}}
+                <div id="breadcrumbs">
+                    @include('partials.shared.breadcrumb', ['crumbs' => $breadcrumbs ?? []])
+                </div>
 
             </div>
 
-            {{-- Profile --}}
-            <div class="dropdown">
-                <a href="#" data-bs-toggle="dropdown" class="d-flex align-items-center text-decoration-none">
-                    @if(auth()->user()->profile_photo)
-                        <img src="{{ asset('storage/' . auth()->user()->profile_photo) }}"
-                             class="rounded-circle avatar">
-                    @else
-                        <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center avatar">
-                            {{ strtoupper(substr(auth()->user()->name,0,1)) }}
-                        </div>
-                    @endif
-                </a>
+            {{-- Right --}}
+            <div class="d-flex align-items-center gap-3">
 
-                <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
-                    <li><a class="dropdown-item" href="#">Settings</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li>
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button class="dropdown-item text-danger">Logout</button>
-                        </form>
-                    </li>
-                </ul>
+                @yield('page-actions')
+
+                <div class="dropdown">
+                    <a href="#" data-bs-toggle="dropdown"
+                       class="d-flex align-items-center text-decoration-none"
+                       aria-label="User menu">
+                        @if(auth()->user()->profile_photo)
+                            <img src="{{ asset('storage/' . auth()->user()->profile_photo) }}"
+                                 class="rounded-circle avatar">
+                        @else
+                            <div class="avatar bg-secondary text-white">
+                                {{ strtoupper(substr(auth()->user()->name,0,1)) }}
+                            </div>
+                        @endif
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button class="dropdown-item text-danger">
+                                    Logout
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+
             </div>
 
         </nav>
 
         {{-- Content --}}
-        <main class="admin-content">
+        <main class="admin-content" role="main" aria-labelledby="page-title">
 
             <div class="content-canvas">
 
                 {{-- Page Header --}}
-                <div class="mb-4">
-                    <h5 class="fw-semibold mb-1">@yield('page-heading')</h5>
+                <header class="mb-4">
+                    <h5 id="page-title" class="fw-semibold mb-1">
+                        @yield('page-heading')
+                    </h5>
                     <p class="text-muted small mb-0">
                         @yield('page-heading-small')
                     </p>
-                </div>
+                </header>
 
-                {{-- Page Content --}}
-                <div class="bg-white rounded-3 shadow-sm p-4">
+                {{-- Page Body --}}
+                <section class="page-card" aria-label="Page content">
                     @yield('content')
-                </div>
+                </section>
 
             </div>
 
@@ -176,7 +196,7 @@
     </div>
 </div>
 
-@include('partials.foot-script-shared')
+@include('partials.shared.foot-scripts')
 @yield('foot-script-specific')
 
 </body>

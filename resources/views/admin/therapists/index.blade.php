@@ -2,32 +2,12 @@
 
 @section('title', 'Manage Therapists')
 
-@section('breadcrumb')
-@foreach ($breadcrumbs as $crumb)
-    @if ($crumb['url'])
-        <li class="breadcrumb-item">
-            <a href="{{ $crumb['url'] }}" class="text-dark">
-                <span class="small">{{ $crumb['title'] }}</span>
-            </a>
-        </li>
-    @else
-        <li class="breadcrumb-item active" aria-current="page">
-            <span class="small">{{ $crumb['title'] }}</span>
-        </li>
-    @endif
-@endforeach
-@endsection
-
 @section('page-heading', 'Therapists')
 @section('page-heading-small', 'Manage all your therapists here.')
 
 @section('content')
 
 {{-- Alerts --}}
-@php
-    $keys = ['therapist_approve_error'];
-@endphp
-
 @if ($errors->any())
 <div class="alert alert-danger rounded-3 mb-4 small d-flex align-items-center gap-2">
     <i class="bi bi-exclamation-circle-fill"></i>
@@ -92,7 +72,7 @@
                         </td>
                         <td class="py-3 text-end pe-3 align-middle">
                             <div class="dropdown position-relative">
-                                <button class="btn btn-sm btn-light border rounded-3" data-bs-toggle="dropdown">
+                                <button class="btn btn-sm btn-light border" data-bs-toggle="dropdown">
                                     <i class="bi bi-three-dots"></i>
                                 </button>
 
@@ -147,13 +127,13 @@
 {{-- Mobile / Small Screens --}}
 <div class="d-lg-none">
 @forelse ($therapists as $therapist)
-    <div class="card shadow-sm rounded-3 mb-3">
+    <div class="card shadow-sm mb-3">
         <div class="card-body p-3">
             <div class="d-flex justify-content-between align-items-start mb-2">
                 <div class="fw-semibold text-dark small">{{ $therapist->name }}</div>
 
                 <div class="dropdown position-relative">
-                    <button class="btn btn-sm btn-light border rounded-3" data-bs-toggle="dropdown">
+                    <button class="btn btn-sm btn-light border" data-bs-toggle="dropdown">
                         <i class="bi bi-three-dots"></i>
                     </button>
 

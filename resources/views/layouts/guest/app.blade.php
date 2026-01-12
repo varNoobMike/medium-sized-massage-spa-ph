@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    @include('partials.head-meta')
+    @include('partials.shared.head-meta')
 </head>
 
 <body>
@@ -55,8 +55,7 @@
         @yield('content')
     </div>
 
-    @include('partials.foot-script-shared')
-
+    @include('partials.shared.foot-scripts')
 </body>
 
 </html>

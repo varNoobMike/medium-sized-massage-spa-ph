@@ -2,22 +2,6 @@
 
 @section('title', 'Manage Services')
 
-@section('breadcrumb')
-@foreach ($breadcrumbs as $crumb)
-    @if ($crumb['url'])
-        <li class="breadcrumb-item">
-            <a href="{{ $crumb['url'] }}" class="text-dark">
-                <span class="small">{{ $crumb['title'] }}</span>
-            </a>
-        </li>
-    @else
-        <li class="breadcrumb-item active" aria-current="page">
-            <span class="small">{{ $crumb['title'] }}</span>
-        </li>
-    @endif
-@endforeach
-@endsection
-
 @section('page-heading', 'Services')
 @section('page-heading-small', 'Manage all available services.')
 
@@ -38,11 +22,10 @@
 
 {{-- Desktop / Large Screens --}}
 <div class="card border-0 mb-4 d-none d-lg-block">
-
     {{-- Header --}}
     <div class="card-header bg-white border-0 py-3 ps-2 pe-0 d-flex justify-content-between align-items-center">
         <div class="small text-muted">{{ $services->count() }} services</div>
-        <input type="text" class="form-control form-control-sm" placeholder="Search service..." style="max-width: 220px;">
+        <input type="text" class="form-control form-control-sm" placeholder="Search service..." style="max-width: 220px;" aria-label="Search services">
     </div>
 
     {{-- Table --}}
@@ -60,31 +43,19 @@
                 <tbody>
                 @forelse ($services as $service)
                     <tr>
-                        <td class="py-3 ps-3 fw-medium text-dark">{{ $service->name }}</td>
+                        <td class="py-3 ps-3 text-dark">{{ $service->name }}</td>
                         <td class="py-3 ps-3 text-muted small">{{ $service->duration_minutes }} mins</td>
-                        <td class="py-3 ps-3 fw-medium">{{ number_format($service->price, 2) }}</td>
+                        <td class="py-3 ps-3">{{ number_format($service->price, 2) }}</td>
                         <td class="py-3 text-end pe-3">
                             <div class="dropdown position-relative">
                                 <button class="btn btn-sm btn-light border rounded-3" data-bs-toggle="dropdown">
                                     <i class="bi bi-three-dots"></i>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded-3">
-                                    <li>
-                                        <a href="#" class="dropdown-item small">
-                                            <i class="bi bi-eye me-2"></i>View
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="dropdown-item small">
-                                            <i class="bi bi-pencil me-2"></i>Edit
-                                        </a>
-                                    </li>
+                                    <li><a href="#" class="dropdown-item small"><i class="bi bi-eye me-2"></i>View</a></li>
+                                    <li><a href="#" class="dropdown-item small"><i class="bi bi-pencil me-2"></i>Edit</a></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li>
-                                        <a href="#" class="dropdown-item small text-danger">
-                                            <i class="bi bi-trash me-2"></i>Delete
-                                        </a>
-                                    </li>
+                                    <li><a href="#" class="dropdown-item small text-danger"><i class="bi bi-trash me-2"></i>Delete</a></li>
                                 </ul>
                             </div>
                         </td>
@@ -106,38 +77,23 @@
 {{-- Mobile / Small Screens --}}
 <div class="d-lg-none">
 @forelse ($services as $service)
-    <div class="card shadow-sm rounded-3 mb-3">
+    <div class="card border shadow-sm rounded-3 mb-3">
         <div class="card-body p-3">
             <div class="d-flex justify-content-between align-items-start mb-2">
                 <div class="fw-semibold text-dark small">{{ $service->name }}</div>
-
                 <div class="dropdown position-relative">
                     <button class="btn btn-sm btn-light border rounded-3" data-bs-toggle="dropdown">
                         <i class="bi bi-three-dots"></i>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded-3">
-                        <li>
-                            <a href="#" class="dropdown-item small">
-                                <i class="bi bi-eye me-2"></i>View
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="dropdown-item small">
-                                <i class="bi bi-pencil me-2"></i>Edit
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="dropdown-item small text-danger">
-                                <i class="bi bi-trash me-2"></i>Delete
-                            </a>
-                        </li>
+                        <li><a href="#" class="dropdown-item small"><i class="bi bi-eye me-2"></i>View</a></li>
+                        <li><a href="#" class="dropdown-item small"><i class="bi bi-pencil me-2"></i>Edit</a></li>
+                        <li><a href="#" class="dropdown-item small text-danger"><i class="bi bi-trash me-2"></i>Delete</a></li>
                     </ul>
                 </div>
             </div>
-
             <div class="small text-muted mb-1">Duration</div>
             <div class="small mb-2">{{ $service->duration_minutes }} mins</div>
-
             <div class="small text-muted mb-1">Price</div>
             <div class="small fw-medium">{{ number_format($service->price, 2) }}</div>
         </div>
