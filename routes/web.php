@@ -13,12 +13,12 @@ Route::middleware('redir_authenticated_by_role')->group(function () {
 
 
 
-// Login & Logout Routes
+// Login, Logout Routes
 Route::controller(App\Http\Controllers\Auth\loginController::class)->group(function () {
 
     // Login
     Route::middleware('redir_authenticated_by_role')->group(function () {
-        Route::get('login', 'showLoginForm')->name('login'); // use built-in route name 'login' by laravel
+        Route::get('login', 'showLoginForm')->name('login'); // built-in name 'login' by laravel
         Route::post('login', 'login')->name('login.submit');
     });
 
@@ -30,7 +30,8 @@ Route::controller(App\Http\Controllers\Auth\loginController::class)->group(funct
 
 
 // Register Routes
-Route::prefix('register')->name('register.')->group(function () {
+Route::middleware('redir_authenticated_by_role')
+        ->prefix('register')->name('register.')->group(function () {
 
     // Register Client
     Route::get('user', [App\Http\Controllers\Auth\Client\RegisterController::class, 'showRegisterForm'])
@@ -56,6 +57,7 @@ Route::middleware(['auth', 'role:Admin'])
         // Dashboard
         Route::get('dashboard', \App\Http\Controllers\Admin\DashboardController::class)
             ->name('dashboard.index');
+        Route::redirect('/', 'dashboard');
 
         // Clients
         Route::get('clients', [\App\Http\Controllers\Admin\CLientController::class, 'index'])
@@ -93,6 +95,7 @@ Route::middleware(['auth', 'role:Therapist'])
         // Dashboard
         Route::get('dashboard', \App\Http\Controllers\Therapist\DashboardController::class)
             ->name('dashboard.index');
+        Route::redirect('/', 'dashboard');
 
         // Spa's Weekly Schedules (read only)
         Route::get('spa-weekly-schedules', \App\Http\Controllers\Therapist\SpaWeeklyScheduleController::class)
@@ -111,5 +114,17 @@ Route::middleware(['auth', 'role:Client'])
     ->group(function () {
 
         // Home
-        Route::get('home', \App\Http\Controllers\Client\HomeController::class)->name('home.index');
+        Route::get('home', \App\Http\Controllers\Client\HomeController::class)
+            ->name('home.index');
+        Route::redirect('/', 'home');
+
+        // Bookings
+        Route::get('bookings', [\App\Http\Controllers\Client\BookingController::class, 'index'])
+            ->name('bookings.index');
+        Route::get('bookings/book-session', [\App\Http\Controllers\Client\BookingController::class, 'create'])
+            ->name('bookings.create');
+        Route::post('bookings/book-session', [\App\Http\Controllers\Client\BookingController::class, 'store'])
+            ->name('bookings.store');
+
+
     });

@@ -21,9 +21,13 @@ class Service extends Model
     ];
 
 
-
     public function spa()
     {
         return $this->belongsTo(Spa::class);
+    }
+
+    public function bookingItems()
+    {
+        return $this->hasMany(BookingItem::class);
     }
 }

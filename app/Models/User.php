@@ -62,4 +62,15 @@ class User extends Authenticatable
         self::ROLE_THERAPIST,
         self::ROLE_CLIENT
     ];
+
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class, 'client_id');
+    }
+
+    public function therapistBookingItems()
+    {
+        return $this->hasMany(BookingItem::class, 'therapist_id');
+    }
 }

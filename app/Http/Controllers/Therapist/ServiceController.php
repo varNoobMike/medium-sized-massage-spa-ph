@@ -18,7 +18,7 @@ class ServiceController extends Controller
 
         return view('therapist.services.index', [
             'breadcrumbs' => [
-                ['title' => 'Therapist', 'url' => route('therapist.services.index')],
+                ['title' => 'Therapist', 'url' => route('therapist.dashboard.index')],
                 ['title' => 'Spa Services', 'url' => null],
             ],
         ], compact('services'));

@@ -1,23 +1,6 @@
-@extends('layouts.auth.app')
+@extends('layouts.non-panel.app')
 
 @section('title', 'Register as Therapist - Rose Massage Services')
-
-
-@section('breadcrumb')
-@foreach ( $breadcrumbs as $crumb)
-@if ($crumb['url'])
-<li class="breadcrumb-item">
-    <a href="{{ $crumb['url'] }}" class="text-dark">{{ $crumb['title'] }}</a>
-</li>
-@else
-<li class="breadcrumb-item">
-    {{ $crumb['title'] }}
-</li>
-@endif
-@endforeach
-@endsection
-
-
 
 @section('content')
 <div class="row justify-content-center align-items-center">
@@ -29,7 +12,7 @@
 
             <div class="card-body p-4">
 
-                <h1 class="text-center mb-4">Register</h1>
+                <h3 class="text-center mb-4">Register</h3>
 
                 {{-- Form --}}
                 <form action="{{ route('register.therapist.submit') }}" method="POST">
@@ -37,10 +20,10 @@
                     @csrf  
 
                     
-                    @if ($errors->has('register_therapist_error'))
-                        <div class="alert alert-danger d-flex align-items-center text-danger mb-4">
+                    @if ($errors->any())
+                        <div class="alert alert-danger d-flex align-items-center mb-4">
                             <i class="bi bi-x-circle me-2"></i>
-                            {{ $errors->first('register_therapist_error') }}                     
+                            {{ $errors->first() }}                     
                         </div>
                     @endif
 

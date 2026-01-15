@@ -1,67 +1,42 @@
-@extends('layouts.auth.app')
-
+@extends('layouts.non-panel.app')
 @section('title', 'Login - Rose Massage Services')
 
-@section('breadcrumb')
-
-@foreach ( $breadcrumbs as $crumb)
-
-@if ($crumb['url'])
-<li class="breadcrumb-item">
-    <a href="{{ $crumb['url'] }}">
-        <span class="small">
-            {{ $crumb['title'] }}
-        </span>
-    </a>
-</li>
-@else
-<li class="breadcrumb-item active" aria-current="page">
-    <span class="small">
-        {{ $crumb['title'] }}
-    </span>
-</li>
-@endif
-
-@endforeach
-
-@endsection
 
 @section('content')
 
-<div class="row justify-content-center align-items-center">
 
-    <div class="col-md-5">
+<div class="col-md-5 mx-auto">
 
         {{-- Card --}}
-        <div class="card shadow-sm border-0 rounded-3">
+        <div class="card shadow-sm rounded-3">
 
             <div class="card-body p-4">
 
-                <h1 class="text-center mb-4">Login</h1>
+                <h3 class="text-center mb-4">Login</h3>
 
                 {{-- Form --}}
                 <form action="{{ route('login.submit') }}" method="POST">
 
                     @csrf
 
-
-                    @if ($errors->has('login_error'))
-                        <div class="alert alert-danger d-flex align-items-center text-danger mb-4">
-                            <i class="bi bi-x-circle me-2"></i>
-                            {{ $errors->first('login_error') }}                     
+                    @if ($errors->any())
+                        <div class="alert alert-danger d-flex align-items-center gap-2 mb-4">
+                            <i class="bi bi-x-circle"></i>
+                            {{ $errors->first() }}                     
                         </div>
                     
                     @elseif(session('logout_success'))
-                        <div class="alert alert-success rounded-3 mb-4">
+                        <div class="alert alert-success d-flex align-items-center gap-2 mb-4">
+                            <i class="bi bi-check-circle-fill"></i>
                             {{ session('logout_success') }}
                         </div>
 
                     @elseif(session('register_success'))
-                        <div class="alert alert-success rounded-3 mb-4">
+                        <div class="alert alert-success d-flex align-items-center gap-2 mb-4">
+                            <i class="bi bi-check-circle-fill me-2"></i>
                             {{ session('register_success') }}
                         </div>
                     @endif
-
 
                     {{-- Email --}}
                     <div class="mb-4">
@@ -94,8 +69,7 @@
 
         </div>
 
-    </div>
-
 </div>
+
 
 @endsection

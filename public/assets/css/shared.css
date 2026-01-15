@@ -1,0 +1,16 @@
+/** Shared styles for all layouts */
+
+body{
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+}
+
+.small {
+    font-size: 0.875rem;
+}
+
+/*
+* {
+    outline: solid red 1px !important;
+}
+*/

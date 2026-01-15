@@ -1,4 +1,4 @@
-@extends('layouts.client.app')
+@extends('layouts.non-panel.app')
 
 @section('title', 'Home - Rose Massage Services')
 

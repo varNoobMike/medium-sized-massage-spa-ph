@@ -27,6 +27,8 @@ class SpaWeeklyScheduleController extends Controller
     {
         $schedules = $this->service->getSchedules();
 
+        // dd($schedules);
+
         return view('admin.spa-weekly-schedules.index', [
             'breadcrumbs' => [
                 ['title' => 'Admin', 'url' => route('admin.dashboard.index')],

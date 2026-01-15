@@ -1,4 +1,4 @@
-@extends('layouts.admin.app')
+@extends('layouts.panel.app')
 
 @section('title', 'Manage Spa Weekly Schedules')
 
@@ -12,21 +12,10 @@
 }">
 
     {{-- Alerts --}}
-    @php
-        $keys = ['start_time', 'end_time', 'spa_weekly_schedule_update_error'];
-    @endphp
     @if ($errors->any())
-        <div class="alert alert-danger rounded-3 mb-4 small d-flex align-items-center gap-2">
-            <i class="bi bi-exclamation-circle-fill"></i>
-            <ul class="list-unstyled mb-0 ps-0">
-                @foreach ($errors->messages() as $field => $messages)
-                    @if (in_array($field, $keys))
-                        @foreach ($messages as $message)
-                            <li>{{ $message }}</li>
-                        @endforeach
-                    @endif
-                @endforeach
-            </ul>
+        <div class="alert alert-danger rounded-3 mb-4 small d-flex align-items-start gap-2" role="alert">
+            <i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i>
+            {{ $errors->first() }}
         </div>
     @elseif(session('spa_weekly_schedule_update_success') || session('spa_weekly_schedule_create_success'))
         <div class="alert alert-success rounded-3 mb-4 small d-flex align-items-center gap-2">
@@ -37,27 +26,25 @@
 
     {{-- Desktop / Large Screens --}}
     <div class="card border-0 mb-4 d-none d-lg-block">
-        {{-- Header --}}
-        <div class="card-header bg-white border-0 py-3 px-2 pe-0 d-flex justify-content-between align-items-center">
+        <div class="card-header bg-white border-0 py-3 ps-2 pe-0 d-flex justify-content-between align-items-center">
             <div class="small text-muted">{{ count($schedules) }} days scheduled</div>
             <input type="text" class="form-control form-control-sm" placeholder="Search day..." style="max-width: 220px;">
         </div>
 
-        {{-- Table --}}
         <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-bordered table-hover align-middle mb-0">
+                <table class="table table-hover align-middle mb-0">
                     <thead class="small text-muted text-uppercase fw-semibold">
                         <tr>
-                            <th class="py-3 ps-3">Day of Week</th>
-                            <th class="py-3 text-center">Time Slots</th>
+                            <th class="py-2 ps-1">Day of Week</th>
+                            <th class="py-2 text-center">Time Slots</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($schedules as $dayOfWeek => $timeSlots)
                             <tr>
-                                <td class="py-3 ps-3 fw-medium text-dark align-middle">{{ $dayOfWeek }}</td>
-                                <td class="py-3 p-0">
+                                <td class="py-2 ps-1 fw-medium text-dark align-middle">{{ $dayOfWeek }}</td>
+                                <td class="py-2 p-0">
                                     <table class="table table-hover table-borderless table-sm mb-0">
                                         <thead class="small text-muted">
                                             <tr>
@@ -83,12 +70,12 @@
                                                             <button class="btn btn-sm btn-light border rounded-3" data-bs-toggle="dropdown">
                                                                 <i class="bi bi-three-dots"></i>
                                                             </button>
-                                                            <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-3">
+                                                            <ul class="dropdown-menu dropdown-menu-end shadow-sm rounded-3">
                                                                 <li>
-                                                                    <button class="dropdown-item"><i class="bi bi-eye me-2"></i>View</button>
+                                                                    <button class="dropdown-item small"><i class="bi bi-eye me-2"></i>View</button>
                                                                 </li>
                                                                 <li>
-                                                                    <button class="dropdown-item" data-bs-toggle="modal"
+                                                                    <button class="dropdown-item small" data-bs-toggle="modal"
                                                                         data-bs-target="#spa-weekly-schedule-edit-modal"
                                                                         @click="
                                                                             form.schedule_id=@js($slot->id);
@@ -139,7 +126,7 @@
                     </div>
 
                     @forelse($timeSlots as $slot)
-                        <div class="d-flex justify-content-between align-items-center mb-2 small text-muted border-bottom py-1">
+                        <div class="d-flex justify-content-between align-items-center mb-2 small text-muted border-bottom py-2">
                             <div>
                                 {{ \Carbon\Carbon::parse($slot->start_time)->format('g:i A') }} -
                                 {{ \Carbon\Carbon::parse($slot->end_time)->format('g:i A') }}
@@ -148,12 +135,12 @@
                                 <button class="btn btn-sm btn-light border rounded-3" data-bs-toggle="dropdown">
                                     <i class="bi bi-three-dots"></i>
                                 </button>
-                                <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded-3">
+                                <ul class="dropdown-menu dropdown-menu-end shadow-sm rounded-3">
                                     <li>
-                                        <button class="dropdown-item"><i class="bi bi-eye me-2"></i>View</button>
+                                        <button class="dropdown-item small"><i class="bi bi-eye me-2"></i>View</button>
                                     </li>
                                     <li>
-                                        <button class="dropdown-item" data-bs-toggle="modal"
+                                        <button class="dropdown-item small" data-bs-toggle="modal"
                                             data-bs-target="#spa-weekly-schedule-edit-modal"
                                             @click="
                                                 form.schedule_id=@js($slot->id);
@@ -181,6 +168,4 @@
     @include('admin.spa-weekly-schedules.modals')
 
 </div>
-
-
 @endsection

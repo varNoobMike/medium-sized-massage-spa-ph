@@ -33,4 +33,9 @@ class Spa extends Model
     {
         return $this->hasMany(SpaWeeklySchedule::class);
     }
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
 }

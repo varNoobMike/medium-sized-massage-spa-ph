@@ -1,45 +1,27 @@
-@extends('layouts.auth.app')
+@extends('layouts.non-panel.app')
 
 @section('title', 'Register as User - Rose Massage Services')
 
-@section('breadcrumb')
-
-@foreach ( $breadcrumbs as $crumb)
-@if ($crumb['url'])
-<li class="breadcrumb-item">
-    <a href="{{ $crumb['url'] }}" class="text-dark">{{ $crumb['title'] }}</a>
-</li>
-@else
-<li class="breadcrumb-item">
-    {{ $crumb['title'] }}
-</li>
-@endif
-@endforeach
-
-@endsection
-
 @section('content')
 
-<div class="row justify-content-center align-items-center">
-
-    <div class="col-md-5">
+    <div class="col-md-5 mx-auto">
 
         {{-- Card --}}
-        <div class="card shadow-sm border-0 rounded-3">
+        <div class="card shadow-sm rounded-3">
 
             <div class="card-body p-4">
 
-                <h1 class="text-center mb-4">Register</h1>
+                <h3 class="text-center mb-4">Register</h3>
 
                 {{-- Form --}}
                 <form action="{{ route('register.client.submit') }}" method="POST">
 
                     @csrf
 
-                    @if ($errors->has('register_client_error'))
-                        <div class="alert alert-danger d-flex align-items-center text-danger mb-4">
+                    @if ($errors->any())
+                        <div class="alert alert-danger d-flex align-items-center mb-4">
                             <i class="bi bi-x-circle me-2"></i>
-                            {{ $errors->first('register_client_error') }}                     
+                            {{ $errors->first() }}                     
                         </div>
                     @endif
 

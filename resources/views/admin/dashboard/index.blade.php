@@ -1,4 +1,4 @@
-@extends('layouts.admin.app')
+@extends('layouts.panel.app')
 
 @section('title', 'Admin Dashboard')
 
@@ -7,9 +7,7 @@
 
 @section('content')
 
-{{-- ============================== --}}
 {{-- Quick Statistics --}}
-{{-- ============================== --}}
 <div class="row g-3 g-md-4 mb-4">
 
     @php
@@ -81,9 +79,7 @@
 
 </div>
 
-{{-- ============================== --}}
 {{-- System Status Panel --}}
-{{-- ============================== --}}
 <div class="card border shadow-sm rounded-3 p-4 mb-4">
     <div class="d-flex align-items-center justify-content-between mb-2">
         <div class="fw-semibold">System Status</div>
@@ -102,9 +98,7 @@
     </div>
 </div>
 
-{{-- ============================== --}}
 {{-- Placeholder for Future Widgets --}}
-{{-- ============================== --}}
 <div class="card border shadow-sm rounded-3 p-4 text-center text-muted">
     <i class="bi bi-bar-chart-line fs-3 mb-2"></i>
     <div class="fw-semibold">

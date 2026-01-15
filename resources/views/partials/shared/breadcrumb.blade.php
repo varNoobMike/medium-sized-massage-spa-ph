@@ -1,6 +1,6 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb mb-0 text-muted">
-        @foreach ($crumbs as $crumb)
+        @forelse ($crumbs as $crumb)
             @if (!empty($crumb['url']))
                 <li class="breadcrumb-item">
                     <a href="{{ $crumb['url'] }}" class="text-dark text-decoration-none">     
@@ -16,6 +16,10 @@
                     </span>
                 </li>
             @endif
-        @endforeach
+        @empty
+            <li class="breadcrumb-item active" aria-current="page">
+                <span class="small">Empty Link</span>
+            </li>
+        @endforelse
     </ol>
 </nav>
