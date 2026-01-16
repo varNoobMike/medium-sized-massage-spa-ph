@@ -7,7 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Exception;
 
 
-class ScheduleUpdateFailedException extends Exception
+class UpdateFailedException extends Exception
 {
 
     public function __construct(

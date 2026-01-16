@@ -1,8 +1,8 @@
 @extends('layouts.panel.app')
 
-@section('title', 'Manage Spa Profile')
+@section('title', 'Manage Spa Settings')
 
-@section('page-heading', 'Manage Spa Profile')
+@section('page-heading', 'Spa Settings')
 @section('page-heading-small', 'Manage spa profile details here.')
 
 @section('content')
@@ -26,18 +26,68 @@
         <div class="card-body p-3 d-flex justify-content-between align-items-center">
             
             {{-- Info --}}
-            <div class="d-flex flex-column gap-1">
-                <div class="fw-semibold text-dark">{{ $profile->name }}</div>
-                <div class="small text-muted">Email: {{ $profile->company->email }}</div>
-                <div class="small text-muted">Phone: {{ $profile->company->phone }}</div>
-                <div class="small text-muted">Location: {{ $profile->location }}</div>
-                <div class="small text-muted">Total Beds: {{ $profile->total_beds }}</div>
-            </div>
+<div class="d-flex flex-column gap-3">
+
+    {{-- Spa Name --}}
+    <div class="fw-semibold text-dark fs-5">
+        {{ $setting->name }}
+    </div>
+
+    {{-- Info Settings --}}
+    <div>
+        <div class="text-uppercase fw-semibold text-primary small mb-1">
+            Information Settings
+        </div>
+
+        <div class="small text-muted">
+            Email:
+            <span class="text-dark">{{ $setting->spaSetting->email ?? '—' }}</span>
+        </div>
+
+        <div class="small text-muted">
+            Contact #:
+            <span class="text-dark">{{ $setting->spaSetting->contact_number ?? '—' }}</span>
+        </div>
+
+        <div class="small text-muted">
+            Location:
+            <span class="text-dark">{{ $setting->spaSetting->location ?? '—' }}</span>
+        </div>
+    </div>
+
+    {{-- Booking Settings --}}
+    <div>
+        <div class="text-uppercase fw-semibold text-primary small mb-1">
+            Booking Settings
+        </div>
+
+        <div class="small text-muted">
+            Total Beds:
+            <span class="text-dark">{{ $setting->spaSetting->total_beds ?? '—' }}</span>
+        </div>
+
+        <div class="small text-muted">
+            Buffer Start:
+            <span class="text-dark">
+                {{ $setting->spaSetting->booking_buffer_start ?? 0 }} mins
+            </span>
+        </div>
+
+        <div class="small text-muted">
+            Buffer End:
+            <span class="text-dark">
+                {{ $setting->spaSetting->booking_buffer_end ?? 0 }} mins
+            </span>
+        </div>
+    </div>
+
+</div>
+
 
             {{-- Logo & Actions --}}
             <div class="d-flex flex-column align-items-end gap-2">
-                @if($profile->company->logo)
-                    <img src="{{ asset('storage/' . $profile->company->logo) }}" alt="Logo" class="rounded" width="50">
+                @if($setting->logo)
+                    <img src="{{ asset('storage/' . $profile->logo) }}" alt="Logo" class="rounded" width="50">
                 @else
                     <span class="badge bg-secondary-subtle text-muted small">No Logo</span>
                 @endif
@@ -67,7 +117,7 @@
         <div class="card-body p-3">
 
             <div class="d-flex justify-content-between align-items-start mb-2">
-                <div class="fw-semibold text-dark small">{{ $profile->name }}</div>
+                <div class="fw-semibold text-dark small">{{ $setting->name }}</div>
 
                 <div class="dropdown position-relative">
                     <button class="btn btn-sm btn-light border rounded-3" data-bs-toggle="dropdown">
@@ -89,21 +139,21 @@
             </div>
 
             <div class="small text-muted mb-1">Email</div>
-            <div class="small mb-2">{{ $profile->company->email }}</div>
+            <div class="small mb-2">{{ $setting->spaSetting->email }}</div>
 
             <div class="small text-muted mb-1">Phone</div>
-            <div class="small mb-2">{{ $profile->company->phone }}</div>
+            <div class="small mb-2">{{ $setting->spaSetting->contact_number }}</div>
 
             <div class="small text-muted mb-1">Location</div>
-            <div class="small mb-2">{{ $profile->location }}</div>
+            <div class="small mb-2">{{ $setting->spaSetting->location }}</div>
 
             <div class="small text-muted mb-1">Total Beds</div>
-            <div class="small mb-2">{{ $profile->total_beds }}</div>
+            <div class="small mb-2">{{ $setting->spaSetting->total_beds }}</div>
 
             <div class="small text-muted mb-1">Logo</div>
             <div class="small mb-2">
-                @if($profile->company->logo)
-                    <img src="{{ asset('storage/' . $profile->company->logo) }}" alt="Logo" class="rounded" width="50">
+                @if($setting->spaSetting->logo)
+                    <img src="{{ asset('storage/' . $setting->logo) }}" alt="Logo" class="rounded" width="50">
                 @else
                     <span class="badge bg-secondary-subtle text-muted small">No Logo</span>
                 @endif

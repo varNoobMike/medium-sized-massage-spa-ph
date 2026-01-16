@@ -6,10 +6,10 @@ use Illuminate\Http\RedirectResponse;
 use Exception;
 
 
-class ScheduleCreateFailedException extends Exception
+class CreateFailedException extends Exception
 {
     public function __construct(
-        string $message = 'Failed to create schedule.'
+        string $message = 'Failed to create booking.'
     ) {
 
         parent::__construct($message);
@@ -22,7 +22,7 @@ class ScheduleCreateFailedException extends Exception
         return back()
             ->withInput()
             ->withErrors([
-                'spa_weekly_schedule_create_error' => $this->getMessage(),
+                'booking_create_error' => $this->getMessage(),
             ]);
     }
 }

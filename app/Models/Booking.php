@@ -8,7 +8,7 @@ class Booking extends Model
 {
     protected $fillable = [
         'client_id',
-        'spa_id',
+        'company_id',
         'booking_date',
         'start_time',
         'end_time',
@@ -22,9 +22,9 @@ class Booking extends Model
         return $this->belongsTo(User::class, 'client_id');
     }
 
-    public function spa()
+    public function company()
     {
-        return $this->belongsTo(Spa::class);
+        return $this->belongsTo(Company::class);
     }
 
     public function items()

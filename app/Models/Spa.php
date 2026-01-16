@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Service;
+use Symfony\Component\Mime\Email;
 
 class Spa extends Model
 {
@@ -14,28 +14,31 @@ class Spa extends Model
      */
     protected $fillable = [
         'name',
-        'location',
-        'total_beds',
-        'company_id'
     ];
 
-    public function company()
+
+    public function spaSetting()
     {
-        return $this->belongsTo(Company::class);
+        return $this->hasOne(SpaSetting::class);
     }
+
 
     public function services()
     {
         return $this->hasMany(Service::class);
     }
 
+
+
     public function spaWeeklySchedules()
     {
         return $this->hasMany(SpaWeeklySchedule::class);
     }
 
+
     public function bookings()
     {
         return $this->hasMany(Booking::class);
     }
+
 }

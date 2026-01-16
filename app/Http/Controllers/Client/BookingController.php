@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Services\ServicesService;
 use App\Services\TherapistService;
+use App\Http\Requests\Booking\StoreBookingRequest;
 
 class BookingController extends Controller
 {
@@ -35,8 +36,8 @@ class BookingController extends Controller
         return view('client.bookings.create', compact('breadcrumbs', 'services', 'therapists'));
     }
 
-    public function store()
+    public function store(StoreBookingRequest $request)
     {
-        return "submit booking form";
+        $createBookingData = $request->validated();
     }
 }

@@ -12,25 +12,26 @@
                 
                 <div class="card-body p-4">
 
+                    {{-- Alerts --}}
+                    @if ($errors->any())
+                        <div class="alert alert-danger rounded-3 mb-4 small d-flex align-items-start gap-2" role="alert">
+                            <i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i>
+                            {{ $errors->first() }}
+                        </div>
+                    @endif
+
                     <form action="{{ route('client.bookings.store') }}" method="POST">
                         @csrf
 
-                        @if ($errors->any())
-                        <div class="alert alert-danger d-flex align-items-center gap-2 mb-4">
-                            <i class="bi bi-x-circle"></i>
-                            {{ $errors->first() }}                     
-                        </div>
-                    
-                        @elseif(session('booking_create_success'))
-                            <div class="alert alert-success d-flex align-items-center gap-2 mb-4">
-                                <i class="bi bi-check-circle-fill"></i>
-                                {{ session('booking_create_success') }}
-                            </div>
-                        @endif
 
                         <div class="mb-4">
                             <label class="form-label">Date</label>
                             <input type="date" class="form-control" name="booking_date">
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Time</label>
+                            <input type="time" class="form-control" name="booking_start_time">
                         </div>
 
                         <div class="mb-4">
@@ -55,11 +56,6 @@
                                    <option value="" selected disabled>No therapists found.</option>
                                 @endforelse
                             </select>
-                        </div>
-
-                        <div class="mb-4">
-                            <label class="form-label">Time</label>
-                            <input type="time" class="form-control" name="booking_start_time">
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100">Book</button>

@@ -60,7 +60,7 @@ class SpaWeeklyScheduleService
             );
         }
 
-        $spaId = $this->spaService->getProfile()->id;
+        $spaId = $this->spaService->getSpa()->id;
 
         return DB::transaction(function () use ($spaId, $createScheduleData) {
             $schedule = SpaWeeklySchedule::create([
@@ -71,7 +71,7 @@ class SpaWeeklyScheduleService
             ]);
 
             if (!$schedule) {
-                throw new ScheduleCreateFailedException("Failed to create time slot schedule for '{$createScheduleData['day_of_week']}'. Please retry!");
+                throw new CreateFailedException("Failed to create time slot schedule for '{$createScheduleData['day_of_week']}'. Please retry!");
             }
 
             return $schedule;
@@ -97,6 +97,7 @@ class SpaWeeklyScheduleService
             $schedule->id,
         );
 
+        
         if ($foundExistingSchedule) {
             throw new ScheduleAlreadyExistsException(
                 $foundExistingSchedule,
@@ -129,7 +130,7 @@ class SpaWeeklyScheduleService
 
 
             if (!$updated) {
-                throw new ScheduleUpdateFailedException(
+                throw new UpdateFailedException(
                     $schedule,
                     "Failed to update time slot for '{$schedule->day_of_week}'.",
                 );

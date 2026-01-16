@@ -16,12 +16,11 @@ class DatabaseSeeder extends Seeder
     {
 
         $this->call([
-            CompanySeeder::class,
             SpaSeeder::class,
+            SpaSettingSeeder::class,
             UserSeeder::class,
             ServiceSeeder::class,
             SpaWeeklyScheduleSeeder::class,
-            // StaffWeeklyScheduleSeeder::class,
         ]);
     }
 }

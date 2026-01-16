@@ -72,9 +72,9 @@
                 </li>
 
                 <li class="mt-3 px-2 small text-uppercase opacity-75">Settings</li>
-                <li class="nav-item {{ request()->routeIs('admin.spa-profile.*') ? 'bg-info rounded-3' : '' }}" role="none">
-                    <a href="{{ route('admin.spa-profile.index') }}" class="nav-link text-white" role="menuitem">
-                        <i class="bi bi-building me-2"></i>Spa Profile
+                <li class="nav-item {{ request()->routeIs('admin.spa-settings.*') ? 'bg-info rounded-3' : '' }}" role="none">
+                    <a href="{{ route('admin.spa-settings.index') }}" class="nav-link text-white" role="menuitem">
+                        <i class="bi bi-building me-2"></i>Spa
                     </a>
                 </li>
 

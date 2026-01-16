@@ -7,11 +7,11 @@ use App\Models\Spa;
 class SpaService
 {
     /**
-     * Get profile
+     * Get Spa
      * 
      */
-    public function getProfile(): Spa|null
+    public function getSpa(): Spa|null
     {
-        return Spa::with('company')->first();
+        return Spa::first();
     }
 }

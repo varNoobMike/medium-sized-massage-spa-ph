@@ -3,10 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Spa;
+use App\Models\Service;
 
-
-class Service extends Model
+class SpaSetting extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -14,23 +13,20 @@ class Service extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'spa_id',
-        'name',
-        'duration_minutes',
-        'price',
-        'description',
+        'spa_id',  
+        'email',   
+        'contact_number',  
+        'logo', 
+        'location',   
+        'maximum_bed_capacity',    
+        'booking_buffer_start',    
+        'booking_buffer_end',
     ];
-
 
     public function spa()
     {
         return $this->belongsTo(Spa::class);
     }
 
-    /*
-    public function bookingItems()
-    {
-        return $this->hasMany(BookingItem::class);
-    }
-    */
+    
 }

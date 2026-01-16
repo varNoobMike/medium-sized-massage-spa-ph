@@ -63,9 +63,9 @@ Route::middleware(['auth', 'role:Admin'])
         Route::get('clients', [\App\Http\Controllers\Admin\CLientController::class, 'index'])
             ->name('clients.index');
 
-        // Spa Profile
-        Route::get('spa-profile', [\App\Http\Controllers\Admin\SpaProfileController::class, 'index'])
-            ->name('spa-profile.index');
+        // Spa Settings
+        Route::get('spa-profile', [\App\Http\Controllers\Admin\SpaSettingController::class, 'index'])
+            ->name('spa-settings.index');
 
         // Services
         Route::resource('services', \App\Http\Controllers\Admin\ServiceController::class)

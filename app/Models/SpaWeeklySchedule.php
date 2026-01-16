@@ -12,10 +12,10 @@ class SpaWeeklySchedule extends Model
      * @var list<string>
      */
     protected $fillable = [
+        'spa_id',
         'day_of_week',
         'start_time',
-        'end_time',
-        'spa_id',
+        'end_time', 
     ];
 
 
