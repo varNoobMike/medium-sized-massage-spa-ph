@@ -11,161 +11,149 @@
     form: { schedule_id: null, day_of_week: '', start_time: '', end_time: '' }
 }">
 
-    {{-- Alerts --}}
-    @if ($errors->any())
-        <div class="alert alert-danger rounded-3 mb-4 small d-flex align-items-start gap-2" role="alert">
-            <i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i>
-            {{ $errors->first() }}
-        </div>
-    @elseif(session('spa_weekly_schedule_update_success') || session('spa_weekly_schedule_create_success'))
-        <div class="alert alert-success rounded-3 mb-4 small d-flex align-items-center gap-2">
-            <i class="bi bi-check-circle-fill"></i>
-            {{ session('spa_weekly_schedule_update_success') ?? session('spa_weekly_schedule_create_success') }}
-        </div>
-    @endif
-
-    {{-- Desktop / Large Screens --}}
-    <div class="card border-0 mb-4 d-none d-lg-block">
-        <div class="card-header bg-white border-0 py-3 ps-2 pe-0 d-flex justify-content-between align-items-center">
-            <div class="small text-muted">{{ count($schedules) }} days scheduled</div>
-            <input type="text" class="form-control form-control-sm" placeholder="Search day..." style="max-width: 220px;">
-        </div>
-
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
-                    <thead class="small text-muted text-uppercase fw-semibold">
-                        <tr>
-                            <th class="py-2 ps-1">Day of Week</th>
-                            <th class="py-2 text-center">Time Slots</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($schedules as $dayOfWeek => $timeSlots)
-                            <tr>
-                                <td class="py-2 ps-1 fw-medium text-dark align-middle">{{ $dayOfWeek }}</td>
-                                <td class="py-2 p-0">
-                                    <table class="table table-hover table-borderless table-sm mb-0">
-                                        <thead class="small text-muted">
-                                            <tr>
-                                                <th class="ps-3">Start</th>
-                                                <th class="ps-3">End</th>
-                                                <th class="text-end pe-3">
-                                                    <button class="btn btn-sm btn-success rounded-3 px-3"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#spa-weekly-schedule-create-modal"
-                                                        @click="form.day_of_week='{{ $dayOfWeek }}'">
-                                                        <i class="bi bi-plus-lg"></i> Add
-                                                    </button>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @forelse($timeSlots as $slot)
-                                                <tr class="align-middle border-bottom">
-                                                    <td class="ps-3">{{ \Carbon\Carbon::parse($slot->start_time)->format('g:i A') }}</td>
-                                                    <td class="ps-3">{{ \Carbon\Carbon::parse($slot->end_time)->format('g:i A') }}</td>
-                                                    <td class="text-end pe-3">
-                                                        <div class="dropdown position-relative">
-                                                            <button class="btn btn-sm btn-light border rounded-3" data-bs-toggle="dropdown">
-                                                                <i class="bi bi-three-dots"></i>
-                                                            </button>
-                                                            <ul class="dropdown-menu dropdown-menu-end shadow-sm rounded-3">
-                                                                <li>
-                                                                    <button class="dropdown-item small"><i class="bi bi-eye me-2"></i>View</button>
-                                                                </li>
-                                                                <li>
-                                                                    <button class="dropdown-item small" data-bs-toggle="modal"
-                                                                        data-bs-target="#spa-weekly-schedule-edit-modal"
-                                                                        @click="
-                                                                            form.schedule_id=@js($slot->id);
-                                                                            form.day_of_week=@js($slot->day_of_week);
-                                                                            form.start_time=@js(\Carbon\Carbon::parse($slot->start_time)->format('H:i'));
-                                                                            form.end_time=@js(\Carbon\Carbon::parse($slot->end_time)->format('H:i'));
-                                                                        ">
-                                                                        <i class="bi bi-pencil me-2"></i>Edit
-                                                                    </button>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @empty
-                                                <tr>
-                                                    <td colspan="3" class="text-center small text-muted fst-italic py-2">No time slots yet</td>
-                                                </tr>
-                                            @endforelse
-                                        </tbody>
-                                    </table>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="2" class="text-center small text-muted fst-italic py-4">No weekly schedules found</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-        </div>
+{{-- Alerts --}}
+@if ($errors->any())
+    <div class="alert alert-danger alert-dismissible fade show rounded-3 mb-3 small d-flex align-items-center gap-2" role="alert">
+        <i class="bi bi-exclamation-circle-fill fs-5 opacity-75"></i>
+        <div>{{ $errors->first() }}</div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
+@elseif(session('spa_weekly_schedule_update_success') || session('spa_weekly_schedule_create_success'))
+    <div class="alert alert-success alert-dismissible fade show rounded-3 mb-3 small d-flex align-items-center gap-2" role="alert">
+        <i class="bi bi-check-circle-fill fs-5 opacity-75"></i>
+        <div>{{ session('spa_weekly_schedule_update_success') ?? session('spa_weekly_schedule_create_success') }}</div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
 
-    {{-- Mobile / Small Screens --}}
-    <div class="d-lg-none">
-        @forelse($schedules as $dayOfWeek => $timeSlots)
-            <div class="card shadow-sm rounded-3 mb-3">
-                <div class="card-body p-3">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <div class="fw-semibold text-dark small">{{ $dayOfWeek }}</div>
-                        <button class="btn btn-sm btn-success rounded-3 px-3"
+
+{{-- Table (Desktop) --}}
+<div class="table-responsive mb-4 d-none d-lg-block">
+    <table class="table table-hover align-middle mb-0">
+        <thead class="table-light text-uppercase text-secondary small fw-semibold">
+            <tr>
+                <th class="ps-3 py-2">Day</th>
+                <th class="py-2 text-center">Time Slots</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($schedules as $dayOfWeek => $timeSlots)
+                <tr class="align-middle hover-bg-light">
+                    {{-- Day Column --}}
+                    <td class="ps-3 fw-medium text-dark py-2">{{ $dayOfWeek }}</td>
+
+                    {{-- Nested Table Column --}}
+                    <td class="p-0">
+                        <table class="table table-sm table-borderless mb-0">
+                            <thead class="small text-muted">
+                                <tr>
+                                    <th class="ps-3">Start</th>
+                                    <th>End</th>
+                                    <th class="text-end pe-3">
+                                        {{-- Add Button --}}
+                                        <button
+                                            class="btn btn-sm btn-primary rounded-3"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#spa-weekly-schedule-create-modal"
+                                            @click="form.day_of_week='{{ $dayOfWeek }}'"
+                                        >
+                                            <i class="bi bi-plus-lg"></i> Add
+                                        </button>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($timeSlots as $slot)
+                                    <tr class="border-top hover-bg-light">
+                                        <td class="ps-3">{{ \Carbon\Carbon::parse($slot->start_time)->format('h:i A') }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($slot->end_time)->format('h:i A') }}</td>
+                                        <td class="text-end pe-3">
+                                            {{-- Edit Button --}}
+                                            <button
+                                                class="btn btn-sm btn-light border rounded-3"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#spa-weekly-schedule-edit-modal"
+                                                @click="
+                                                    form.schedule_id=@js($slot->id);
+                                                    form.day_of_week=@js($slot->day_of_week);
+                                                    form.start_time=@js(\Carbon\Carbon::parse($slot->start_time)->format('H:i'));
+                                                    form.end_time=@js(\Carbon\Carbon::parse($slot->end_time)->format('H:i'));
+                                                "
+                                            >
+                                                <i class="bi bi-pencil"></i> Edit
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="3" class="text-center text-muted fst-italic py-3">
+                                            No time slots yet
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="2" class="text-center text-muted fst-italic py-4">
+                        No weekly schedules found
+                    </td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
+
+
+{{-- Mobile Cards --}}
+<div class="d-lg-none">
+    @forelse($schedules as $dayOfWeek => $timeSlots)
+        <div class="card border rounded-3 mb-3 shadow-sm hover-shadow">
+            <div class="card-body p-3">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <div class="fw-semibold">{{ $dayOfWeek }}</div>
+                    <button
+                        class="btn btn-sm btn-primary rounded-3"
+                        data-bs-toggle="modal"
+                        data-bs-target="#spa-weekly-schedule-create-modal"
+                        @click="form.day_of_week='{{ $dayOfWeek }}'">
+                        <i class="bi bi-plus-lg"></i> Add
+                    </button>
+                </div>
+
+                @forelse($timeSlots as $slot)
+                    <div class="d-flex justify-content-between align-items-center py-2 border-top">
+                        <div class="text-dark">
+                            {{ \Carbon\Carbon::parse($slot->start_time)->format('h:i A') }} – {{ \Carbon\Carbon::parse($slot->end_time)->format('h:i A') }}
+                        </div>
+                        <button
+                            class="btn btn-sm btn-light border rounded-3"
                             data-bs-toggle="modal"
-                            data-bs-target="#spa-weekly-schedule-create-modal"
-                            @click="form.day_of_week='{{ $dayOfWeek }}'">
-                            <i class="bi bi-plus-lg"></i> Add
+                            data-bs-target="#spa-weekly-schedule-edit-modal"
+                            @click="
+                                form.schedule_id=@js($slot->id);
+                                form.day_of_week=@js($slot->day_of_week);
+                                form.start_time=@js(\Carbon\Carbon::parse($slot->start_time)->format('H:i'));
+                                form.end_time=@js(\Carbon\Carbon::parse($slot->end_time)->format('H:i'));
+                            ">
+                            <i class="bi bi-pencil"></i> Edit
                         </button>
                     </div>
-
-                    @forelse($timeSlots as $slot)
-                        <div class="d-flex justify-content-between align-items-center mb-2 small text-muted border-bottom py-2">
-                            <div>
-                                {{ \Carbon\Carbon::parse($slot->start_time)->format('g:i A') }} -
-                                {{ \Carbon\Carbon::parse($slot->end_time)->format('g:i A') }}
-                            </div>
-                            <div class="dropdown position-relative">
-                                <button class="btn btn-sm btn-light border rounded-3" data-bs-toggle="dropdown">
-                                    <i class="bi bi-three-dots"></i>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end shadow-sm rounded-3">
-                                    <li>
-                                        <button class="dropdown-item small"><i class="bi bi-eye me-2"></i>View</button>
-                                    </li>
-                                    <li>
-                                        <button class="dropdown-item small" data-bs-toggle="modal"
-                                            data-bs-target="#spa-weekly-schedule-edit-modal"
-                                            @click="
-                                                form.schedule_id=@js($slot->id);
-                                                form.day_of_week=@js($slot->day_of_week);
-                                                form.start_time=@js(\Carbon\Carbon::parse($slot->start_time)->format('H:i'));
-                                                form.end_time=@js(\Carbon\Carbon::parse($slot->end_time)->format('H:i'));
-                                            ">
-                                            <i class="bi bi-pencil me-2"></i>Edit
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    @empty
-                        <div class="small fst-italic text-muted py-2">No time slots yet</div>
-                    @endforelse
-                </div>
+                @empty
+                    <div class="text-muted fst-italic py-2">No time slots yet</div>
+                @endforelse
             </div>
-        @empty
-            <div class="text-center small text-muted fst-italic py-5">No weekly schedules found</div>
-        @endforelse
-    </div>
+        </div>
+    @empty
+        <div class="text-center text-muted fst-italic py-5">No weekly schedules found</div>
+    @endforelse
+</div>
 
-    {{-- Modals --}}
-    @include('admin.spa-weekly-schedules.modals')
+
+{{-- Modals --}}
+@include('admin.spa-weekly-schedules.modals')
 
 </div>
 @endsection

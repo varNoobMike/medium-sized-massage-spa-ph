@@ -15,16 +15,47 @@ class BookingService
      */
     public function createBooking(array $createBookingData): Booking|null
     {
-        $booking = Booking::create([
-           //
-        ]);
+
+        return DB::transaction(function () use ($createBookingData, $bookingItemsData) {
+
+            $booking = Booking::create($createBookingData);
+
+            if (! $booking) {
+                throw new CreateFailedException(
+                    'Failed to create booking. Please retry.'
+                );
+            }
 
 
-        if (!$booking) {
-            throw new CreateFailedException("Failed to create booking. Please retry!");
-        }
+             /*
+             'booking_id',
+                'service_id',
+                'therapist_id',
+                'duration_minutes',
+                'price',
+                'notes'
+            */
 
-        return $booking;
+            $items = collect($bookingItemsData)->map(fn ($item) => [
+                ...$item,
+                'booking_id' => $booking->id,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            $bookingItems = BookingItem::insert($items->toArray());
+
+            if(!$bookingItems) {
+                throw new CreateFailedException(
+                    'Failed to create booking. Please retry.'
+                );
+            }
+
+            return $booking->load('items');
+        });
+
+
+        
     }
 
   

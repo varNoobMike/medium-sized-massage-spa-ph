@@ -23,9 +23,10 @@ class StoreBookingRequest extends FormRequest
     {
         return [
             'booking_date' => 'required|date|after_or_equal:today',
-            'booking_start_time' => 'required|date_format:H:i',
             'service_id' => 'required|exists:services,id',
             'therapist_id' => 'required|exists:users,id',
         ];
+
+
     }
 }

@@ -6,11 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Services\ServicesService;
 use App\Services\TherapistService;
 use App\Http\Requests\Booking\StoreBookingRequest;
+use App\Services\BookingService;
+
 
 class BookingController extends Controller
 {
 
-    public function __construct(private ServicesService $servicesService, private TherapistService $therapistService) {}
+    public function __construct(
+        private BookingService $bookingService,
+        private ServicesService $servicesService, 
+        private TherapistService $therapistService) {}
 
     public function index()
     {
@@ -24,6 +29,15 @@ class BookingController extends Controller
 
     public function create()
     {
+        
+    }
+
+    public function store(StoreBookingRequest $request)
+    {
+        $this->bookingService->createBooking($request->validated());
+    }
+
+    public function checkAvaialableSlots(){
         $breadcrumbs = [
             ['title' => 'Home', 'url' => route('client.home.index')],
             ['title' => 'Bookings', 'url' => route('client.bookings.index')],
@@ -33,11 +47,6 @@ class BookingController extends Controller
         $services = $this->servicesService->getServices();
         $therapists = $this->therapistService->getTherapists();
 
-        return view('client.bookings.create', compact('breadcrumbs', 'services', 'therapists'));
-    }
-
-    public function store(StoreBookingRequest $request)
-    {
-        $createBookingData = $request->validated();
+        return view('client.bookings.check-available-slots', compact('breadcrumbs', 'services', 'therapists'));
     }
 }

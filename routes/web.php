@@ -121,7 +121,7 @@ Route::middleware(['auth', 'role:Client'])
         // Bookings
         Route::get('bookings', [\App\Http\Controllers\Client\BookingController::class, 'index'])
             ->name('bookings.index');
-        Route::get('bookings/book-session', [\App\Http\Controllers\Client\BookingController::class, 'create'])
+        Route::get('bookings/book-session', [\App\Http\Controllers\Client\BookingController::class, 'checkAvaialableSlots'])
             ->name('bookings.create');
         Route::post('bookings/book-session', [\App\Http\Controllers\Client\BookingController::class, 'store'])
             ->name('bookings.store');

@@ -4,21 +4,21 @@
             @if (!empty($crumb['url']))
                 <li class="breadcrumb-item">
                     <a href="{{ $crumb['url'] }}" class="text-dark text-decoration-none">     
-                        <span class="small">
+                        <span class="">
                             {{ $crumb['title'] }}
                         </span>
                     </a>
                 </li>
             @else
                 <li class="breadcrumb-item active" aria-current="page">
-                    <span class="small">
+                    <span class="">
                         {{ $crumb['title'] }}
                     </span>
                 </li>
             @endif
         @empty
             <li class="breadcrumb-item active" aria-current="page">
-                <span class="small">Empty Link</span>
+                <span class="">Empty Link</span>
             </li>
         @endforelse
     </ol>
