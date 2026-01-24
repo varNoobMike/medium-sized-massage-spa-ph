@@ -25,7 +25,7 @@ class SpaWeeklyScheduleController extends Controller
      */
     public function index()
     {
-        $schedules = $this->service->getSchedules();
+        $schedules = $this->service->getSchedules('FORMATTED');
 
         // dd($schedules);
 
@@ -71,7 +71,7 @@ class SpaWeeklyScheduleController extends Controller
         return redirect()
             ->route('admin.spa-weekly-schedules.index')
             ->with(
-                'spa_weekly_schedule_update_success',
+                'spa_weekly_schedule_action_success',
                 "Time slot schedule is updated successfully for '$updatedSchedule->day_of_week'."
             );
     }

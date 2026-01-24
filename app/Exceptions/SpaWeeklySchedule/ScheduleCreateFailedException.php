@@ -6,7 +6,7 @@ use Illuminate\Http\RedirectResponse;
 use Exception;
 
 
-class CreateFailedException extends Exception
+class ScheduleCreateFailedException extends Exception
 {
     public function __construct(
         string $message = 'Failed to create schedule.'

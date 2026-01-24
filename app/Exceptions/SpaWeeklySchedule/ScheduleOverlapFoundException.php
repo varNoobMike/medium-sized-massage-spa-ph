@@ -6,7 +6,7 @@ use App\Models\SpaWeeklySchedule;
 use Illuminate\Http\RedirectResponse;
 use Exception;
 
-class ScheduleOverlapException extends Exception
+class ScheduleOverlapFoundException extends Exception
 {
     public function __construct(
         public SpaWeeklySchedule $overlappingSchedule,

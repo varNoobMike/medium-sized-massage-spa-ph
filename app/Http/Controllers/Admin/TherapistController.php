@@ -44,7 +44,7 @@ class TherapistController extends Controller
         return redirect()
             ->route('admin.therapists.index')
             ->with(
-                'therapist_approve_success',
+                'therapist_action_success',
                 "Therapist '$therapist->email' is approved successfully.",
             );
     }

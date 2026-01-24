@@ -14,7 +14,7 @@ class SpaWeeklyScheduleController extends Controller
      */
     public function __invoke(SpaWeeklyScheduleService $service)
     {
-        $schedules = $service->getSchedules();
+        $schedules = $service->getSchedules('FORMATTED');
 
         return view('therapist.spa-weekly-schedules.index', [
             'breadcrumbs' => [

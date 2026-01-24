@@ -8,14 +8,16 @@
 
 {{-- Alerts --}}
 @if($errors->any())
-    <div class="alert alert-danger rounded-3 mb-3 small d-flex align-items-center gap-2" role="alert">
-        <i class="bi bi-exclamation-circle-fill"></i>
-        {{ $errors->first() }}
+    <div class="alert alert-danger alert-dismissible fade show rounded-3 mb-3 small d-flex align-items-center gap-2" role="alert">
+        <i class="bi bi-exclamation-circle-fill opacity-75"></i>
+        <div>{{ $errors->first() }}</div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-@elseif(session('spa_profile_update_success'))
-    <div class="alert alert-success rounded-3 mb-3 small d-flex align-items-center gap-2" role="status">
-        <i class="bi bi-check-circle-fill"></i>
-        {{ session('spa_profile_update_success') }}
+@elseif(session('update_spa_setting_success'))
+    <div class="alert alert-success alert-dismissible fade show rounded-3 mb-3 small d-flex align-items-center gap-2" role="alert">
+        <i class="bi bi-check-circle-fill opacity-75"></i>
+        <div>{{ session('update_spa_setting_success') }}</div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 @endif
 
@@ -33,7 +35,7 @@
                         <span class="badge bg-secondary-subtle text-muted small">No Logo</span>
                     @endif
                     <div>
-                        <div class="fw-semibold fs-5 text-dark">{{ $setting->name }}</div>
+                        <div class="fw-semibold fs-5 text-dark">{{ $setting->spa->name }}</div>
                         <div class="small text-muted">Manage spa profile and booking settings</div>
                     </div>
                 </div>
@@ -55,9 +57,9 @@
                         <i class="bi bi-pencil"></i> Edit
                     </button>
                 </div>
-                <div class="small text-muted">Email: <span class="text-dark">{{ $setting->spaSetting->email ?? '—' }}</span></div>
-                <div class="small text-muted">Contact #: <span class="text-dark">{{ $setting->spaSetting->contact_number ?? '—' }}</span></div>
-                <div class="small text-muted">Location: <span class="text-dark">{{ $setting->spaSetting->location ?? '—' }}</span></div>
+                <div class="small text-muted">Email: <span class="text-dark">{{ $setting->email ?? '—' }}</span></div>
+                <div class="small text-muted">Contact #: <span class="text-dark">{{ $setting->contact_number ?? '—' }}</span></div>
+                <div class="small text-muted">Location: <span class="text-dark">{{ $setting->location ?? '—' }}</span></div>
             </div>
         </div>
 
@@ -71,9 +73,9 @@
                         <i class="bi bi-pencil"></i> Edit
                     </button>
                 </div>
-                <div class="small text-muted">Total Beds: <span class="text-dark">{{ $setting->spaSetting->total_beds ?? '—' }}</span></div>
-                <div class="small text-muted">Buffer Start: <span class="text-dark">{{ $setting->spaSetting->booking_buffer_start ?? 0 }} mins</span></div>
-                <div class="small text-muted">Buffer End: <span class="text-dark">{{ $setting->spaSetting->booking_buffer_end ?? 0 }} mins</span></div>
+                <div class="small text-muted">Total Beds: <span class="text-dark">{{ $setting->maximum_bed_capacity ?? '—' }}</span></div>
+                <div class="small text-muted">Buffer Start: <span class="text-dark">{{ $setting->booking_buffer_start ?? 0 }} mins</span></div>
+                <div class="small text-muted">Buffer End: <span class="text-dark">{{ $setting->booking_buffer_end ?? 0 }} mins</span></div>
             </div>
         </div>
 
@@ -113,9 +115,9 @@
                     <i class="bi bi-pencil"></i> Edit
                 </button>
             </div>
-            <div class="small text-muted">Email: <span class="text-dark">{{ $setting->spaSetting->email ?? '—' }}</span></div>
-            <div class="small text-muted">Phone: <span class="text-dark">{{ $setting->spaSetting->contact_number ?? '—' }}</span></div>
-            <div class="small text-muted">Location: <span class="text-dark">{{ $setting->spaSetting->location ?? '—' }}</span></div>
+            <div class="small text-muted">Email: <span class="text-dark">{{ $setting->email ?? '—' }}</span></div>
+            <div class="small text-muted">Phone: <span class="text-dark">{{ $setting->contact_number ?? '—' }}</span></div>
+            <div class="small text-muted">Location: <span class="text-dark">{{ $setting->location ?? '—' }}</span></div>
         </div>
 
         {{-- Booking Settings --}}
@@ -127,9 +129,9 @@
                     <i class="bi bi-pencil"></i> Edit
                 </button>
             </div>
-            <div class="small text-muted">Total Beds: <span class="text-dark">{{ $setting->spaSetting->total_beds ?? '—' }}</span></div>
-            <div class="small text-muted">Buffer Start: <span class="text-dark">{{ $setting->spaSetting->booking_buffer_start ?? 0 }} mins</span></div>
-            <div class="small text-muted">Buffer End: <span class="text-dark">{{ $setting->spaSetting->booking_buffer_end ?? 0 }} mins</span></div>
+            <div class="small text-muted">Total Beds: <span class="text-dark">{{ $setting->maximum_bed_capacity ?? '—' }}</span></div>
+            <div class="small text-muted">Buffer Start: <span class="text-dark">{{ $setting->booking_buffer_start ?? 0 }} mins</span></div>
+            <div class="small text-muted">Buffer End: <span class="text-dark">{{ $setting->booking_buffer_end ?? 0 }} mins</span></div>
         </div>
 
     </div>

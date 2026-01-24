@@ -59,12 +59,16 @@ Route::middleware(['auth', 'role:Admin'])
             ->name('dashboard.index');
         Route::redirect('/', 'dashboard');
 
+        // Bookings
+        Route::get('bookings', [\App\Http\Controllers\Admin\BookingController::class, 'index'])
+            ->name('bookings.index');
+
         // Clients
         Route::get('clients', [\App\Http\Controllers\Admin\CLientController::class, 'index'])
             ->name('clients.index');
 
         // Spa Settings
-        Route::get('spa-profile', [\App\Http\Controllers\Admin\SpaSettingController::class, 'index'])
+        Route::get('spa-settings', [\App\Http\Controllers\Admin\SpaSettingController::class, 'index'])
             ->name('spa-settings.index');
 
         // Services
@@ -81,7 +85,7 @@ Route::middleware(['auth', 'role:Admin'])
         Route::resource('spa-weekly-schedules', \App\Http\Controllers\Admin\SpaWeeklyScheduleController::class)
             ->only(['index', 'store', 'update'])
             ->parameters([
-                'spa-weekly-schedules' => 'schedule'
+                'spa-weekly-schedules' => 'schedule' // alias as 'schedule' to avoid naming verbosity in route model binding
             ]);
     });
 
@@ -121,10 +125,15 @@ Route::middleware(['auth', 'role:Client'])
         // Bookings
         Route::get('bookings', [\App\Http\Controllers\Client\BookingController::class, 'index'])
             ->name('bookings.index');
-        Route::get('bookings/book-session', [\App\Http\Controllers\Client\BookingController::class, 'checkAvaialableSlots'])
+        Route::get('bookings/create', [\App\Http\Controllers\Client\BookingController::class, 'create'])
             ->name('bookings.create');
-        Route::post('bookings/book-session', [\App\Http\Controllers\Client\BookingController::class, 'store'])
+        Route::post('bookings/store', [\App\Http\Controllers\Client\BookingController::class, 'store'])
             ->name('bookings.store');
+
+
+        // Bookings' availabilities
+        Route::get('bookings/availabilities', [\App\Http\Controllers\Client\BookingAvailabilityController::class, 'index'])
+            ->name('bookings.availabilities.index');
 
 
     });

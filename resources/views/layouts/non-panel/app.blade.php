@@ -5,10 +5,17 @@
 <head>
     {{-- Head Meta / SEO / Styles --}}
     @include('partials.shared.head-meta')
-
-    {{-- Non-panel CSS --}}
-    <link rel="stylesheet" href="{{ asset('assets/css/non-panel.css') }}">
 </head>
+
+<style>
+    #hero {
+        height: 70vh;
+    }
+</style>
+
+<style>
+    
+</style>
 
 <body class="bg-light">
 

@@ -26,7 +26,7 @@ class TherapistService
         ]);
 
         if (!$therapist) {
-            throw new RegisterFailedException("Failed to register as therapist for '{$createTherapistData['email']}'. Please retry!");
+            throw new RegisterFailedException("Failed to register as therapist for '{$createTherapistData['email']}'.");
         }
 
         return $therapist;
@@ -61,7 +61,7 @@ class TherapistService
             if (! $updated) {
                 throw new ThreapistApproveFailedException(
                     $therapist,
-                    "Failed to approve therapist '$therapist->email'. Please retry!"
+                    "Failed to approve therapist '$therapist->email'."
                 );
             }
 

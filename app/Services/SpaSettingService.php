@@ -2,16 +2,16 @@
 
 namespace App\Services;
 
-use App\Models\Spa;
+use App\Models\SpaSetting;
 
 class SpaSettingService
 {
     /**
-     * Get profile
+     * Get setting
      * 
      */
-    public function getSetting(): Spa|null
+    public function getSetting(): SpaSetting|null
     {
-        return Spa::with('spaSetting')->first();
+        return SpaSetting::with('spa')->first();
     }
 }

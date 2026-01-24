@@ -22,6 +22,16 @@ class AuthService
 
 
     /**
+     * Get current logged-in user
+     * 
+     */
+    public function getCurrentUser(): User|null
+    {
+        return Auth::user();
+    }
+
+
+    /**
      * Login user
      * 
      */
@@ -59,8 +69,7 @@ class AuthService
 
         return match ($role) {
             User::ROLE_CLIENT => $this->clientService->createClient($registerUserData),
-            User::ROLE_THERAPIST => $this->therapistService->createTherapist($registerUserData),
-            default => throw new InvalidArgumentException("Invalid role '{$role}'."),
+            User::ROLE_THERAPIST => $this->therapistService->createTherapist($registerUserData)
         };
     }
 }

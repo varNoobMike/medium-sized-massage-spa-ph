@@ -10,14 +10,14 @@
 {{-- Nova-style Alerts --}}
 @if($errors->any())
     <div class="alert alert-danger alert-dismissible fade show rounded-3 mb-3 small d-flex align-items-center gap-2" role="alert">
-        <i class="bi bi-exclamation-circle-fill fs-5 opacity-75"></i>
+        <i class="bi bi-exclamation-circle-fill opacity-75"></i>
         <div>{{ $errors->first() }}</div>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-@elseif(session('approve_therapist_success'))
+@elseif(session('therapist_action_success'))
     <div class="alert alert-success alert-dismissible fade show rounded-3 mb-3 small d-flex align-items-center gap-2" role="alert">
-        <i class="bi bi-check-circle-fill fs-5 opacity-75"></i>
-        <div>{{ session('approve_therapist_success') }}</div>
+        <i class="bi bi-check-circle-fill opacity-75"></i>
+        <div>{{ session('therapist_action_success') }}</div>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 @endif

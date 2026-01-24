@@ -3,32 +3,33 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Services\SpaSettingService;
+use App\Services\BookingService;
 
-class SpaSettingController extends Controller
+
+class BookingController extends Controller
 {
 
     /**
      * Constructor
      * 
      */
-    public function __construct(private SpaSettingService $service) {}
+    public function __construct(private BookingService $service) {}
 
     /**
-     * Display spa settings
+     * Display clients
      * 
      */
     public function index()
     {
-
         $breadcrumbs = [
             ['title' => 'Admin', 'url' => route('admin.dashboard.index')],
             ['title' => 'Spa Settings', 'url' => null],
         ];
 
-        $setting = $this->service->getSetting();
+        $bookings = $this->service->getBookings();
 
+        // dd($bookings->toArray());
 
-        return view('admin.spa-settings.index', compact('breadcrumbs', 'setting'));
+        return view('admin.bookings.index', compact('breadcrumbs', 'bookings'));
     }
 }

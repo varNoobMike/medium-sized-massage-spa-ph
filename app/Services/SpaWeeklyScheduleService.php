@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\Exceptions\SpaWeeklySchedule\ScheduleAlreadyExistsException;
 use App\Exceptions\SpaWeeklySchedule\ScheduleCreateFailedException;
-use App\Exceptions\SpaWeeklySchedule\ScheduleOverlapException;
+use App\Exceptions\SpaWeeklySchedule\ScheduleOverlapFoundException;
 use App\Exceptions\SpaWeeklySchedule\ScheduleUpdateFailedException;
 use App\Models\SpaWeeklySchedule;
 
@@ -54,7 +54,7 @@ class SpaWeeklyScheduleService
 
 
         if ($foundOverlappingSchedule) {
-            throw new ScheduleOverlapException(
+            throw new ScheduleOverlapFoundException(
                 $foundOverlappingSchedule,
                 "This time slot schedule overlaps with an existing one on '{$createScheduleData->get('day_of_week')}'.",
             );
@@ -71,7 +71,7 @@ class SpaWeeklyScheduleService
             ]);
 
             if (!$schedule) {
-                throw new CreateFailedException("Failed to create time slot schedule for '{$createScheduleData['day_of_week']}'. Please retry!");
+                throw new ScheduleCreateFailedException("Failed to create time slot schedule for '{$createScheduleData['day_of_week']}'.");
             }
 
             return $schedule;
@@ -115,7 +115,7 @@ class SpaWeeklyScheduleService
 
 
         if ($foundOverlappingSchedule) {
-            throw new ScheduleOverlapException(
+            throw new ScheduleOverlapFoundException(
                 $foundOverlappingSchedule,
                 "This time slot schedule overlaps with an existing one on '{$schedule->day_of_week}'.",
             );
@@ -130,7 +130,7 @@ class SpaWeeklyScheduleService
 
 
             if (!$updated) {
-                throw new UpdateFailedException(
+                throw new ScheduleUpdateFailedException(
                     $schedule,
                     "Failed to update time slot for '{$schedule->day_of_week}'.",
                 );
@@ -141,11 +141,12 @@ class SpaWeeklyScheduleService
     }
 
     /**
-     * Get schedules
+     * Get schedules, may formatted or not
      * 
      */
-    public function getSchedules(): Collection
+    public function getSchedules(string $format = 'RAW'): Collection
     {
+
         $schedules =  SpaWeeklySchedule
             ::orderByRaw("
                 FIELD(day_of_week, 
@@ -154,8 +155,24 @@ class SpaWeeklyScheduleService
             ")
             ->get();
 
-        return $this->formatSchedules($schedules);
+        return match($format){
+            'RAW' => $schedules,
+            'FORMATTED' => $this->formatSchedules($schedules),
+            default => throw new InvalidArgumentException("Invalid format '$format'."),
+        };
     }
+
+    /**
+     * Get schedules by day of week
+     * 
+     */
+    public function getSchedulesByDayOfWeek(string $dayOfWeek): Collection
+    {
+        return SpaWeeklySchedule::where('day_of_week', $dayOfWeek)
+            ->orderBy('start_time')
+            ->get();
+    }
+
 
     /**
      * Format schedules
@@ -167,7 +184,6 @@ class SpaWeeklyScheduleService
             return $items->sortBy('start_time')->values();
         });
     }
-
 
     /**
      *  Find existing schedule by day of week, start and end time, may exclude id or not
@@ -191,7 +207,6 @@ class SpaWeeklyScheduleService
 
         return $query->first();
     }
-
 
     /**
      * Find overlapping schedule by day of week, start and end time, may exclude id or not

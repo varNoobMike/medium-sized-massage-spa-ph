@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Booking;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+
 
 class StoreBookingRequest extends FormRequest
 {
@@ -22,11 +24,11 @@ class StoreBookingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'booking_date' => 'required|date|after_or_equal:today',
-            'service_id' => 'required|exists:services,id',
-            'therapist_id' => 'required|exists:users,id',
+            'booking_date'  => 'required|date|after_or_equal:today',
+            'service_id'   => 'required|integer|exists:services,id',
+            'start_time' => 'required|date_format:H:i',
+            'end_time' => 'required|date_format:H:i|after:start_time',
+            'therapist_id' => 'required|integer|exists:users,id',
         ];
-
-
     }
 }

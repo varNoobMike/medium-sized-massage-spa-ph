@@ -16,4 +16,15 @@ class ServicesService
     {
         return Service::orderBy('name')->get();
     }
+
+
+    /**
+     * Get service by ID
+     * 
+     */
+    public function getServiceById(int $id): Service|null
+    {
+        return Service::where('id', $id)
+            ->first();
+    }
 }
